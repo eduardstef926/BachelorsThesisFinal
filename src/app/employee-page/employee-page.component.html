@@ -40,25 +40,26 @@
         </div>
     </div>
     <div class="doctor-list-table">
-        <table class="content-table" mat-table [dataSource]="doctorTable">
-            <ng-container matColumnDef="name">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
-            </ng-container>
-            <ng-container matColumnDef="specialization">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Specialization</th>
-                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.specialization}}</td>
-            </ng-container>
-            <ng-container matColumnDef="location">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Location</th>
-                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
-            </ng-container>
-            <ng-container matColumnDef="reviews">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Reviews</th>
-                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'reviews']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'reviews']"></tr>
+        <table class="content-table" mat-table [dataSource]="doctorTable" matSort>
+          <ng-container matColumnDef="name">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
+          </ng-container>
+          <ng-container matColumnDef="specialization">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Specialization</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{element.specialization}}</td>
+          </ng-container>
+          <ng-container matColumnDef="location">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Location</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
+          </ng-container>
+          <ng-container matColumnDef="reviews">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Reviews</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'reviews']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'reviews']"></tr>
         </table>
+        <mat-paginator [pageSize]="5"></mat-paginator>
     </div>
 </div>

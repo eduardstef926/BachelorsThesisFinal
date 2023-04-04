@@ -6,6 +6,11 @@
     gap: 3rem;
 }
 
+::ng-deep .mat-paginator-outer-container {
+    background-color: #4CAF50;
+    color: white;
+}
+
 .parent-container {
     background-color: #4CAF50;
     border-radius: 10px;
@@ -46,12 +51,6 @@
     font-weight: bold;
 }
 
-::ng-deep .example-full-width {
-    max-height: 1px !important;
-    max-width: 70%;
-    border-radius: 1px;
-}
-
 .select-form {
     margin-top: 2rem;
     display: flex;
@@ -61,37 +60,12 @@
 
 .filter-button {
     vertical-align: middle;
-}
-
-.name-div { 
-    background-color: white;
-    margin-top: 2rem;
-    height: 15%;
-    display: flex;
-}
-
-.filter-button {
     flex: 1;
 }
 
 .name-input {
     padding-top: 2rem;
     background-color: white;
-}
-
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 80%;
-}
-
-.example-full-width {
-    width: 100%;
-    background-color: white;
-    height: 3.2rem;
-    margin-top: 2rem;
-    border-radius: 3px;
-    text-align: center;
 }
 
 ::ng-deep .mat-form-field-underline {
@@ -112,13 +86,6 @@
     justify-content: center !important;
 }
   
-.location-input {
-    background-color: white;
-    border-radius: 5px;
-    margin-top: 5rem;
-    width: 70%;
-}
-
 ::ng-deep .mat-form-field-wrapper {
     position: relative;
     background-color: white;
@@ -131,10 +98,6 @@
 .column-spacer {
     padding-right: 5rem;
     text-align: center;
-}
-
-.paginator {
-    background-color: #4CAF50;;
 }
 
 * {

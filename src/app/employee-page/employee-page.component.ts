@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DoctorDto } from '../model/doctor.model';
 import { EmployeeService } from '../services/employee.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { City } from '../model/city.model';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-employee-page',
@@ -31,6 +31,7 @@ export class EmployeePageComponent implements OnInit {
   tableCopy: DoctorDto[] = [];
   lastIndex!: number;
   selectedValue!: string;
+  paginatorLength!: number;
 
   formControl = new FormGroup({
     doctorName: new FormControl(''),
@@ -40,14 +41,13 @@ export class EmployeePageComponent implements OnInit {
     return this.formControl.get('doctorName')?.value;
   }
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
     this.lastIndex = 0;
     this.employeeService.getAllDoctors().subscribe((doctors) => {
       this.doctorTable = new MatTableDataSource(doctors);
-      this.doctorTable.paginator = this.paginator;
-      this.tableCopy = doctors;
+      this.tableCopy = doctors; 
       doctors.forEach((doctor) => {
         var isValid = this.cities.some(x => x.viewValue == doctor.location);
         if (!isValid) {
@@ -58,7 +58,7 @@ export class EmployeePageComponent implements OnInit {
     });
   }
 
-  filterValues() {
+   filterValues() {
     var name = this.getDoctorName();
     var city = this.selectedValue != null ? this.cities[Number(this.selectedValue)].viewValue : null;
     this.doctorTable.data = this.tableCopy.filter((doctor) => {
