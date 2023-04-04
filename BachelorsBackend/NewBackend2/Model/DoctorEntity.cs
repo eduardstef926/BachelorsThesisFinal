@@ -38,6 +38,10 @@ namespace NewBackend2.Model
         [MaxLength(100)]
         public string Location { get; set; }
 
+        [Required]
+        [MaxLength(10)]
+        public float Rating { get; set; }
+
         public virtual AppointmentEntity Appointment { get; set; }
 
         public override bool Equals(object? obj)

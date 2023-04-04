@@ -7,7 +7,6 @@ namespace NewBackend2.Model
     public class SymptomEntity
     {
         [Key]
-        [MaxLength(100)]
         public string Symptom { get; set; }
 
         [Required]
