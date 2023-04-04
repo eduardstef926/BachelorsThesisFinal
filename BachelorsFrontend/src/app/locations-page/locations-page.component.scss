@@ -1,0 +1,32 @@
+
+.main-background {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+    padding-left: 2rem;
+}
+
+.parent {
+    display: table;
+    width: 13%;
+    height: 35rem;
+    background-color: rgb(64, 152, 64);
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+}
+
+.child {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.carrer-button {
+    background-color: white;
+    color: black;
+    margin-top: 1rem;
+}
+
+.carrer-title {
+    font-size: 20px;
+}
