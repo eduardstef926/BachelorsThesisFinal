@@ -1,36 +1,64 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './pages/about/about.component';
-import { HelpComponent } from './pages/help/help.component';
-import { HomeComponent } from './pages/home/home.component';
-import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { ChatPageComponent } from './chat-page/chat-page.component';
+import { EmployeePageComponent } from './employee-page/employee-page.component';
+import { LocationPageComponent } from './locations-page/locations-page.component';
+import { ForgotPasswordComponent } from './login-page/forgot-password/forgot-password.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { ModifyPasswordComponent } from './login-page/modify-password/modify-password.component';
+import { SignUpPageComponent } from './login-page/sign-up-page/sign-up-page.component';
+import { MainPageComponent } from './main-page/main-page.component';
+import { SecondPhaseComponent } from './second-phase/second-phase.component';
+import { SymptomPageComponent } from './symptom-page/symptom-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'home',
+    component: MainPageComponent,
   },
   {
-    path: 'home',
-    component: HomeComponent,
+    path: 'main',
+    component: MainPageComponent,
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
+    path: 'main/:userId',
+    component: MainPageComponent,
   },
   {
-    path: 'about',
-    component: AboutComponent,
+    path: 'login',
+    component: LoginPageComponent,
   },
   {
-    path: 'help',
-    component: HelpComponent,
+    path: 'sign-up',
+    component: SignUpPageComponent,
   },
   {
-    path: '**',
-    component: NotFoundComponent,
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: 'locations',
+    component: LocationPageComponent,
+  },
+  {
+    path: 'employees',
+    component: EmployeePageComponent,
+  },
+  {
+    path: 'modify-password/:userId',
+    component: ModifyPasswordComponent,
+  },
+  {
+    path: 'chat',
+    component: ChatPageComponent,
+  },
+  {
+    path: 'symptom-page',
+    component: SymptomPageComponent,
+  },
+  {
+    path: 'second-phase',
+    component: SecondPhaseComponent,
   },
 ];
 

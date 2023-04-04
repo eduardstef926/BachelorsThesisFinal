@@ -1,0 +1,188 @@
+
+.main-background {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.parent-container {
+    background-color: #4CAF50;
+    border-radius: 10px;
+    padding-top: 4rem;
+    width: 15rem;
+    height: 28rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.filter-title {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+
+.select-class {
+    width: 70%;
+    height: 2.5rem;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.name-field {
+    width: 68%;
+    margin-top: 2rem;
+    height: 2.5rem;
+    font-weight: bold;
+    border-radius: 5px;
+    color: black !important;
+}
+
+.filter-button {
+    margin-top: 2rem;
+    height: 2rem;
+    background-color: white;
+    width: 70%;
+    color: green;
+    font-weight: bold;
+}
+
+::ng-deep .example-full-width {
+    max-height: 1px !important;
+    max-width: 70%;
+    border-radius: 1px;
+}
+
+.select-form {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    height: 11%;
+}
+
+.filter-button {
+    vertical-align: middle;
+}
+
+.name-div { 
+    background-color: white;
+    margin-top: 2rem;
+    height: 15%;
+    display: flex;
+}
+
+.filter-button {
+    flex: 1;
+}
+
+.name-input {
+    padding-top: 2rem;
+    background-color: white;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 80%;
+}
+
+.example-full-width {
+    width: 100%;
+    background-color: white;
+    height: 3.2rem;
+    margin-top: 2rem;
+    border-radius: 3px;
+    text-align: center;
+}
+
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
+
+.name-form {
+    display: flex;
+    justify-content: center;
+}
+
+.mat-form-field-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+.mat-form-field-label {
+    justify-content: center !important;
+}
+  
+.location-input {
+    background-color: white;
+    border-radius: 5px;
+    margin-top: 5rem;
+    width: 70%;
+}
+
+::ng-deep .mat-form-field-wrapper {
+    position: relative;
+    background-color: white;
+}  
+
+.button-div {
+    text-align: center;
+}
+
+.column-spacer {
+    padding-right: 5rem;
+    text-align: center;
+}
+
+.paginator {
+    background-color: #4CAF50;;
+}
+
+* {
+    font-family: sans-serif;
+}
+
+.content-table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #4CAF50;;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th {
+    background-color: #4CAF50;;
+    color: white;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+    width: 8rem;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
