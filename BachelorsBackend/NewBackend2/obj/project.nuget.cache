@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "n70aeUJaOqlvQ+jNSdwgurc0+Q1yMmiZNBL9nnsaxXAYzPWhXnTtpfo3b6jabno6TEjBjrHtN/2dEmUgDv+qOQ==",
+  "dgSpecHash": "L+BjFnLYc+sl/Y5uryvRqZ4zAoV4Kcubk8lARJdoGw2Tw7HFcUJ/hwzUbKTyDxf4bJobzYtJJiwjRSDV0CnT+w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\eddis\\CollegeLicense - Copy\\Backend\\NewBackend2\\NewBackend2.csproj",
+  "projectFilePath": "C:\\Users\\eddis\\BachelorsThesisFinal\\BachelorsBackend\\NewBackend2\\NewBackend2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\eddis\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\eddis\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
