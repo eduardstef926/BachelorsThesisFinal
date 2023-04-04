@@ -1,46 +1,90 @@
 
-<div 
+<div
     class="main-background"
-    @fade
 >
-    <div class="parent-container">
-        <p class="filter-title">
-            Filter Changes
-        </p>
-        <div class="name-form" [formGroup]="formControl">
-            <input 
-                class="name-field"
-                matInput 
-                placeholder="Doctor Name"
-                formControlName="doctorName"
-            >
-        </div>
-        <form class="select-form">
-            <select 
-                [(ngModel)]="selectedValue" 
-                class="select-class"
-            >
-                <option 
-                    *ngFor="let city of cities" 
-                    [ngValue]="city.value" 
-                    style="font-style:Verdana;"
-                >
-                    {{city.viewValue}}
-                </option>
-            </select>
-        </form>
-        <div class="button-div">
-            <button
-                mat-button
-                class="filter-button"
-                (click)="filterValues()"
-            >
-                Filter
-            </button>
-        </div>
-    </div>
-    <div class="doctor-list-table">
-        <table class="content-table" mat-table [dataSource]="doctorTable">
+    <p class="doctor-title">
+        Doctor List
+    </p>
+    <div 
+        class="doctor-list-container"
+        @fade
+    >
+        <div class="filter-container">
+            <div class="sorting-container">
+                <p class="sorting-title">
+                    Sort
+                </p>
+                <div class="select-div">
+                    <select 
+                        class="select-sort"
+                        [formControl]="selectedOption"
+                    >
+                        <option value="" disabled selected> Select sorting </option>
+                        <option 
+                            *ngFor="let sorting of sortings" 
+                            [ngValue]="sorting" 
+                            style="font-style:Verdana;"
+                        >
+                            {{sorting}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="parent-container">
+                <p class="filter-title">
+                    Filter 
+                </p>
+                <div class="name-form" [formGroup]="formControl">
+                    <input 
+                        class="name-field"
+                        matInput 
+                        placeholder="Doctor Name"
+                        formControlName="doctorName"
+                    >
+                </div>
+                <div class="specialization-form">
+                    <select 
+                        class="select-class"
+                        [(ngModel)]="selectedSpecialization" 
+                    >
+                        <option value="" disabled selected> Select a specialization </option>
+                        <option 
+                            *ngFor="let specialization of specializations" 
+                            [ngValue]="specialization.value" 
+                            style="font-style:Verdana;"
+                        >
+                            {{specialization.viewValue}}
+                        </option>
+                    </select>
+                </div>
+                <div class="select-form">
+                    <select 
+                        class="select-class"
+                        [(ngModel)]="selectedCity" 
+                    >
+                        <option value="" disabled selected>Select a city</option>
+                        <option 
+                            *ngFor="let city of cities" 
+                            [ngValue]="city.value" 
+                            style="font-style:Verdana;"
+                        >
+                            {{city.viewValue}}
+                        </option>
+                    </select>
+                </div>
+                <div class="button-div">
+                    <button
+                        mat-button
+                        class="filter-button"
+                        (click)="applyChanges()"
+                    >
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>   
+        <div class="doctor-list-table">
+            <table class="content-table" mat-table [dataSource]="doctorTable" matSort>
             <ng-container matColumnDef="name">
                 <th class="column-spacer" mat-header-cell *matHeaderCellDef>Name</th>
                 <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
@@ -53,12 +97,14 @@
                 <th class="column-spacer" mat-header-cell *matHeaderCellDef>Location</th>
                 <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
             </ng-container>
-            <ng-container matColumnDef="reviews">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Reviews</th>
-                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
+            <ng-container matColumnDef="rating">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Rating</th>
+                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.rating}}</td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'reviews']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'reviews']"></tr>
-        </table>
+            <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'rating']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'rating']"></tr>
+            </table>
+            <mat-paginator [pageSize]="10"></mat-paginator>
+        </div>
     </div>
 </div>
