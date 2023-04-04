@@ -6,4 +6,5 @@ export class DoctorDto {
     password!: string;
     specialization!: string;
     location!: string;
+    rating!: number;
 }
