@@ -64,7 +64,7 @@ export class SignUpPageComponent implements OnInit {
     ) {
       this.confirmationErrorMessage = true;
     } else {
-      const user = {
+      const newUser = {
         firstName: this.getFirstName(), 
         lastName: this.getLastName(), 
         phoneNumber: this.getPhoneNumber(), 
@@ -72,7 +72,7 @@ export class SignUpPageComponent implements OnInit {
         email: this.getEmail()
       } as UserDto;
 
-      this.authService.register(user).subscribe(() => {
+      this.authService.register(newUser).subscribe(() => {
           this.router.navigate(['/main']);
       });
     }
