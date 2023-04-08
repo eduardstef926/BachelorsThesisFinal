@@ -25,5 +25,11 @@ namespace NewBackend2.Repository.Concrete
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public Task<DoctorEntity> GetDoctorByFirstNameAndLastNameAsync(string firstName, string lastName)
+        {
+            return database.doctors.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName);
+        }
     }
 }
