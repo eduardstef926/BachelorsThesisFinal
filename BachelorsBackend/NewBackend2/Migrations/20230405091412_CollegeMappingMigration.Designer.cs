@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewBackend2.Repository;
 
@@ -11,9 +12,10 @@ using NewBackend2.Repository;
 namespace NewBackend2.Migrations
 {
     [DbContext(typeof(ProjectDatabaseConfiguration))]
-    partial class ProjectDatabaseConfigurationModelSnapshot : ModelSnapshot
+    [Migration("20230405091412_CollegeMappingMigration")]
+    partial class CollegeMappingMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,13 +76,13 @@ namespace NewBackend2.Migrations
                     b.ToTable("College");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.DegreeEntity", b =>
+            modelBuilder.Entity("NewBackend2.Model.DoctorCollegeMapping", b =>
                 {
-                    b.Property<int>("DegreeId")
+                    b.Property<int>("DoctorCollegeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DegreeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorCollegeId"), 1L, 1);
 
                     b.Property<int>("CollegeId")
                         .HasMaxLength(10)
@@ -90,25 +92,22 @@ namespace NewBackend2.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndYear")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartYear")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StudyField")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudyProgram")
                         .HasColumnType("int");
 
-                    b.HasKey("DegreeId");
+                    b.Property<DateTime>("endYear")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("startYear")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DoctorCollegeId");
 
                     b.HasIndex("CollegeId");
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("Degree");
+                    b.ToTable("DoctorCollegeMapping");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.DoctorEntity", b =>
@@ -241,39 +240,6 @@ namespace NewBackend2.Migrations
                     b.ToTable("Engineer");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.ReviewEntity", b =>
-                {
-                    b.Property<int>("ReviewMappingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewMappingId"), 1L, 1);
-
-                    b.Property<int>("DoctorId")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
-
-                    b.HasKey("ReviewMappingId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Review");
-                });
-
             modelBuilder.Entity("NewBackend2.Model.SymptomEntity", b =>
                 {
                     b.Property<string>("Symptom")
@@ -350,7 +316,7 @@ namespace NewBackend2.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.DegreeEntity", b =>
+            modelBuilder.Entity("NewBackend2.Model.DoctorCollegeMapping", b =>
                 {
                     b.HasOne("NewBackend2.Model.CollegeEntity", "College")
                         .WithMany("DoctorColleges")
@@ -367,25 +333,6 @@ namespace NewBackend2.Migrations
                     b.Navigation("College");
 
                     b.Navigation("Doctor");
-                });
-
-            modelBuilder.Entity("NewBackend2.Model.ReviewEntity", b =>
-                {
-                    b.HasOne("NewBackend2.Model.DoctorEntity", "Doctor")
-                        .WithMany("Review")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NewBackend2.Model.UserEntity", "User")
-                        .WithMany("Review")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.SymptomEntity", b =>
@@ -410,16 +357,12 @@ namespace NewBackend2.Migrations
                         .IsRequired();
 
                     b.Navigation("DoctorColleges");
-
-                    b.Navigation("Review");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.UserEntity", b =>
                 {
                     b.Navigation("Appointment")
                         .IsRequired();
-
-                    b.Navigation("Review");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewBackend2.Repository;
 
@@ -11,9 +12,10 @@ using NewBackend2.Repository;
 namespace NewBackend2.Migrations
 {
     [DbContext(typeof(ProjectDatabaseConfiguration))]
-    partial class ProjectDatabaseConfigurationModelSnapshot : ModelSnapshot
+    [Migration("20230405104413_ReviewMigration")]
+    partial class ReviewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,13 +76,13 @@ namespace NewBackend2.Migrations
                     b.ToTable("College");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.DegreeEntity", b =>
+            modelBuilder.Entity("NewBackend2.Model.DoctorCollegeMapping", b =>
                 {
-                    b.Property<int>("DegreeId")
+                    b.Property<int>("DoctorCollegeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DegreeId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorCollegeId"), 1L, 1);
 
                     b.Property<int>("CollegeId")
                         .HasMaxLength(10)
@@ -90,25 +92,22 @@ namespace NewBackend2.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndYear")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartYear")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StudyField")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudyProgram")
                         .HasColumnType("int");
 
-                    b.HasKey("DegreeId");
+                    b.Property<DateTime>("endYear")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("startYear")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DoctorCollegeId");
 
                     b.HasIndex("CollegeId");
 
                     b.HasIndex("DoctorId");
 
-                    b.ToTable("Degree");
+                    b.ToTable("DoctorCollegeMapping");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.DoctorEntity", b =>
@@ -267,9 +266,11 @@ namespace NewBackend2.Migrations
 
                     b.HasKey("ReviewMappingId");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("DoctorId")
+                        .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Review");
                 });
@@ -350,7 +351,7 @@ namespace NewBackend2.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.DegreeEntity", b =>
+            modelBuilder.Entity("NewBackend2.Model.DoctorCollegeMapping", b =>
                 {
                     b.HasOne("NewBackend2.Model.CollegeEntity", "College")
                         .WithMany("DoctorColleges")
@@ -372,14 +373,14 @@ namespace NewBackend2.Migrations
             modelBuilder.Entity("NewBackend2.Model.ReviewEntity", b =>
                 {
                     b.HasOne("NewBackend2.Model.DoctorEntity", "Doctor")
-                        .WithMany("Review")
-                        .HasForeignKey("DoctorId")
+                        .WithOne("Review")
+                        .HasForeignKey("NewBackend2.Model.ReviewEntity", "DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("NewBackend2.Model.UserEntity", "User")
-                        .WithMany("Review")
-                        .HasForeignKey("UserId")
+                        .WithOne("Review")
+                        .HasForeignKey("NewBackend2.Model.ReviewEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -411,7 +412,8 @@ namespace NewBackend2.Migrations
 
                     b.Navigation("DoctorColleges");
 
-                    b.Navigation("Review");
+                    b.Navigation("Review")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NewBackend2.Model.UserEntity", b =>
@@ -419,7 +421,8 @@ namespace NewBackend2.Migrations
                     b.Navigation("Appointment")
                         .IsRequired();
 
-                    b.Navigation("Review");
+                    b.Navigation("Review")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

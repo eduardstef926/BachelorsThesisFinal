@@ -30,9 +30,9 @@ namespace NewBackend2.Controllers
         }
 
         [HttpPost("AddDoctor")]
-        public async Task<IActionResult> AddDoctor([FromForm] DoctorDto appointment)
+        public async Task<IActionResult> AddDoctor([FromForm] DoctorDto doctor)
         {
-            if (appointment == null)
+            if (doctor == null)
             {
                 return BadRequest("Invalid object");
             }
@@ -44,7 +44,7 @@ namespace NewBackend2.Controllers
                     return BadRequest("Invalid user object");
                 }
 
-                await doctorService.AddDoctorAsync(appointment);
+                await doctorService.AddDoctorAsync(doctor);
 
                 return Ok();
             }
@@ -52,6 +52,30 @@ namespace NewBackend2.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("GetDoctorByFirstNameAndLastName")]
+        public async Task<IActionResult> GetDoctorByFirstNameAndLastName(string firstName, string lastName)
+        {
+            var doctor = await doctorService.GetDoctorByFirstNameAndLastNameAsync(firstName, lastName); 
+
+            return Ok(doctor);
+        }
+
+        [HttpGet("GetDoctorDegreeByFirstNameAndLastName")]
+        public async Task<IActionResult> GetDoctorDegreeByFirstNameAndLastName(string firstName, string lastName)
+        {
+            var collegeDegree = await doctorService.GetDoctorDegreeByFirstNameAndLastNameAsync(firstName, lastName);
+
+            return Ok(collegeDegree);
+        }
+
+        [HttpGet("GetDoctorReviewsByFirstNameAndLastName")]
+        public async Task<IActionResult> GetDoctorReviewsByFirstNameAndLastName(string firstName, string lastName)
+        {
+            var reviews = await doctorService.GetDoctorReviewsByFirstNameAndLastNameAsync(firstName, lastName);
+
+            return Ok(reviews);
         }
     }
 }
