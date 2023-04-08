@@ -25,6 +25,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IEngineerRepository, EngineerRepository>();
 builder.Services.AddScoped<IEngineerService, EngineerService>();
 builder.Services.AddScoped<ISymptomRespository, SymptomRepository>();
+builder.Services.AddScoped<IDegreeRepository, DegreeRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 var mapperConfig = new MapperConfiguration(mc =>
 {
@@ -34,6 +36,18 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<UserDto, UserEntity>();
     mc.CreateMap<EngineerDto, EngineerEntity>();
     mc.CreateMap<EngineerEntity, EngineerDto>();
+    mc.CreateMap<ReviewEntity, ReviewDto>();
+    mc.CreateMap<ReviewDto, ReviewEntity>();
+    mc.CreateMap<DegreeEntity, DegreeDto>()
+            .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.College.Name))
+            .ForMember(dto => dto.Location, opt => opt.MapFrom(src => src.College.Location))
+            .ForMember(dto => dto.StartYear, opt => opt.MapFrom(src => src.StartYear))
+            .ForMember(dto => dto.EndYear, opt => opt.MapFrom(src => src.EndYear))
+            .ForMember(dto => dto.StudyProgram, opt => opt.MapFrom(src => src.StudyProgram));
+    mc.CreateMap<ReviewEntity, ReviewDto>()
+           .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.User.FirstName))
+           .ForMember(dto => dto.Number, opt => opt.MapFrom(src => src.Number))
+           .ForMember(dto => dto.Message, opt => opt.MapFrom(src => src.Message));
 });
 
 IMapper mapper = mapperConfig.CreateMapper();

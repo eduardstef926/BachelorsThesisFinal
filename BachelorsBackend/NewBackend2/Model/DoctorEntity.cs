@@ -39,10 +39,20 @@ namespace NewBackend2.Model
         public string Location { get; set; }
 
         [Required]
+        [MaxLength(100)]
+        public string HospitalName { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string CurrentPosition { get; set; }
+
+        [Required]
         [MaxLength(10)]
         public float Rating { get; set; }
 
-        public virtual AppointmentEntity Appointment { get; set; }
+        public virtual ICollection<AppointmentEntity> Appointment { get; set; }
+        public virtual ICollection<ReviewEntity> Review { get; set; }
+        public virtual ICollection<DegreeEntity> DoctorColleges { get; set; }
 
         public override bool Equals(object? obj)
         {
