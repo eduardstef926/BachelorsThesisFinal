@@ -10,6 +10,7 @@ import { SignUpPageComponent } from './login-page/sign-up-page/sign-up-page.comp
 import { MainPageComponent } from './main-page/main-page.component';
 import { SecondPhaseComponent } from './second-phase/second-phase.component';
 import { SymptomPageComponent } from './symptom-page/symptom-page.component';
+import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
   {
     path: 'second-phase',
     component: SecondPhaseComponent,
+  },
+  {
+    path: 'doctor-details/:firstName/:lastName',
+    component: DoctorDetailsComponent,
   },
 ];
 

@@ -37,7 +37,7 @@ export class EmployeePageComponent implements OnInit {
   selectedCity!: string;
   selectedSpecialization!: string;
   selectSortingMethod = "Sort";
-  paginatorLength!: number;
+  paginatorLength = 10;
 
   formControl = new FormGroup({
     doctorName: new FormControl('')
@@ -55,29 +55,31 @@ export class EmployeePageComponent implements OnInit {
     this.cityIndex = 0;
     this.specializationIndex = 0;
     this.sortings = ['by name', 'by rating'];
-    this.selectedOption.valueChanges.subscribe(value => {
-      console.log('Selected option:', value);
-    });
     this.employeeService.getAllDoctors().subscribe((doctors) => {
       this.doctorTable = new MatTableDataSource(doctors);
       this.tableCopy = doctors; 
       this.doctorTable.paginator = this.paginator;
-      doctors.forEach((doctor) => {
-        var isPresent = this.cities.some(x => x.viewValue == doctor.location);
-        if (!isPresent) {
-          this.cities.push({"value":  String(this.cityIndex), "viewValue" : doctor.location})
-          this.cityIndex ++;
-        }
-        isPresent = this.specializations.some(x => x.viewValue == doctor.specialization);
-        if (!isPresent) {
-          this.specializations.push({"value":  String(this.cityIndex), "viewValue" : doctor.specialization})
-          this.specializationIndex ++;
-        }
-      });
+      this.fillTable();
     });
   }
 
-   applyChanges() {
+  fillTable() {
+    this.tableCopy.forEach((doctor: DoctorDto) => {
+      const isCityPresent = this.cities.some(x => x.viewValue == doctor.location);
+      const isSpecializationPresent = this.specializations.some(x => x.viewValue == doctor.specialization);
+
+      if (!isCityPresent) {
+        this.cities.push({"value": String(this.cityIndex), "viewValue": doctor.location})
+        this.cityIndex ++;
+      }
+      if (!isSpecializationPresent) {
+        this.specializations.push({"value":  String(this.cityIndex), "viewValue": doctor.specialization})
+        this.specializationIndex ++;
+      }
+    });
+  }
+
+  applyChanges() {
     var name = this.getDoctorName();
     var city = this.selectedCity != null ? this.cities[Number(this.selectedCity)].viewValue : null;
     var specialization = this.selectedSpecialization != null ? this.specializations[Number(this.selectedSpecialization) - 1].viewValue : null;
@@ -88,6 +90,10 @@ export class EmployeePageComponent implements OnInit {
         (doctor.firstName.includes(name) || doctor.lastName.includes(name) || name == null)
       );
     });
+    this.applySorting();
+  }
+
+  applySorting() {
     if (this.selectSortingMethod == "by name") {
       this.doctorTable.data = this.doctorTable.data.sort((a: DoctorDto, b: DoctorDto) => {
         return a.firstName.localeCompare(b.firstName);

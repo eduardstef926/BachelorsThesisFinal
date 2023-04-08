@@ -34,13 +34,13 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { LocalStorageService } from './services/localstorage.service';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { SymptomPageComponent } from './symptom-page/symptom-page.component';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SecondPhaseComponent } from './second-phase/second-phase.component';
+import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    LoginPageComponent, 
+    LoginPageComponent,
     MainPageComponent, 
     SignUpPageComponent, 
     ForgotPasswordComponent, 
@@ -50,6 +50,7 @@ import { SecondPhaseComponent } from './second-phase/second-phase.component';
     ChatPageComponent, 
     SymptomPageComponent, 
     SecondPhaseComponent, 
+    DoctorDetailsComponent, 
   ],
   imports: [
     HttpClientModule,
@@ -76,8 +77,7 @@ import { SecondPhaseComponent } from './second-phase/second-phase.component';
     FormsModule,
     MatCardModule,
     MatSnackBarModule,
-    MatPaginatorModule,
-    MatCheckboxModule
+    MatPaginatorModule
   ],
   providers: [CoreService, AuthService, EmployeeService, LocalStorageService],
   bootstrap: [AppComponent],
