@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { DoctorDto } from "../model/doctor.model";
 import { EngineerDto } from "../model/engineer.model";
+import { DegreeDto } from "../model/college.model";
 
 @Injectable()
 export class EmployeeService{
@@ -26,6 +27,30 @@ export class EmployeeService{
   getAllDoctors(): Observable<Array<DoctorDto>> {
     return this.httpClient.get<Array<DoctorDto>>(
       this.baseUrl + "/Doctor/GetAllDoctors",
+      this.options
+    );
+  }
+
+  getDoctorByFirstNameAndLastName(firstName: string, lastName: string): Observable<DoctorDto> {
+    return this.httpClient.get<DoctorDto>(
+      this.baseUrl + "/Doctor/GetDoctorByFirstNameAndLastName?firstName=" + firstName + 
+      "&lastName=" + lastName,
+      this.options
+    );
+  }
+
+  getDoctorEducationByFirstNameAndLastName(firstName: string, lastName: string): Observable<Array<DegreeDto>> {
+    return this.httpClient.get<Array<DegreeDto>>(
+      this.baseUrl + "/Doctor/GetDoctorDegreeByFirstNameAndLastName?firstName=" + firstName + 
+      "&lastName=" + lastName,
+      this.options
+    );
+  }
+
+  getDoctorReviewsByFirstNameAndLastName(firstName: string, lastName: string): Observable<Array<DegreeDto>> {
+    return this.httpClient.get<Array<DegreeDto>>(
+      this.baseUrl + "/Doctor/GetDoctorReviewsByFirstNameAndLastName?firstName=" + firstName + 
+      "&lastName=" + lastName,
       this.options
     );
   }

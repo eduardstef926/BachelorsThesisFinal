@@ -1,0 +1,125 @@
+
+<div class="full-screen">
+    <div class="main-container">
+        <div class="name-container">
+            <p class="doctor-name">
+                Dr. {{this.doctor.firstName}} {{this.doctor.lastName}}
+            </p>
+            <p class="doctor-position">
+                {{this.doctor.currentPosition}}
+            </p>
+        </div>
+    </div>
+    <div class="background">
+        <div class="background-container">
+            <div class="background-div">
+                <p class="specialty-title">
+                    Specialty:
+                </p>
+                <p class="specialty-text">
+                    {{this.doctor.specialization}}
+                </p>
+                <p class="hospital-title">
+                    Hospital Name:
+                </p>
+                <p class="hospital-text">
+                    {{this.doctor.hospitalName}}
+                </p>
+                <p class="location-title">
+                    Location:
+                </p>
+                <p class="location-text">
+                    {{this.doctor.location}}
+                </p>
+            </div>
+            <img class="profile-image" src="assets/empty-screen.jpg">
+        </div>
+        <div class="review-number-container">
+            <div class="review-div">
+                <p class="review-number-title">
+                    Grade
+                </p>
+                <div class="rating-div">
+                    <div class="rating-container">
+                        <p class="rating-number">
+                            {{this.doctor.rating}}
+                        </p>
+                        <p class="rating-length">
+                            {{this.reviewsNumber}} ratings
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p class="review-list-title">
+    Review List
+</p>
+<div class="big-container">
+    <div class="chart-container">
+        <canvas id="MyChart">{{ chart }}</canvas>
+    </div>
+</div>
+<div class="education-container">
+    <div class="education-description">
+        <p class="education-title">
+            Education
+        </p>
+        <div 
+            class="education-div" 
+            *ngFor="let degree of this.degreeList"
+        >
+            <p>
+                {{this.splitYear(degree.startYear)}} - {{this.splitYear(degree.endYear)}}
+            </p>
+            <div class="college-div">
+                <p>
+                    {{this.studyProgram[degree.studyProgram]}}  {{this.studyField[degree.studyField]}}
+                </p>
+                <p>
+                    {{degree.name}} {{degree.location}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="review-container">
+    <div class="review-description">
+        <p class="review-title">
+            Reviews
+        </p>
+        <div 
+            *ngFor="let review of this.reviewList" 
+            class="review-list"
+        >
+            <div> 
+                <div class="reviewer-div">
+                    <img class="reviewer-image" src="assets/reviewer.png">
+                    <p class="reviewer-name">{{this.review.name}}</p>
+                </div>
+                <div class="user-div">
+                    <div 
+                        class="star-div" 
+                        *ngFor="let icon of createArray(this.review.number)"
+                    >
+                        <mat-icon>star</mat-icon>
+                    </div>
+                    <div 
+                        class="star-div" 
+                        *ngIf="this.review.number % 2 == 1"
+                    >
+                        <mat-icon>star_half</mat-icon>
+                    </div>
+                </div>
+            </div>
+            <div class="review-message-div">
+                <p class="review-message">
+                    {{this.review.message}} 
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  
