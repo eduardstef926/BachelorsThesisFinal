@@ -67,7 +67,6 @@ export class EmployeePageComponent implements OnInit {
     this.tableCopy.forEach((doctor: DoctorDto) => {
       const isCityPresent = this.cities.some(x => x.viewValue == doctor.location);
       const isSpecializationPresent = this.specializations.some(x => x.viewValue == doctor.specialization);
-
       if (!isCityPresent) {
         this.cities.push({"value": String(this.cityIndex), "viewValue": doctor.location})
         this.cityIndex ++;

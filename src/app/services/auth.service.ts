@@ -25,9 +25,9 @@ export class AuthService{
     );
   }
 
-  getSymptomData(symptomNames: Array<string>, loggedUserEmail: string): Observable<any> {
+  addUserSymptoms(symptomNames: Array<string>, loggedUserEmail: string): Observable<any> {
     return this.httpClient.post<any>(
-      this.baseUrl + "/Core/GetSymptomData?email=" + loggedUserEmail + "&symptoms=" + symptomNames.toString(),
+      this.baseUrl + "/Core/AddUserSymptoms?email=" + loggedUserEmail + "&symptoms=" + symptomNames.toString(),
       this.options
     );
   }
