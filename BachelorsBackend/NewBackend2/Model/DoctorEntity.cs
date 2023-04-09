@@ -50,9 +50,9 @@ namespace NewBackend2.Model
         [MaxLength(10)]
         public float Rating { get; set; }
 
-        public virtual ICollection<AppointmentEntity> Appointment { get; set; }
-        public virtual ICollection<ReviewEntity> Review { get; set; }
-        public virtual ICollection<DegreeEntity> DoctorColleges { get; set; }
+        public virtual ICollection<AppointmentEntity> Appointments { get; set; }
+        public virtual ICollection<ReviewEntity> Reviews { get; set; }
+        public virtual ICollection<DegreeEntity> Degrees { get; set; }
 
         public override bool Equals(object? obj)
         {

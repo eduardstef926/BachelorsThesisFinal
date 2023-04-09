@@ -14,14 +14,22 @@ namespace NewBackend2.Controllers
             this.coreService = coreService;
         }
 
-        [HttpPost("GetSymptomData")]
-        public async Task<IActionResult> GetSymptomData(string email, string symptoms)
+        [HttpPost("AddUserSymptoms")]
+        public async Task<IActionResult> AddUserSymptoms(string email, string symptoms)
         {
             var symptomArray = symptoms.Split('\u002C').ToList();
 
-            await coreService.GetSymptomDataAsync(email, symptomArray);
+            await coreService.AddUserSymptomsAsync(email, symptomArray);
 
             return Ok();
+        }
+
+        [HttpPost("GetAllSymptoms")]
+        public async Task<IActionResult> GetAllSymptoms()
+        {
+            var symptoms = await coreService.GetAllSymptomsAsync();
+
+            return Ok(symptoms);
         }
     }
 }

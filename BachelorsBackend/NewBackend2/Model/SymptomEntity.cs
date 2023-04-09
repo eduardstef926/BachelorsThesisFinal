@@ -9,12 +9,7 @@ namespace NewBackend2.Model
         [Key]
         public string Symptom { get; set; }
 
-        [Required]
-        [ForeignKey("User")]
-        [MaxLength(10)]
-        public int UserId { get; set; }
-
-        public virtual UserEntity User { get; set; }
+        public virtual ICollection<UserSymptomMapping> UserSymptoms { get; set; }
 
         public override bool Equals(object? obj)
         {

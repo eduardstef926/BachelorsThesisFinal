@@ -23,6 +23,7 @@ namespace NewBackend2.Repository
         public DbSet<EngineerEntity> engineers { get; set; }
         public DbSet<DegreeEntity> degrees { get; set; }
         public DbSet<ReviewEntity> reviews { get; set; }
+        public DbSet<UserSymptomMapping> userSymptoms { get; set; }
 
         public ProjectDatabaseConfiguration(DbContextOptions<ProjectDatabaseConfiguration> options) : base(options)
         {

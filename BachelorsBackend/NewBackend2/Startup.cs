@@ -24,9 +24,9 @@ builder.Services.AddScoped<ICoreService, CoreService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IEngineerRepository, EngineerRepository>();
 builder.Services.AddScoped<IEngineerService, EngineerService>();
-builder.Services.AddScoped<ISymptomRespository, SymptomRepository>();
 builder.Services.AddScoped<IDegreeRepository, DegreeRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserSymptomMappingRepository, UserSymptomMappingRepository>();
 
 var mapperConfig = new MapperConfiguration(mc =>
 {
@@ -37,6 +37,8 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<EngineerDto, EngineerEntity>();
     mc.CreateMap<EngineerEntity, EngineerDto>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
+    mc.CreateMap<SymptomEntity, SymptomDto>()
+            .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Symptom));
     mc.CreateMap<ReviewDto, ReviewEntity>();
     mc.CreateMap<DegreeEntity, DegreeDto>()
             .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.College.Name))
