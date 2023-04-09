@@ -36,6 +36,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 import { SymptomPageComponent } from './symptom-page/symptom-page.component';
 import { SecondPhaseComponent } from './second-phase/second-phase.component';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { DoctorDetailsComponent } from './doctor-details/doctor-details.componen
     FormsModule,
     MatCardModule,
     MatSnackBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule,
   ],
   providers: [CoreService, AuthService, EmployeeService, LocalStorageService],
   bootstrap: [AppComponent],

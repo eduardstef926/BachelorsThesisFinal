@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { SymptomDto } from "../model/symptom.model";
 
 @Injectable()
 export class CoreService{
@@ -16,10 +17,16 @@ export class CoreService{
 
   getSymptomData(symptomList: Array<string>, loggedUserEmail: string): Observable<any> {
     const body = JSON.stringify(symptomList);
-    console.log(body);
     return this.httpClient.post<Array<any>>(
       this.baseUrl + "/Core/GetSymptomData",
       body,
+      this.options
+    );
+  }
+
+  getAllSymptoms(): Observable<SymptomDto[]> {
+    return this.httpClient.post<Array<SymptomDto>>(
+      this.baseUrl + "/Core/GetAllSymptoms",
       this.options
     );
   }
