@@ -1,4 +1,6 @@
-﻿using NewBackend2.Model;
+﻿using AutoMapper;
+using NewBackend2.Dtos;
+using NewBackend2.Model;
 using NewBackend2.Repository.Abstract;
 using NewBackend2.Service.Abstract;
 
@@ -6,28 +8,37 @@ namespace NewBackend2.Service.Concrete
 {
     public class CoreService : ICoreService
     {
-        private readonly ISymptomRespository symptomRespository;
         private readonly IUserRepository userRepository;
+        private readonly IUserSymptomMappingRepository userSymptomMappingRepository;
+        private readonly IMapper mapper;
 
-        public CoreService(ISymptomRespository symptomRespository, IUserRepository userRepository)
+        public CoreService(IUserRepository userRepository, IUserSymptomMappingRepository userSymptomMappingRepository, IMapper mapper)
         {
-            this.symptomRespository = symptomRespository;
+            this.userSymptomMappingRepository = userSymptomMappingRepository;
             this.userRepository = userRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<string> GetSymptomDataAsync(string userEmail, List<string> symptomList)
+        public async Task<List<SymptomDto>> GetAllSymptomsAsync()
         {
-            var userId = await userRepository.GetUserIdByEmailAsync(userEmail);
-            foreach (var symptom in symptomList)
+            var symptoms = await userSymptomMappingRepository.GetAllSymptomsAsync();
+            return symptoms
+                .Select(mapper.Map<SymptomEntity, SymptomDto>)
+                .ToList();
+        }
+
+        public async Task AddUserSymptomsAsync(string userEmail, List<string> symptomNameList)
+        {
+            foreach (var symptomName in symptomNameList)
             {
-                var userSymptom = new SymptomEntity
+                var userId = await userRepository.GetUserIdByEmailAsync(userEmail);
+                var userSymptom = new UserSymptomMapping
                 {
-                    Symptom = symptom,
-                    UserId = userId,    
+                    UserId = userId,
+                    SymptomName = symptomName
                 };
-                await symptomRespository.AddSymptomAsync(userSymptom);
+                await userSymptomMappingRepository.AddUserSymptomMappingAsync(userSymptom);
             }
-            return null;
         }
     }
 }
