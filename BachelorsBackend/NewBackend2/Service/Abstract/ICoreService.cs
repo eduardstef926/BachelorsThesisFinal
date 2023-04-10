@@ -1,7 +1,12 @@
-﻿namespace NewBackend2.Service.Abstract
+﻿using NewBackend2.Dtos;
+using NewBackend2.Model;
+
+namespace NewBackend2.Service.Abstract
 {
     public interface ICoreService
     {
-        public Task<string> GetSymptomDataAsync(string userEmail, List<string> symptomList);
+        Task AddUserSymptomsAsync(string userEmail, string symptoms);
+        Task UpdateSymptomsAsync();
+        Task<List<SymptomDto>> GetAllSymptomsAsync();
     }
 }

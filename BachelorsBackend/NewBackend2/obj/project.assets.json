@@ -10148,11 +10148,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eddis\\CollegeLicense - Copy\\Backend\\NewBackend2\\NewBackend2.csproj",
+      "projectUniqueName": "C:\\Users\\eddis\\BachelorsThesisFinal\\BachelorsBackend\\NewBackend2\\NewBackend2.csproj",
       "projectName": "NewBackend2",
-      "projectPath": "C:\\Users\\eddis\\CollegeLicense - Copy\\Backend\\NewBackend2\\NewBackend2.csproj",
+      "projectPath": "C:\\Users\\eddis\\BachelorsThesisFinal\\BachelorsBackend\\NewBackend2\\NewBackend2.csproj",
       "packagesPath": "C:\\Users\\eddis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eddis\\CollegeLicense - Copy\\Backend\\NewBackend2\\obj\\",
+      "outputPath": "C:\\Users\\eddis\\BachelorsThesisFinal\\BachelorsBackend\\NewBackend2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\eddis\\AppData\\Roaming\\NuGet\\NuGet.Config",

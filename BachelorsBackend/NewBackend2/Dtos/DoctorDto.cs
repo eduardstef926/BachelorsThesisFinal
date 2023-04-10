@@ -9,5 +9,8 @@
         public int PhoneNumber { get; set; }
         public string Specialization { get; set; }
         public string Location { get; set; }
+        public string HospitalName { get; set; }
+        public string CurrentPosition { get; set; }
+        public float Rating { get; set; }
     }
 }
