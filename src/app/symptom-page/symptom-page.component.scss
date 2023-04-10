@@ -48,12 +48,13 @@
 
 .form-group input {
     border-radius: 0px !important;
-    width: 70%;
+    width: 71%;
     height: 30px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Arial";
 }
 
 .submit-button {
+    margin-left: 1px;
     border-radius: 0px !important;
     background-color: white;
     color: #5dcb60;
@@ -64,4 +65,8 @@
     justify-content: center;
     gap: 1rem;
     align-items: center;
+}
+
+::ng-deep .mat-paginator-outer-container {
+    color: green;
 }

@@ -11,7 +11,7 @@
           </p>
           <button
             mat-button
-            (click)="moveNext()"
+            (click)="submitSymptoms()"
             class="arrow-button"
           >
             <mat-icon>arrow_forward</mat-icon>
@@ -34,12 +34,10 @@
             Search
           </button>
         </div>
-        <div 
-          *ngFor="let symptom of symptomList"
-           class="symptom-element"
-        >
+        <div *ngFor="let symptom of symptomList" class="symptom-element">
           {{symptom[0]}}
           <mat-checkbox [(ngModel)]="symptom[1]"></mat-checkbox>
         </div>
+        <mat-paginator class="symptom-paginator" [pageSize]="pageSize" [length]="this.filteredTableCopy.length" (page)="onPageChange($event)"></mat-paginator>
     </div>
 </div>
