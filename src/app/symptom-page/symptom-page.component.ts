@@ -26,43 +26,53 @@ import { SymptomDto } from '../model/symptom.model';
 })
 export class SymptomPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  symptomSelection!: Map<String, Boolean>;
-  listCopy!: Array<String>;
   symptomList!: any;
   selectedSymptom!: string;
-  isChecked = false;
-  totalItems: number = 100;
-  pageSize: number = 10;
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  filteredTableCopy: string[] = [];
+  tableCopy: string[] = [];
+  pageSize = 5;
+  pageIndex = 0;
 
   constructor(private router: Router,
               private authService: AuthService,
               private coreService: CoreService,
-              private localStorage: LocalStorageService) { }
-
+              private localStorage: LocalStorageService) {}
+  
   ngOnInit(): void {
-    this.symptomSelection = new Map<String, Boolean>();
     this.coreService.getAllSymptoms().subscribe((symptoms: SymptomDto[]) => {
       this.symptomList = symptoms.map((symptom) => [symptom.name, false]);
-      this.listCopy =  this.symptomList;
+      this.tableCopy =  this.symptomList;
+      this.filteredTableCopy = this.symptomList;
+      this.renderSymptoms();
     })
   }
 
-  getValue(symptom: string) {
-    return this.symptomSelection.get(symptom);
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.renderSymptoms();
+  }
+
+  renderSymptoms() {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    this.symptomList = this.filteredTableCopy.slice(start, end);
   }
 
   filterSymptoms() {
     if (this.selectedSymptom.length != 0) {
-      this.symptomList = this.listCopy.filter((symptom: any) => 
-        symptom[0].includes(this.selectedSymptom)
+      this.filteredTableCopy = this.tableCopy.filter((symptom: any) => 
+        symptom[0].toLowerCase().includes(this.selectedSymptom.toLowerCase())
       );
+      this.symptomList = this.filteredTableCopy;
     } else {
-      this.symptomList = this.listCopy;
+      this.symptomList = this.tableCopy;
+      this.filteredTableCopy = this.tableCopy;
     }
+    this.renderSymptoms();
   }
 
-  moveNext() {
+  submitSymptoms() {
     const selectedSymptoms = this.symptomList
       .filter((symptom: any) => symptom[1])
       .map((symptom: any) => symptom[0]);
