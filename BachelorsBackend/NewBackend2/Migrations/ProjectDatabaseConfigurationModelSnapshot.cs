@@ -22,6 +22,21 @@ namespace NewBackend2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("DiagnosticEntitySymptomEntity", b =>
+                {
+                    b.Property<int>("DiagnosticsDiagnosticId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SymptomName")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DiagnosticsDiagnosticId", "SymptomName");
+
+                    b.HasIndex("SymptomName");
+
+                    b.ToTable("DiagnosticEntitySymptomEntity");
+                });
+
             modelBuilder.Entity("NewBackend2.Model.AppointmentEntity", b =>
                 {
                     b.Property<int>("AppointmentId")
@@ -107,6 +122,45 @@ namespace NewBackend2.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Degree");
+                });
+
+            modelBuilder.Entity("NewBackend2.Model.DiagnosticEntity", b =>
+                {
+                    b.Property<int>("DiagnosticId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiagnosticId"), 1L, 1);
+
+                    b.Property<string>("DiseaseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SymptomList")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasMaxLength(10)
+                        .HasColumnType("int");
+
+                    b.HasKey("DiagnosticId");
+
+                    b.HasIndex("DiseaseName");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Diagnostic");
+                });
+
+            modelBuilder.Entity("NewBackend2.Model.DiseaseEntity", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Disease");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.DoctorEntity", b =>
@@ -274,10 +328,10 @@ namespace NewBackend2.Migrations
 
             modelBuilder.Entity("NewBackend2.Model.SymptomEntity", b =>
                 {
-                    b.Property<string>("Symptom")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Symptom");
+                    b.HasKey("Name");
 
                     b.ToTable("Symptom");
                 });
@@ -323,29 +377,19 @@ namespace NewBackend2.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.UserSymptomMapping", b =>
+            modelBuilder.Entity("DiagnosticEntitySymptomEntity", b =>
                 {
-                    b.Property<int>("UserSymptomMappingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("NewBackend2.Model.DiagnosticEntity", null)
+                        .WithMany()
+                        .HasForeignKey("DiagnosticsDiagnosticId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserSymptomMappingId"), 1L, 1);
-
-                    b.Property<string>("SymptomName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("UserId")
-                        .HasMaxLength(10)
-                        .HasColumnType("int");
-
-                    b.HasKey("UserSymptomMappingId");
-
-                    b.HasIndex("SymptomName");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserSymptomMapping");
+                    b.HasOne("NewBackend2.Model.SymptomEntity", null)
+                        .WithMany()
+                        .HasForeignKey("SymptomName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("NewBackend2.Model.AppointmentEntity", b =>
@@ -386,6 +430,25 @@ namespace NewBackend2.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("NewBackend2.Model.DiagnosticEntity", b =>
+                {
+                    b.HasOne("NewBackend2.Model.DiseaseEntity", "Disease")
+                        .WithMany("UserSymptoms")
+                        .HasForeignKey("DiseaseName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NewBackend2.Model.UserEntity", "User")
+                        .WithMany("Diagnostics")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disease");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("NewBackend2.Model.ReviewEntity", b =>
                 {
                     b.HasOne("NewBackend2.Model.DoctorEntity", "Doctor")
@@ -405,28 +468,14 @@ namespace NewBackend2.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.UserSymptomMapping", b =>
-                {
-                    b.HasOne("NewBackend2.Model.SymptomEntity", "Symptom")
-                        .WithMany("UserSymptoms")
-                        .HasForeignKey("SymptomName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NewBackend2.Model.UserEntity", "User")
-                        .WithMany("UserSymptoms")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Symptom");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("NewBackend2.Model.CollegeEntity", b =>
                 {
                     b.Navigation("DoctorColleges");
+                });
+
+            modelBuilder.Entity("NewBackend2.Model.DiseaseEntity", b =>
+                {
+                    b.Navigation("UserSymptoms");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.DoctorEntity", b =>
@@ -438,18 +487,13 @@ namespace NewBackend2.Migrations
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.SymptomEntity", b =>
-                {
-                    b.Navigation("UserSymptoms");
-                });
-
             modelBuilder.Entity("NewBackend2.Model.UserEntity", b =>
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("Reviews");
+                    b.Navigation("Diagnostics");
 
-                    b.Navigation("UserSymptoms");
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

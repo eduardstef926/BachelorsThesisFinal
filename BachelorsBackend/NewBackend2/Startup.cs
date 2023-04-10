@@ -6,6 +6,8 @@ using NewBackend2.Repository.Abstract;
 using NewBackend2.Repository.Concrete;
 using NewBackend2.Service.Abstract;
 using NewBackend2.Service.Concrete;
+using Quartz;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -26,7 +28,20 @@ builder.Services.AddScoped<IEngineerRepository, EngineerRepository>();
 builder.Services.AddScoped<IEngineerService, EngineerService>();
 builder.Services.AddScoped<IDegreeRepository, DegreeRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-builder.Services.AddScoped<IUserSymptomMappingRepository, UserSymptomMappingRepository>();
+builder.Services.AddScoped<IMedicalRepository, MedicalRepository>();
+builder.Services.AddQuartz(q =>
+{
+    q.UseMicrosoftDependencyInjectionScopedJobFactory();
+
+    var jobKey = new JobKey("SymptomJob");
+    q.AddJob<SymptomJob>(opts => opts.WithIdentity(jobKey));
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("SymptomJob-Trigger")
+       // .WithCronSchedule("0/5 * * * * ?"));   // runs every 5 seconds
+        .WithCronSchedule("0 0 * * * ?"));       // runs every day at midnight
+});
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 var mapperConfig = new MapperConfiguration(mc =>
 {
@@ -37,8 +52,9 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<EngineerDto, EngineerEntity>();
     mc.CreateMap<EngineerEntity, EngineerDto>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
+    mc.CreateMap<DiseaseEntity, DiseaseDto>();
     mc.CreateMap<SymptomEntity, SymptomDto>()
-            .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Symptom));
+            .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Name));
     mc.CreateMap<ReviewDto, ReviewEntity>();
     mc.CreateMap<DegreeEntity, DegreeDto>()
             .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.College.Name))
@@ -63,10 +79,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(x => x
-            .AllowAnyMethod()
-            .AllowCredentials()
-            .AllowAnyHeader()
-            .WithOrigins("http://localhost:4200")
+    .AllowAnyMethod()
+    .AllowCredentials()
+    .AllowAnyHeader()
+    .WithOrigins("http://localhost:4200")
 );
 
 app.UseRouting();
