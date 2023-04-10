@@ -17,9 +17,7 @@ namespace NewBackend2.Controllers
         [HttpPost("AddUserSymptoms")]
         public async Task<IActionResult> AddUserSymptoms(string email, string symptoms)
         {
-            var symptomArray = symptoms.Split('\u002C').ToList();
-
-            await coreService.AddUserSymptomsAsync(email, symptomArray);
+            await coreService.AddUserSymptomsAsync(email, symptoms);
 
             return Ok();
         }

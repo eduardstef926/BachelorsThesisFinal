@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NewBackend2.Model
 {
-    [Table("UserSymptomMapping")]
-    public class UserSymptomMapping
+    [Table("Diagnostic")]
+    public class DiagnosticEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserSymptomMappingId { get; set; }
+        public int DiagnosticId { get; set; }
 
         [Required]
         [ForeignKey("User")]
@@ -16,22 +16,28 @@ namespace NewBackend2.Model
         public int UserId { get; set; }
 
         [Required]
+        [ForeignKey("Disease")]
+        public string DiseaseName { get; set; } 
+
+        [Required]
         [ForeignKey("Symptom")]
-        public string SymptomName { get; set; }
+        public string SymptomList { get; set; }
 
         public virtual UserEntity User { get; set; }
-        public virtual SymptomEntity Symptom { get; set; }
+        public virtual DiseaseEntity Disease { get; set; }
+        public virtual ICollection<SymptomEntity> Symptom { get; set; }
 
         public override bool Equals(object? obj)
         {
-            return obj is UserSymptomMapping entity &&
-                SymptomName == entity.SymptomName && 
+            return obj is DiagnosticEntity entity &&
+                Disease == entity.Disease &&
+                SymptomList == entity.SymptomList && 
                 UserId == entity.UserId;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(UserId, SymptomName);
+            return HashCode.Combine(UserId, SymptomList, Disease);
         }
     }
 }

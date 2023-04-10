@@ -7,19 +7,19 @@ namespace NewBackend2.Model
     public class SymptomEntity
     {
         [Key]
-        public string Symptom { get; set; }
+        public string Name { get; set; }
 
-        public virtual ICollection<UserSymptomMapping> UserSymptoms { get; set; }
+        public virtual ICollection<DiagnosticEntity> Diagnostics { get; set; }
 
         public override bool Equals(object? obj)
         {
             return obj is SymptomEntity entity &&
-                Symptom == entity.Symptom;
+                Name == entity.Name;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Symptom);
+            return HashCode.Combine(Name);
         }
     }
 }

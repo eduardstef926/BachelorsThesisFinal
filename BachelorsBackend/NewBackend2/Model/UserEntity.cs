@@ -34,7 +34,7 @@ namespace NewBackend2.Model
         [MaxLength(100)]
         public bool isEmailConfirmed { get; set; }
 
-        public virtual ICollection<UserSymptomMapping> UserSymptoms { get; set; }
+        public virtual ICollection<DiagnosticEntity> Diagnostics { get; set; }
         public virtual ICollection<AppointmentEntity> Appointments { get; set; }
         public virtual ICollection<ReviewEntity> Reviews { get; set; }
 
