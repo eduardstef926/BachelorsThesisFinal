@@ -23,6 +23,14 @@ namespace NewBackend2.Model
         [ForeignKey("Symptom")]
         public string SymptomList { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string DoctorTitle { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string DoctorSpecialization { get; set; }
+
         public virtual UserEntity User { get; set; }
         public virtual DiseaseEntity Disease { get; set; }
         public virtual ICollection<SymptomEntity> Symptom { get; set; }

@@ -4,7 +4,7 @@ using NewBackend2.Helpers;
 using NewBackend2.Model;
 using NewBackend2.Repository.Abstract;
 using NewBackend2.Service.Abstract;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace NewBackend2.Service.Concrete
 {
@@ -26,7 +26,7 @@ namespace NewBackend2.Service.Concrete
             var client = new HttpClient();
             var response = await client.GetAsync(ApiHelper.baseUrl + "getAllSymptoms");
             var responseBody = await response.Content.ReadAsStringAsync();
-            var symptomList = JsonSerializer.Deserialize<string[]>(responseBody);
+            var symptomList = JsonConvert.DeserializeObject<string[]>(responseBody);
             foreach (var symptom in symptomList)
             {
                 var newSymptom = new SymptomEntity
@@ -48,22 +48,35 @@ namespace NewBackend2.Service.Concrete
         public async Task AddUserSymptomsAsync(string userEmail, string symptoms)
         {
             var client = new HttpClient();
-            var response = await client.GetAsync(ApiHelper.baseUrl + $"getDiseaseBySymptoms/{symptoms}");
-            var diseaseName = await response.Content.ReadAsStringAsync();
+            var response = await client.GetAsync(ApiHelper.baseUrl + $"getInformationBySymptoms/{symptoms}");
+            var resultBody = await response.Content.ReadAsStringAsync();
+            resultBody = resultBody.Replace("\\", "").Replace("\n", "");
+            var resultElements = JsonConvert.DeserializeObject<Dictionary<string, string>>(resultBody);
+            
             var disease = new DiseaseEntity
             {
-                Name = diseaseName,  
+                Name = resultElements["diseaseName"],  
             };
             await medicalRepository.AddDiseaseAsync(disease);
 
             var userId = await userRepository.GetUserIdByEmailAsync(userEmail);
-            var userSymptom = new DiagnosticEntity
+            var userDiagnostic = new DiagnosticEntity
             {
                 UserId = userId,
-                DiseaseName = diseaseName,
-                SymptomList = symptoms
+                DiseaseName = resultElements["diseaseName"],
+                SymptomList = symptoms,
+                DoctorTitle = resultElements["doctorTitle"],
+                DoctorSpecialization = resultElements["doctorSpecialization"]
             };
-            await medicalRepository.AddDiagnosticAsync(userSymptom);
+            await medicalRepository.AddDiagnosticAsync(userDiagnostic);
+        }
+
+        public async Task<DiagnosticDto> GetLastDiagnosticByUserEmailAsync(string email)
+        {
+            var userId = await userRepository.GetUserIdByEmailAsync(email);
+            var diagnostic = await medicalRepository.GetLastDiagnosticByUserIdAsync(userId);
+
+            return mapper.Map<DiagnosticEntity, DiagnosticDto>(diagnostic);
         }
     }
 }

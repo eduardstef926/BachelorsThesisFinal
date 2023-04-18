@@ -55,5 +55,14 @@ namespace NewBackend2.Service.Concrete
                 .Select(mapper.Map<ReviewEntity, ReviewDto>)
                 .ToList();
         }
+
+        public async Task<List<DoctorDto>> GetDoctorsBySpecialization(string specialization)
+        {
+            var doctors = await doctorRepository.GetDoctorsBySpecializationAsync(specialization);
+
+            return doctors
+                .Select(mapper.Map<DoctorEntity, DoctorDto>)
+                .ToList();
+        }
     }
 }

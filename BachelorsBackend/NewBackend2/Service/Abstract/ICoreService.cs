@@ -1,5 +1,4 @@
 ﻿using NewBackend2.Dtos;
-using NewBackend2.Model;
 
 namespace NewBackend2.Service.Abstract
 {
@@ -7,6 +6,7 @@ namespace NewBackend2.Service.Abstract
     {
         Task AddUserSymptomsAsync(string userEmail, string symptoms);
         Task UpdateSymptomsAsync();
+        Task<DiagnosticDto> GetLastDiagnosticByUserEmailAsync(string email);
         Task<List<SymptomDto>> GetAllSymptomsAsync();
     }
 }
