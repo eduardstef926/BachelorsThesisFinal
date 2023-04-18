@@ -53,6 +53,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<EngineerEntity, EngineerDto>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
     mc.CreateMap<DiseaseEntity, DiseaseDto>();
+    mc.CreateMap<DiagnosticEntity, DiagnosticDto>();    
     mc.CreateMap<SymptomEntity, SymptomDto>()
             .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Name));
     mc.CreateMap<ReviewDto, ReviewEntity>();

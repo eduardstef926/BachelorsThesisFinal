@@ -57,7 +57,17 @@ namespace NewBackend2.Controllers
         [HttpGet("GetDoctorByFirstNameAndLastName")]
         public async Task<IActionResult> GetDoctorByFirstNameAndLastName(string firstName, string lastName)
         {
+            if (firstName == null || lastName == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
             var doctor = await doctorService.GetDoctorByFirstNameAndLastNameAsync(firstName, lastName); 
+
+            if (doctor == null)
+            {
+                return NoContent();
+            }
 
             return Ok(doctor);
         }
@@ -65,7 +75,17 @@ namespace NewBackend2.Controllers
         [HttpGet("GetDoctorDegreeByFirstNameAndLastName")]
         public async Task<IActionResult> GetDoctorDegreeByFirstNameAndLastName(string firstName, string lastName)
         {
+            if (firstName == null || lastName == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
             var collegeDegree = await doctorService.GetDoctorDegreeByFirstNameAndLastNameAsync(firstName, lastName);
+            
+            if (collegeDegree == null)
+            {
+                return NoContent();
+            }
 
             return Ok(collegeDegree);
         }
@@ -73,9 +93,37 @@ namespace NewBackend2.Controllers
         [HttpGet("GetDoctorReviewsByFirstNameAndLastName")]
         public async Task<IActionResult> GetDoctorReviewsByFirstNameAndLastName(string firstName, string lastName)
         {
+            if (firstName == null || lastName == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
             var reviews = await doctorService.GetDoctorReviewsByFirstNameAndLastNameAsync(firstName, lastName);
 
+            if (!reviews.Any())
+            {
+                return NoContent();
+            }
+
             return Ok(reviews);
+        }
+
+        [HttpGet("GetDoctorsBySpecialization")]
+        public async Task<IActionResult> GetDoctorsBySpecialization(string specialization)
+        {
+            if (specialization == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            var doctors = await doctorService.GetDoctorsBySpecialization(specialization);
+
+            if (!doctors.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(doctors);
         }
     }
 }

@@ -43,5 +43,12 @@ namespace NewBackend2.Repository.Concrete
                 await database.SaveChangesAsync();
             }
         }
+
+        public Task<DiagnosticEntity> GetLastDiagnosticByUserIdAsync(int id)
+        {
+            return database.diagnostics.AsNoTracking()
+                .OrderBy(x => x.DiagnosticId)
+                .LastOrDefaultAsync(x => x.UserId == id);
+        }
     }
 }

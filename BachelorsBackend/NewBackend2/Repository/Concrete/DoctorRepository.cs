@@ -31,5 +31,13 @@ namespace NewBackend2.Repository.Concrete
             return database.doctors.AsNoTracking()
                 .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName);
         }
+
+        public Task<List<DoctorEntity>> GetDoctorsBySpecializationAsync(string specialization)
+        {
+            return database.doctors
+                .Where(x => x.Specialization == specialization)
+                .AsNoTracking()
+                .ToListAsync();
+        }
     }
 }
