@@ -34,9 +34,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { LocalStorageService } from './services/localstorage.service';
 import { ChatPageComponent } from './chat-page/chat-page.component';
 import { SymptomPageComponent } from './symptom-page/symptom-page.component';
-import { SecondPhaseComponent } from './second-phase/second-phase.component';
+import { SeverityPageComponent } from './severity-page/severity-page.component';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { EmergencyPageComponent } from './emergency-page/emergency-page.component';
+import { AppointmentPageComponent } from './appointment-page/appointment-page.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +52,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     EmployeePageComponent, 
     ChatPageComponent, 
     SymptomPageComponent, 
-    SecondPhaseComponent, 
+    SeverityPageComponent, 
     DoctorDetailsComponent, 
+    EmergencyPageComponent, 
+    AppointmentPageComponent, 
   ],
   imports: [
     HttpClientModule,

@@ -31,6 +31,13 @@ export class EmployeeService{
     );
   }
 
+  getDoctorsBySpecialization(specialization: string): Observable<Array<DoctorDto>> {
+    return this.httpClient.get<Array<DoctorDto>>(
+      this.baseUrl + "/Doctor/GetDoctorsBySpecialization?specialization=" + specialization,
+      this.options
+    );
+  }
+
   getDoctorByFirstNameAndLastName(firstName: string, lastName: string): Observable<DoctorDto> {
     return this.httpClient.get<DoctorDto>(
       this.baseUrl + "/Doctor/GetDoctorByFirstNameAndLastName?firstName=" + firstName + 

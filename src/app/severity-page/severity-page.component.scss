@@ -28,36 +28,11 @@
     padding-top: 1.5rem;
 }
 
-.symptom-element {
+.severity-element {
     display: flex;
     font-family: Calibri;
     justify-content: space-between;
-    padding: 1.8rem 4.8rem 2.5rem 2.8rem;
-}
-
-.plus-button {
-    background-color: white;
-}
-
-.form-group input,
-.form-group button {
-    margin-top: 0.5rem;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.form-group input {
-    border-radius: 4px !important;
-    width: 71%;
-    height: 30px;
-    font-family: "Arial";
-}
-
-.submit-button {
-    margin-left: 1.5px;
-    border-radius: 4px !important;
-    background-color: white;
-    color: #5dcb60;
+    padding: 1rem 4.8rem 2.5rem 3.8rem;
 }
 
 .arrow-button-container {
@@ -65,9 +40,4 @@
     justify-content: center;
     gap: 1rem;
     align-items: center;
-}
-
-::ng-deep .mat-paginator-outer-container {
-    color: green;
-    background-color: white;
 }
