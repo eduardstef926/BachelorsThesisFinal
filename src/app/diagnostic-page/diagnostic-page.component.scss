@@ -1,0 +1,96 @@
+.diagnostic-page {
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 5rem;
+}
+
+.diagnostic-messsage {
+    margin-top: 2.5%;
+    font-family: Arial;
+    color: #36aa3a;
+    width: 34%;
+}
+
+.higher-message {
+    font-family: Arial;
+    font-size: 3.2rem;
+}
+
+.lower-message {
+    font-family: Arial;
+    margin-top: 6%;
+    font-size: 1.5rem;
+}
+
+.doctor-table {
+    height: 50%;
+    width: auto;
+    background-color:#4CAF50;
+    border: 2px solid rgb(21, 196, 91);
+    border-radius: 3px;
+}
+
+.table-title {
+    margin-top: 2%;
+    margin-bottom: 4%;
+    color: white;
+    font-size: 2rem;
+}
+
+.content-table {
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 400px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table-button {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+.column-spacer {
+    padding-right: 5rem;
+    text-align: center;
+}
+
+.content-table thead tr {
+    background-color: #4CAF50;;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th {
+    background-color: #4CAF50;;
+    color: white;
+    font-weight: 300;
+    font-size: 15px;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+    max-width: 300px;
+    min-width: 120px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}

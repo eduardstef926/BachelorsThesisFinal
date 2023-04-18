@@ -39,7 +39,7 @@ export class SeverityPageComponent implements OnInit {
     if (this.selectedSeverity == "Very Severe") {
       this.router.navigate(['/emergency-page']);
     } else {
-      this.router.navigate(['/appointment-page']);
+      this.router.navigate(['/diagnostic-page']);
     }
   }
 }
