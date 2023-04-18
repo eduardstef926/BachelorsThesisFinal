@@ -1,53 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { MatTableDataSource } from '@angular/material/table';
-import { EmployeeService } from '../services/employee.service';
-import { LocalStorageService } from '../services/localstorage.service';
-import { CoreService } from '../services/core.service';
-import { DiagnosticDto } from '../model/diagnostic.model';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+interface Food {
+  value: string;
+  viewValue: string;
+}
+
 
 @Component({
   selector: 'app-appointment-page',
   templateUrl: './appointment-page.component.html',
-  styleUrls: ['./appointment-page.component.scss'],
-  animations: [
-    trigger('fade', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate(1000, style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate(1000, style({ opacity: 0 }))
-      ])
-    ])
-  ]
+  styleUrls: ['./appointment-page.component.scss']
 })
 export class AppointmentPageComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  diseaseName!: string;
-  diagnostic!: DiagnosticDto;
-  doctorTable!: MatTableDataSource<any>;
-  paginatorLength = 5;
+  selectSortingMethod!: string;
+  sortings = ["s1", "s2", "s3"];
+  
+  constructor() {}
 
-  constructor(private employeeService: EmployeeService,
-              private coreService: CoreService,
-              private localStorage: LocalStorageService) { }
+  formControl = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+  });
 
   ngOnInit(): void {
-    var userEmail = this.localStorage.get('loggedUserEmail');
-    this.coreService.getLastDiagnosticByUserEmail(userEmail).subscribe((diagnostic) => {
-      this.diagnostic = diagnostic;
-      this.diseaseName = diagnostic.diseaseName.replace('_', ' ').toLowerCase();
-      this.loadDoctors(diagnostic.doctorSpecialization);
-    });
   }
 
-  loadDoctors(specialization: string) {
-    this.employeeService.getDoctorsBySpecialization(specialization).subscribe((doctors) => {
-      this.doctorTable = new MatTableDataSource(doctors);
-      this.doctorTable.paginator = this.paginator;
-    })
-  }
 }

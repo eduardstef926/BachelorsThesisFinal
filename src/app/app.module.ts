@@ -38,6 +38,7 @@ import { SeverityPageComponent } from './severity-page/severity-page.component';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EmergencyPageComponent } from './emergency-page/emergency-page.component';
+import { DiagnosticPageComponent } from './diagnostic-page/diagnostic-page.component';
 import { AppointmentPageComponent } from './appointment-page/appointment-page.component';
 
 @NgModule({
@@ -55,6 +56,7 @@ import { AppointmentPageComponent } from './appointment-page/appointment-page.co
     SeverityPageComponent, 
     DoctorDetailsComponent, 
     EmergencyPageComponent, 
+    DiagnosticPageComponent, 
     AppointmentPageComponent, 
   ],
   imports: [
