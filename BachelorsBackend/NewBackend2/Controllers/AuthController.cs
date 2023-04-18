@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NewBackend2.Dtos;
 using NewBackend2.Service.Abstract;
+using System.ComponentModel.DataAnnotations;
 
 namespace NewBackend2.Controllers
 {
@@ -44,26 +45,76 @@ namespace NewBackend2.Controllers
         [HttpPut("ModifyPassword")]
         public async Task<IActionResult> ModifyPassword(string id, string newPassword)
         {
-            await authService.ModifyPassword(id, newPassword);
+            if (id == null || newPassword == null)
+            {
+                return BadRequest("Invalid object");
+            }
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid object sent from client!");
+                    return BadRequest("Invalid user object");
+                }
 
-            return Ok();
+                await authService.ModifyPassword(id, newPassword);
+                return Ok();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string id)
         {
-            await authService.ConfirmEmail(id);
+            if (id == null)
+            {
+                return BadRequest("Invalid object");
+            }
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid object sent from client!");
+                    return BadRequest("Invalid user object");
+                }
 
-            return Ok();
+                await authService.ConfirmEmail(id);
+
+                return Ok();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
         [HttpPost("SendForgotPasswordEmail")]
         public async Task<IActionResult> SendForgotPasswordEmail(string email)
         {
-            await authService.SendForgotPasswordEmail(email);
+            if (email == null)
+            {
+                return BadRequest("Invalid object");
+            }
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid object sent from client!");
+                    return BadRequest("Invalid user object");
+                }
 
-            return Ok();
+                await authService.SendForgotPasswordEmail(email);
+
+                return Ok();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

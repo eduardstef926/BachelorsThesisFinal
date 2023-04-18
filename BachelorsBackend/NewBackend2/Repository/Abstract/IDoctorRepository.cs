@@ -7,5 +7,6 @@ namespace NewBackend2.Repository.Abstract
         Task AddDoctorAsync(DoctorEntity doctor);
         Task<List<DoctorEntity>> GetAllDoctorsAsync();
         Task<DoctorEntity> GetDoctorByFirstNameAndLastNameAsync(string firstName, string lastName);
+        Task<List<DoctorEntity>> GetDoctorsBySpecializationAsync(string specialization);
     }
 }

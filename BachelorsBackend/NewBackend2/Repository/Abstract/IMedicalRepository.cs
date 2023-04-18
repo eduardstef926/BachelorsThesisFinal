@@ -7,6 +7,7 @@ namespace NewBackend2.Repository.Abstract
         Task AddDiagnosticAsync(DiagnosticEntity diagnostic);
         Task AddSymptomAsync(SymptomEntity symptom);
         Task AddDiseaseAsync(DiseaseEntity disease);
+        Task<DiagnosticEntity> GetLastDiagnosticByUserIdAsync(int id);
         Task<List<SymptomEntity>> GetAllSymptomsAsync();
     }
 }
