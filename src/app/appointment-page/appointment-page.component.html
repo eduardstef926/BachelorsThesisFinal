@@ -1,0 +1,65 @@
+<div
+    class="appointment-page"
+    @fade
+>
+    <div class="appointment-messsage">
+        <p class="higher-message">
+            We suspect you have some form of {{this.diseaseName}}
+        </p>
+        <p class="lower-message">
+            Don't worry, make an appointment with one of our trusted {{this.diagnostic.doctorTitle.toLowerCase()}} to get an accurate diagnostic.
+        </p>
+    </div>
+    <div
+        class="doctor-table"
+    >
+        <p class="table-title">
+            Doctor List
+        </p>
+        <table 
+            mat-table [dataSource]="doctorTable" 
+            matSort
+            class="content-table" 
+        >
+            <ng-container matColumnDef="name">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="location">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Location</th>
+                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
+            </ng-container>
+            <ng-container matColumnDef="rating">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Rating</th>
+                <td mat-cell class="column-spacer" *matCellDef="let element">{{element.rating}}</td>
+            </ng-container>
+            <ng-container matColumnDef="details">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Details</th>
+                <td mat-cell *matCellDef="let element" style="text-align: center;">
+                    <button 
+                        mat-button 
+                        class="table-button"
+                        [routerLink]="['/doctor-details', element.firstName, element.lastName]" 
+                    >
+                    <mat-icon>arrow_forward</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="appoint">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Appoint</th>
+                <td mat-cell *matCellDef="let element"  style="text-align: center;">
+                    <button 
+                        mat-raised-button 
+                        class="table-button"
+                        color="primary"
+                    >
+                        <mat-icon>access_time</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['name', 'location', 'rating', 'details', 'appoint']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['name', 'location', 'rating', 'details', 'appoint']"></tr>
+            </table>
+            <mat-paginator [pageSize]="this.paginatorLength"></mat-paginator>
+    </div>
+</div>

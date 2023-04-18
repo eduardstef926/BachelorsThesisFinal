@@ -27,7 +27,7 @@ import { SymptomDto } from '../model/symptom.model';
 export class SymptomPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   symptomList!: any;
-  selectedSymptom!: string;
+  partialSymptomName!: string;
   filteredTableCopy: string[] = [];
   tableCopy: string[] = [];
   pageSize = 5;
@@ -60,9 +60,9 @@ export class SymptomPageComponent implements OnInit {
   }
 
   filterSymptoms() {
-    if (this.selectedSymptom.length != 0) {
+    if (this.partialSymptomName.length != 0) {
       this.filteredTableCopy = this.tableCopy.filter((symptom: any) => 
-        symptom[0].toLowerCase().includes(this.selectedSymptom.toLowerCase())
+        symptom[0].toLowerCase().includes(this.partialSymptomName.toLowerCase())
       );
       this.symptomList = this.filteredTableCopy;
     } else {
@@ -81,7 +81,7 @@ export class SymptomPageComponent implements OnInit {
     this.authService
       .addUserSymptoms(selectedSymptoms, loggedUserEmail)
       .subscribe(() => {
-        this.router.navigate(['/second-phase']);
+        this.router.navigate(['/severity-page']);
     });
   }
 }

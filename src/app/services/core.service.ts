@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { SymptomDto } from "../model/symptom.model";
+import { DiagnosticDto } from "../model/diagnostic.model";
 
 @Injectable()
 export class CoreService{
@@ -27,6 +28,13 @@ export class CoreService{
   getAllSymptoms(): Observable<SymptomDto[]> {
     return this.httpClient.post<Array<SymptomDto>>(
       this.baseUrl + "/Core/GetAllSymptoms",
+      this.options
+    );
+  }
+
+  getLastDiagnosticByUserEmail(email: string): Observable<DiagnosticDto> {
+    return this.httpClient.get<DiagnosticDto>(
+      this.baseUrl + "/Core/GetLastDiagnosticByUserEmail?email=" + email,
       this.options
     );
   }

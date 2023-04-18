@@ -8,9 +8,11 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { ModifyPasswordComponent } from './login-page/modify-password/modify-password.component';
 import { SignUpPageComponent } from './login-page/sign-up-page/sign-up-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import { SecondPhaseComponent } from './second-phase/second-phase.component';
+import { SeverityPageComponent } from './severity-page/severity-page.component';
 import { SymptomPageComponent } from './symptom-page/symptom-page.component';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
+import { EmergencyPageComponent } from './emergency-page/emergency-page.component';
+import { AppointmentPageComponent } from './appointment-page/appointment-page.component';
 
 const routes: Routes = [
   {
@@ -58,12 +60,20 @@ const routes: Routes = [
     component: SymptomPageComponent,
   },
   {
-    path: 'second-phase',
-    component: SecondPhaseComponent,
+    path: 'severity-page',
+    component: SeverityPageComponent,
   },
   {
     path: 'doctor-details/:firstName/:lastName',
     component: DoctorDetailsComponent,
+  },
+  {
+    path: 'emergency-page',
+    component: EmergencyPageComponent,
+  },
+  {
+    path: 'appointment-page',
+    component: AppointmentPageComponent,
   },
 ];
 

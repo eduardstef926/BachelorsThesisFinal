@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SecondPhaseComponent } from './second-phase.component';
+import { AppointmentPageComponent } from './appointment-page.component';
 
-describe('SecondPhaseComponent', () => {
-  let component: SecondPhaseComponent;
-  let fixture: ComponentFixture<SecondPhaseComponent>;
+describe('AppointmentPageComponent', () => {
+  let component: AppointmentPageComponent;
+  let fixture: ComponentFixture<AppointmentPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SecondPhaseComponent ]
+      declarations: [ AppointmentPageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SecondPhaseComponent);
+    fixture = TestBed.createComponent(AppointmentPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
