@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { MatTableDataSource } from '@angular/material/table';
-import { EmployeeService } from '../services/employee.service';
+import { DoctorService } from '../services/doctor.service';
 import { LocalStorageService } from '../services/localstorage.service';
 import { CoreService } from '../services/core.service';
 import { DiagnosticDto } from '../model/diagnostic.model';
-import { MatPaginator } from '@angular/material/paginator';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'diagnostic-page',
@@ -17,39 +17,65 @@ import { MatPaginator } from '@angular/material/paginator';
         style({ opacity: 0 }),
         animate(1000, style({ opacity: 1 }))
       ]),
-      transition(':leave', [
-        style({ opacity: 1 }),
-        animate(1000, style({ opacity: 0 }))
-      ])
     ])
   ]
 })
 export class DiagnosticPageComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  selectedLocation!: string;
   diseaseName!: string;
   doctorTitle!: string;
   diagnostic!: DiagnosticDto;
-  doctorTable!: MatTableDataSource<any>;
-  paginatorLength = 5;
+  locations: string[] = [];
+  
+  dateRange = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
-  constructor(private employeeService: EmployeeService,
+  getStart() {
+    return this.dateRange.get('start')?.value;
+  }
+
+  getEnd() {
+    return this.dateRange.get('end')?.value;
+  }
+
+  constructor(private doctorService: DoctorService,
               private coreService: CoreService,
-              private localStorage: LocalStorageService) { }
+              private localStorage: LocalStorageService,
+              private router: Router) { }
+              
 
   ngOnInit(): void {
     var userEmail = this.localStorage.get('loggedUserEmail');
-    this.coreService.getLastDiagnosticByUserEmail(userEmail).subscribe((diagnostic:any) => {
-      this.diagnostic = diagnostic;
-      this.doctorTitle = diagnostic.doctorTitle.toLowerCase();
-      this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
-      this.loadDoctors(diagnostic.doctorSpecialization);
+    this.coreService.getLastDiagnosticByUserEmail(userEmail)
+      .subscribe((diagnostic:any) => {
+        this.diagnostic = diagnostic;
+        this.doctorTitle = diagnostic.doctorTitle.toLowerCase();
+        this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
+        this.loadAppointmentLocations();
     });
   }
 
-  loadDoctors(specialization: string) {
-    this.employeeService.getDoctorsBySpecialization(specialization).subscribe((doctors:any) => {
-      this.doctorTable = new MatTableDataSource(doctors);
-      this.doctorTable.paginator = this.paginator;
+  loadAppointmentLocations() {
+    this.doctorService.getDoctorLocationsBySpecialization(this.diagnostic.doctorSpecialization)
+      .subscribe((locations:any) => {
+        this.locations = locations;
     })
   }
+
+  convertDate(date: Date) {
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.toString().split(' ')[2];
+    return `${year}-${month}-${day}`;
+  }
+
+  listAppointmentDates() {
+    this.localStorage.set("startDate",this.convertDate(this.getStart()));
+    this.localStorage.set("endDate", this.convertDate(this.getEnd()));
+    this.localStorage.set("location", this.selectedLocation);
+    this.router.navigate(['/appointment-page/list']);
+  }
 }
+

@@ -2,11 +2,11 @@ export class DoctorDto {
     firstName!: string;
     lastName!: string;
     email!: string;
-    phoneNumber!: number;
     password!: string;
+    phoneNumber!: number;
     specialization!: string;
-    location!: string;
-    hospitalName!: string;
     currentPosition!: string;
+    hospitalName!: string;
+    location!: string;
     rating!: number;
 }

@@ -29,7 +29,7 @@ import { SignUpPageComponent } from './login-page/sign-up-page/sign-up-page.comp
 import { ForgotPasswordComponent } from './login-page/forgot-password/forgot-password.component';
 import { ModifyPasswordComponent } from './login-page/modify-password/modify-password.component';
 import { EmployeePageComponent } from './employee-page/employee-page.component';
-import { EmployeeService } from './services/employee.service';
+import { DoctorService } from './services/doctor.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { LocalStorageService } from './services/localstorage.service';
 import { ChatPageComponent } from './chat-page/chat-page.component';
@@ -39,7 +39,8 @@ import { DoctorDetailsComponent } from './doctor-details/doctor-details.componen
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EmergencyPageComponent } from './emergency-page/emergency-page.component';
 import { DiagnosticPageComponent } from './diagnostic-page/diagnostic-page.component';
-import { AppointmentPageComponent } from './appointment-page/appointment-page.component';
+import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment-slotlist.component';
+import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { AppointmentPageComponent } from './appointment-page/appointment-page.co
     DoctorDetailsComponent, 
     EmergencyPageComponent, 
     DiagnosticPageComponent, 
-    AppointmentPageComponent, 
+    AppointmentSlotlistComponent, 
+    AppointmentPriceComponent, 
   ],
   imports: [
     HttpClientModule,
@@ -78,6 +80,7 @@ import { AppointmentPageComponent } from './appointment-page/appointment-page.co
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
     BrowserAnimationsModule,
     MatListModule,
     ReactiveFormsModule,
@@ -87,7 +90,7 @@ import { AppointmentPageComponent } from './appointment-page/appointment-page.co
     MatPaginatorModule,
     MatCheckboxModule,
   ],
-  providers: [CoreService, AuthService, EmployeeService, LocalStorageService],
+  providers: [CoreService, AuthService, DoctorService, LocalStorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

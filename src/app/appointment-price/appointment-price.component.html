@@ -1,0 +1,30 @@
+<div @fade class="main-background">
+    <div class="form-container">
+        <form class="appointment-form">
+            <h1>
+                Confirm Appointment
+            </h1>
+            <div class="price-container">
+                <div class="price-subcontainer">
+                    <p>Consultation Price:</p>
+                    <p> {{consultationPrice}} lei</p>
+                </div>
+                <div class="price-subcontainer">
+                    <p>Subscription Coverage:</p>
+                    <p> 0 lei</p>
+                </div>
+                <div class="price-subcontainer">
+                    <p>Total Price:</p>
+                    <p> {{consultationPrice}} lei</p>
+                </div>
+                <button 
+                    class="confirmation-button" 
+                    (click)="confirmAppointment()"
+                    mat-button 
+                >
+                    Confirm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

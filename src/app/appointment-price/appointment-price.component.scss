@@ -16,12 +16,20 @@
     padding-top: 1rem;
 }
 
-.form-subcontainer {
+.error-button {
+    margin-bottom: 1rem;
+    height: 40px;
+    width: 340px;
+    text-align: center;   
+    background-color:rgb(221, 136, 136);
+}
+
+.appointment-form {
     border: 0.5px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     min-width: 150px;
     max-width: 400px;
-    min-height: 400px;
+    min-height: 380px;
     max-height: 700px;
     background-color: #ebf3ed;
     border-radius: 10px;
@@ -29,24 +37,33 @@
     backdrop-filter: blur(10px);
     margin: auto;
     width: 45%;
-    align-items: center;
 }
 
-.form-subcontainer *{
+.appointment-form *{
     color: #121212;
     letter-spacing: 0.5px;
     outline: none;
     border: none;
 }
 
-.form-subcontainer h1{
+.appointment-form h1{
     font-size: 30px;
     font-weight: 520;
     text-align: center;
     color: black;
 }
 
-.submit-button {
+.data-input {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.confirmation-button {
     padding: 15px;
     font-size: 18px;
     font-weight: 600;
@@ -57,7 +74,29 @@
     color: #ffffff !important;
 }
 
-.container-class {
-    margin-top: 2rem;
-    width: 100%;
+.price-subcontainer {
+    margin-top: 1.5rem;
+    display: flex; 
+    justify-content: space-between;
 }
+
+.price-class {
+    margin-top: 1rem;
+}
+
+.price-container {
+    padding-top: 1rem;
+}
+
+::ng-deep .my-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: green;
+}
+
+.my-snackbar button.mat-snack-bar-close span {
+    color: red;
+}
+  
+  

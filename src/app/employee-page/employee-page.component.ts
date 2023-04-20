@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { DoctorDto } from '../model/doctor.model';
-import { EmployeeService } from '../services/employee.service';
+import { DoctorService } from '../services/doctor.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { City } from '../model/city.model';
 import { MatPaginator } from '@angular/material/paginator';
@@ -49,13 +49,13 @@ export class EmployeePageComponent implements OnInit {
     return this.formControl.get('doctorName')?.value;
   }
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private doctorService: DoctorService) {}
 
   ngOnInit(): void {
     this.cityIndex = 0;
     this.specializationIndex = 0;
     this.sortings = ['by name', 'by rating'];
-    this.employeeService.getAllDoctors().subscribe((doctors) => {
+    this.doctorService.getAllDoctors().subscribe((doctors) => {
       this.doctorTable = new MatTableDataSource(doctors);
       this.tableCopy = doctors; 
       this.doctorTable.paginator = this.paginator;

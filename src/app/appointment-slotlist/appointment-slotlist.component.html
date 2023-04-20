@@ -1,0 +1,41 @@
+<div
+    @fade
+    class="table-container"
+>   
+    <div class="doctor-list-table">
+        <p class="table-title">Available Appointment Slots</p>
+        <table class="content-table" mat-table [dataSource]="appointmentSlots" matSort>
+        <ng-container matColumnDef="name">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Doctor Name</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="time">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Appointment Time</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{element.startTime.substring(0, 5)}} - {{element.endTime.substring(0, 5)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="hospitalName">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Hospital Name</th>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{element.hospitalName}}</td>
+        </ng-container>
+        <ng-container matColumnDef="details">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Doctor Profile</th>
+            <td mat-cell *matCellDef="let element" class="table-list">
+                <button class="table-button" mat-button [routerLink]="['/doctor-details', element.firstName, element.lastName]">
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </td>
+        </ng-container> 
+        <ng-container matColumnDef="appointment">
+            <th class="column-spacer" mat-header-cell *matHeaderCellDef>Appoint</th>
+            <td mat-cell *matCellDef="let element" class="table-list">
+                <button (click)="moveToFinalPage(element)" style="background-color: #4CAF50; color: white;" mat-button class="my-button-class">
+                    <mat-icon>access_time</mat-icon>
+                </button>
+            </td>
+        </ng-container> 
+        <tr mat-header-row *matHeaderRowDef="['name', 'time', 'hospitalName', 'details', 'appointment']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'time', 'hospitalName', 'details', 'appointment']"></tr>
+        </table>
+        <mat-paginator [pageSize]="this.paginatorLength"></mat-paginator>
+    </div>
+</div>
