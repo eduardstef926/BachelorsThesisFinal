@@ -13,7 +13,8 @@ import { SymptomPageComponent } from './symptom-page/symptom-page.component';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
 import { EmergencyPageComponent } from './emergency-page/emergency-page.component';
 import { DiagnosticPageComponent } from './diagnostic-page/diagnostic-page.component';
-import { AppointmentPageComponent } from './appointment-page/appointment-page.component';
+import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment-slotlist.component';
+import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
 
 const routes: Routes = [
   {
@@ -77,8 +78,12 @@ const routes: Routes = [
     component: DiagnosticPageComponent,
   },
   {
-    path: 'appointment-page/:firstName/:lastName',
-    component: AppointmentPageComponent,
+    path: 'appointment-page/list',
+    component: AppointmentSlotlistComponent,
+  },
+  {
+    path: 'appointment-page/confirmation',
+    component: AppointmentPriceComponent,
   },
 ];
 

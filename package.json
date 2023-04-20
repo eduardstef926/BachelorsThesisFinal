@@ -23,6 +23,7 @@
     "@angular/router": "~11.2.0",
     "@ngneat/until-destroy": "^8.0.0",
     "chart.js": "^3.9.1",
+    "material-design-icons": "^3.0.1",
     "rxjs": "~6.6.0",
     "tailwindcss": "^2.0.3",
     "tslib": "^2.5.0",

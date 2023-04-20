@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EmployeeService } from '../services/employee.service';
+import { DoctorService } from '../services/doctor.service';
 import { DoctorDto } from '../model/doctor.model';
 import { Chart, registerables } from 'chart.js';
 import { DegreeDto } from '../model/college.model';
@@ -26,7 +26,7 @@ export class DoctorDetailsComponent implements OnInit {
   reviewDictionary = new Map<number, number>();
 	
   constructor(private route: ActivatedRoute,
-              private employeeService: EmployeeService) { }
+              private doctorService: DoctorService) { }
 
   ngOnInit(): void {
     Chart.register(...registerables);
@@ -38,9 +38,9 @@ export class DoctorDetailsComponent implements OnInit {
   }
 
   loadDoctorDetails() {
-    this.employeeService.getDoctorByFirstNameAndLastName(this.firstName, this.lastName).subscribe((doctor) => {
+    this.doctorService.getDoctorByFirstNameAndLastName(this.firstName, this.lastName).subscribe((doctor) => {
       this.doctor = doctor;
-      this.employeeService.getDoctorEducationByFirstNameAndLastName(this.firstName, this.lastName).subscribe((degrees) => {
+      this.doctorService.getDoctorEducationByFirstNameAndLastName(this.firstName, this.lastName).subscribe((degrees) => {
         this.degreeList = degrees;
         this.loadDoctorReviews();
       });
@@ -48,7 +48,7 @@ export class DoctorDetailsComponent implements OnInit {
   }
 
   loadDoctorReviews() {
-    this.employeeService.getDoctorReviewsByFirstNameAndLastName(this.firstName, this.lastName).subscribe((reviews: any) => {
+    this.doctorService.getDoctorReviewsByFirstNameAndLastName(this.firstName, this.lastName).subscribe((reviews: any) => {
       this.reviewList = reviews;
       this.reviewsNumber = reviews.length;
       this.reviewList.forEach((element: any) => {
