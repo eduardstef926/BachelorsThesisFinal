@@ -29,6 +29,32 @@ namespace NewBackend2.Controllers
             return Ok(doctors);
         }
 
+        [HttpGet("GetDoctorLocationsBySpecialization")]
+        public async Task<IActionResult> GetDoctorLocationsBySpecialization(string specialization)
+        {
+            var locations = await doctorService.GetDoctorLocationsBySpecializationAsync(specialization);
+
+            if (!locations.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(locations);
+        }
+
+        [HttpGet("GetDoctorAppointmentDatesByDateAndLocation")]
+        public async Task<IActionResult> GetDoctorAppointmentDatesByDateAndLocation(string startDate, string endDate, string location)
+        {   
+            var appointmentSlots = await doctorService.GetDoctorAppointmentsByDateAndLocationAsync(startDate, endDate, location);   
+
+            if (!appointmentSlots.Any())
+            {
+                return NoContent();
+            }
+
+            return Ok(appointmentSlots);
+        }
+
         [HttpPost("AddDoctor")]
         public async Task<IActionResult> AddDoctor([FromForm] DoctorDto doctor)
         {
@@ -124,6 +150,19 @@ namespace NewBackend2.Controllers
             }
 
             return Ok(doctors);
+        }
+
+        [HttpPost("ScheduleAppointment")]
+        public async Task<IActionResult> ScheduleAppointment([FromBody] AppointmentDto appointment)
+        {
+            if (appointment == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            await doctorService.ScheduleAppointment(appointment);
+
+            return Ok();
         }
     }
 }

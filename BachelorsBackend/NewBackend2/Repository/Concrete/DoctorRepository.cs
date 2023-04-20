@@ -32,6 +32,14 @@ namespace NewBackend2.Repository.Concrete
                 .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName);
         }
 
+        public Task<int> GetDoctorIdByFirstNameAndLastNameAsync(string firstName, string lastName)
+        {
+            return database.doctors
+                .Where(x => x.FirstName == firstName && x.LastName == lastName)
+                .Select(x => x.DoctorId)
+                .FirstOrDefaultAsync();
+        }
+
         public Task<List<DoctorEntity>> GetDoctorsBySpecializationAsync(string specialization)
         {
             return database.doctors
