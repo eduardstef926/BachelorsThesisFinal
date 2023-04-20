@@ -25,6 +25,7 @@ namespace NewBackend2.Repository
         public DbSet<ReviewEntity> reviews { get; set; }
         public DbSet<DiagnosticEntity> diagnostics { get; set; }
         public DbSet<DiseaseEntity> diseases { get; set; }
+        public DbSet<EmploymentEntity> employments { get; set; }
 
         public ProjectDatabaseConfiguration(DbContextOptions<ProjectDatabaseConfiguration> options) : base(options)
         {

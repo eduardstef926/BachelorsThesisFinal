@@ -24,6 +24,10 @@ namespace NewBackend2.Model
         [MaxLength(100)]
         public DateTime AppointmentDate { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string Location { get; set; }    
+
         public virtual UserEntity User { get; set; }
 
         public virtual DoctorEntity Doctor { get; set; }

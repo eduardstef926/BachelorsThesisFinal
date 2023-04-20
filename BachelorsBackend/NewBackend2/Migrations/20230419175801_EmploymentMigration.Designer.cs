@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewBackend2.Repository;
 
@@ -11,9 +12,10 @@ using NewBackend2.Repository;
 namespace NewBackend2.Migrations
 {
     [DbContext(typeof(ProjectDatabaseConfiguration))]
-    partial class ProjectDatabaseConfigurationModelSnapshot : ModelSnapshot
+    [Migration("20230419175801_EmploymentMigration")]
+    partial class EmploymentMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,11 +54,6 @@ namespace NewBackend2.Migrations
                     b.Property<int>("DoctorId")
                         .HasMaxLength(10)
                         .HasColumnType("int");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("UserId")
                         .HasMaxLength(10)
