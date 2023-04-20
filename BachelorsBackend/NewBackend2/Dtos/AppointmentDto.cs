@@ -5,7 +5,9 @@
         public string DoctorFirstName { get; set; }
         public string DoctorLastName { get; set; }
         public string UserEmail { get; set; }
+        public string HospitalName { get; set; }    
         public string Location { get; set; }    
         public DateTime AppointmentDate { get; set; }
+        public int Price { get; set; }  
     }
 }

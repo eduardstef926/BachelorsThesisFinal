@@ -85,37 +85,45 @@ namespace NewBackend2.Service.Concrete
             DateTime startTime = DateTime.ParseExact(startDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             DateTime endTime = DateTime.ParseExact(endDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             TimeSpan timeDifference = endTime - startTime;
+            
+            var appointmentSlotList = new List<AppoimentSlotDto>();
             int index = 0;
-            var appointments = new List<AppoimentSlotDto>();    
+            
             while (index < timeDifference.TotalDays)
             {
                 startTime = startTime.AddDays(1);
-                var currentDay = startTime.DayOfWeek;
-                var appointmentSlots = await employmentRepository.GetAppointmentSlotsByDayAndLocationAsync(currentDay, location);
-                var appointmentSlotDto = appointmentSlots   
-                                        .Select(mapper.Map<EmploymentEntity, AppoimentSlotDto>)
-                                        .ToList();
-                appointmentSlotDto.ForEach(x => x.Date = startTime);
-                appointments.AddRange(appointmentSlotDto);
-                index += 1;
+                if (!await appointmentRepository.CheckAppointmentDateAsync(startTime))
+                {
+                    var currentDay = startTime.DayOfWeek;
+                    var appointmentSlots = await employmentRepository.GetAppointmentSlotsByDayAndLocationAsync(currentDay, location);
+                    var appointmentSlotDto = appointmentSlots
+                                            .Select(mapper.Map<EmploymentEntity, AppoimentSlotDto>)
+                                            .ToList();
+                    appointmentSlotDto.ForEach(x => x.Date = startTime);
+                    appointmentSlotDto.ForEach(x => x.EndTime = x.StartTime.Add(TimeSpan.FromMinutes(30)));
+                    appointmentSlotList.AddRange(appointmentSlotDto);
+                    index += 1;
+                }
             }
 
-            return appointments;
+            return appointmentSlotList;
         }
 
         public async Task ScheduleAppointment(AppointmentDto appointment)
         {
-            var userId = await userRepository.GetUserIdByEmailAsync(appointment.UserEmail);
-            var doctorId = await doctorRepository.GetDoctorIdByFirstNameAndLastNameAsync(appointment.DoctorFirstName, appointment.DoctorLastName);
+            var user = await userRepository.GetUserByEmailAsync(appointment.UserEmail);
+            var doctor = await doctorRepository.GetDoctorByFirstNameAndLastNameAsync(appointment.DoctorFirstName, appointment.DoctorLastName);
             var appointmentEntity = new AppointmentEntity
             {
-                UserId = userId,
-                DoctorId = doctorId,
+                UserId = user.UserId,
+                DoctorId = doctor.DoctorId,
+                Price = appointment.Price,
                 Location = appointment.Location,
+                HospitalName = appointment.HospitalName,
                 AppointmentDate = appointment.AppointmentDate.AddHours(3)
             };
             await appointmentRepository.AddAppointmentAsync(appointmentEntity);
-            await emailService.SendAppointmentConfirmationEmailAsync(appointmentEntity.AppointmentDate);
+            await emailService.SendAppointmentConfirmationEmailAsync(user, doctor, appointmentEntity);
         }
     }
 }

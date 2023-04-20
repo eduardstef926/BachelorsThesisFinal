@@ -26,7 +26,14 @@ namespace NewBackend2.Model
 
         [Required]
         [MaxLength(100)]
-        public string Location { get; set; }    
+        public string Location { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string HospitalName { get; set; }
+
+        [Required]
+        public int Price { get; set; }  
 
         public virtual UserEntity User { get; set; }
 

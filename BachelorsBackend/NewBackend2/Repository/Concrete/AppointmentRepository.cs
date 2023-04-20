@@ -13,10 +13,24 @@ namespace NewBackend2.Repository.Concrete
             this.database = database;
         }
 
+        public Task<List<AppointmentEntity>> GetFullAppointmentsDataAsync()
+        {
+            return database.appointments
+                .Include(x => x.User)
+                .Include(x => x.Doctor)
+                .ToListAsync();
+        }
+
         public async Task AddAppointmentAsync(AppointmentEntity appointment)
         {
             database.appointments.Add(appointment);
             await database.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckAppointmentDateAsync(DateTime appointmentDate)
+        {
+            return database.appointments
+                .Any(x => x.AppointmentDate == appointmentDate);    
         }
 
         public Task<AppointmentEntity> GetAppointmentByDateAsync(DateTime date)
