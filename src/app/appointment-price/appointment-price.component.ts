@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '../services/localstorage.service';
 import { DoctorService } from '../services/doctor.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AppointmentDto } from '../model/appointment.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -22,14 +22,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AppointmentPriceComponent implements OnInit {
   consultationPrice!: number;
   
-  constructor(private route: ActivatedRoute,
-              private router: Router,
+  constructor(private router: Router,
               private localStorage: LocalStorageService,
               private doctorService: DoctorService,
               private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.consultationPrice = this.localStorage.get("price");  
+    this.consultationPrice = 200;  
   }
 
   confirmAppointment() { 
@@ -40,10 +39,13 @@ export class AppointmentPriceComponent implements OnInit {
       location: appointment.location,
       doctorFirstName: appointment.firstName,
       doctorLastName: appointment.lastName,
+      hospitalName: appointment.hospitalName,
+      price: this.consultationPrice,
       userEmail: this.localStorage.get("loggedUserEmail")
     } as AppointmentDto;
+    
     this.doctorService.scheduleAppointment(newAppointment).subscribe((data: any) => {
-      this.snackBar.open('Thank you for your submittion', 'X', {
+      this.snackBar.open('Successful confirmation!', 'X', {
         duration: 5000,
         panelClass: ['my-snackbar']
       });
