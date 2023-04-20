@@ -33,5 +33,13 @@ namespace NewBackend2.Repository.Concrete
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public Task<UserEntity> GetUserByAppointmentAsync(AppointmentEntity appointmentEntity)
+        {
+            return database.appointments
+                .Where(x => x.AppointmentId == appointmentEntity.AppointmentId)
+                .Select(x => x.User)
+                .FirstOrDefaultAsync();   
+        }
     }
 }

@@ -12,8 +12,8 @@ using NewBackend2.Repository;
 namespace NewBackend2.Migrations
 {
     [DbContext(typeof(ProjectDatabaseConfiguration))]
-    [Migration("20230420122241_ModifyAppointmentEntity")]
-    partial class ModifyAppointmentEntity
+    [Migration("20230420163812_ModifyAppointment")]
+    partial class ModifyAppointment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,10 +55,18 @@ namespace NewBackend2.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
+                    b.Property<string>("HospitalName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasMaxLength(10)

@@ -1,5 +1,6 @@
 using AutoMapper;
 using NewBackend2.Dtos;
+using NewBackend2.Jobs;
 using NewBackend2.Model;
 using NewBackend2.Repository;
 using NewBackend2.Repository.Abstract;
@@ -42,7 +43,22 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SymptomJob-Trigger")
        // .WithCronSchedule("0/5 * * * * ?"));   // runs every 5 seconds
         .WithCronSchedule("0 0 * * * ?"));       // runs every day at midnight
+
+    jobKey = new JobKey("AppointmentReminderJob");
+    q.AddJob<AppointmentReminderJob>(opts => opts.WithIdentity(jobKey));
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("AppointmentReminderJob-Trigger")
+        .WithCronSchedule("0 0 * * * ?"));      
+
+    jobKey = new JobKey("AppointmentFeedbackJob");
+    q.AddJob<AppointmentFeedbackJob>(opts => opts.WithIdentity(jobKey));
+    q.AddTrigger(opts => opts
+        .ForJob(jobKey)
+        .WithIdentity("AppointmentFeedbackJob-Trigger")
+        .WithCronSchedule("0 0 * * * ?"));     
 });
+
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 var mapperConfig = new MapperConfiguration(mc =>
@@ -55,7 +71,6 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<EngineerEntity, EngineerDto>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
     mc.CreateMap<DiseaseEntity, DiseaseDto>();
-    mc.CreateMap<HospitalEntity, HospitalDto>();
     mc.CreateMap<DiagnosticEntity, DiagnosticDto>();    
     mc.CreateMap<SymptomEntity, SymptomDto>()
         .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Name));

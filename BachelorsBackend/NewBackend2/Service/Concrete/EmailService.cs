@@ -83,18 +83,24 @@ namespace NewBackend2.Service.Concrete
             await emailRepository.AddEmailAsync(email);
         }
 
-        public async Task SendAppointmentConfirmationEmailAsync(DateTime appointmentDate)
+        public async Task SendAppointmentConfirmationEmailAsync(UserEntity user, DoctorEntity doctor, AppointmentEntity appointment)
         {
             var subject = "Appointment Confirmed";
-            var appointment = await appointmentRepository.GetAppointmentByDateAsync(appointmentDate);
             var body = EmailHelper.GetAppointmentConfirmationEmailTemplate();
-            body = body.Replace("[Recipient Name]", appointment.User.FirstName)
-                       .Replace("[StartDate]", appointment.AppointmentDate.Date.ToString())
-                       .Replace("[Location]", appointment.Location);
+            var appointmentDate = appointment.AppointmentDate.Day.ToString() + "/" + appointment.AppointmentDate.Month.ToString() + "/" + appointment.AppointmentDate.Year.ToString();
+            var appointmentHour = appointment.AppointmentDate.Hour.ToString() + ":" + appointment.AppointmentDate.Minute.ToString() + "0";
+
+            body = body.Replace("[Recipient Name]", user.FirstName)
+                       .Replace("[Doctor Name]", doctor.FirstName + " " + doctor.LastName)
+                       .Replace("[Hospital]", appointment.HospitalName)
+                       .Replace("[City]", appointment.Location)
+                       .Replace("[Date]", appointmentDate)
+                       .Replace("[Hour]", appointmentHour)
+                       .Replace("[Cost]", appointment.Price.ToString());
 
             var email = new EmailEntity
             {
-                To = appointment.User.Email,
+                To = user.Email,
                 Message = body,
                 Subject = subject,
                 Send = false
@@ -102,6 +108,73 @@ namespace NewBackend2.Service.Concrete
 
             await this.SendEmailAsync(email);
             await emailRepository.AddEmailAsync(email);
+        }
+
+        public async Task SendAppointmentReminderAsync()
+        {
+            var currentDate = DateTime.Now;
+            var appointments = await appointmentRepository.GetFullAppointmentsDataAsync();
+
+            foreach(var appointment in appointments)
+            {
+                var difference = appointment.AppointmentDate - currentDate;
+                if (difference.Days <= 1)
+                {
+                    var subject = "Appointment Reminder";
+                    var body = EmailHelper.GetAppointmentReminderEmailTemplate();
+                    var appointmentDate = appointment.AppointmentDate.Day.ToString() + "/" + appointment.AppointmentDate.Month.ToString() + "/" + appointment.AppointmentDate.Year.ToString();
+                    var appointmentHour = appointment.AppointmentDate.Hour.ToString() + ":" + appointment.AppointmentDate.Minute.ToString() + "0";
+
+                    body = body.Replace("[Recipient Name]", appointment.User.FirstName)
+                               .Replace("[Doctor Name]", appointment.Doctor.FirstName + " " + appointment.Doctor.LastName)
+                               .Replace("[Hospital]", appointment.HospitalName)
+                               .Replace("[City]", appointment.Location)
+                               .Replace("[Date]", appointmentDate)
+                               .Replace("[Hour]", appointmentHour)
+                               .Replace("[Cost]", appointment.Price.ToString());
+
+                    var email = new EmailEntity
+                    {
+                        To = appointment.User.Email,
+                        Message = body,
+                        Subject = subject,
+                        Send = false
+                    };
+
+                    await this.SendEmailAsync(email);
+                    await emailRepository.AddEmailAsync(email);
+                }
+            }
+        }
+
+        public async Task SendReviewEmailAsync()
+        {
+            var currentDate = DateTime.Now;
+            var appointments = await appointmentRepository.GetFullAppointmentsDataAsync();
+
+            foreach (var appointment in appointments)
+            {
+                var difference = appointment.AppointmentDate - currentDate;
+                if (difference.Days >=-1 && difference.Days <= 0)
+                {
+                    var subject = "Appointment Reminder";
+                    var body = EmailHelper.GetReviewEmailTemplate();
+                    var userLink = "http://localhost:4200";
+                    body = body.Replace("[Recipient Name]", appointment.User.LastName)
+                               .Replace("[Link]", userLink);
+
+                    var email = new EmailEntity
+                    {
+                        To = appointment.User.Email,
+                        Message = body,
+                        Subject = subject,
+                        Send = false
+                    };
+
+                    await this.SendEmailAsync(email);
+                    await emailRepository.AddEmailAsync(email);
+                }
+            }
         }
     }
 }
