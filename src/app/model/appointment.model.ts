@@ -2,6 +2,8 @@ export class AppointmentDto {
     doctorFirstName!: string;
     doctorLastName!: string;
     userEmail!: string;
-    appointmentDate!: Date;
+    hospitalName!: string;
     location!: string;
+    appointmentDate!: Date;
+    price!: number;
 }
