@@ -11,11 +11,13 @@ namespace NewBackend2.Service.Concrete
     {
         private readonly IEmailRepository emailRepository;
         private readonly IUserRepository userRepository;
+        private readonly IAppointmentRepository appointmentRepository;
 
-        public EmailService(IUserRepository userRepository, IEmailRepository emailRepository)
+        public EmailService(IUserRepository userRepository, IEmailRepository emailRepository, IAppointmentRepository appointmentRepository)
         {
             this.emailRepository = emailRepository; 
             this.userRepository = userRepository;
+            this.appointmentRepository = appointmentRepository;
         }
 
         public async Task SendEmailAsync(EmailEntity email)
@@ -72,6 +74,27 @@ namespace NewBackend2.Service.Concrete
             var email = new EmailEntity
             {
                 To = user.Email,
+                Message = body,
+                Subject = subject,
+                Send = false
+            };
+
+            await this.SendEmailAsync(email);
+            await emailRepository.AddEmailAsync(email);
+        }
+
+        public async Task SendAppointmentConfirmationEmailAsync(DateTime appointmentDate)
+        {
+            var subject = "Appointment Confirmed";
+            var appointment = await appointmentRepository.GetAppointmentByDateAsync(appointmentDate);
+            var body = EmailHelper.GetAppointmentConfirmationEmailTemplate();
+            body = body.Replace("[Recipient Name]", appointment.User.FirstName)
+                       .Replace("[StartDate]", appointment.AppointmentDate.Date.ToString())
+                       .Replace("[Location]", appointment.Location);
+
+            var email = new EmailEntity
+            {
+                To = appointment.User.Email,
                 Message = body,
                 Subject = subject,
                 Send = false

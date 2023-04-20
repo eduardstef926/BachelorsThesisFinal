@@ -1,19 +1,23 @@
 from flask import Flask
+from Repository.Repository import Repository
+from Service.HashTable import HashTable
+from Service.Service import Service
+
 
 server = Flask(__name__)
+repository = Repository()
+doctorHashTable = HashTable()
+service = Service(repository, doctorHashTable)
 
-class Controller:
+@server.route('/getInformationBySymptoms/<symptoms>')
+def getInformationBySymptoms(symptoms):
+    return service.getInformationBySymptoms(symptoms)
 
-    def __init__(self, service):
-        self.service = service
 
-    @server.route('/getDiseaseBySymptoms/<symptoms>')
-    def getDiseaseBySymptoms(self, symptoms):
-        return self.service.predictDisease(symptoms)
+@server.route('/getAllSymptoms')
+def getAllSymptoms():
+    return service.getDataDictionary()
 
-    @server.route('/getAllSymptoms')
-    def getAllSymptoms(self):
-        return list(self.service.testDataset()["symptom_index"].keys())
 
-    def runServer(self):
-        server.run()
+def runServer():
+    server.run()

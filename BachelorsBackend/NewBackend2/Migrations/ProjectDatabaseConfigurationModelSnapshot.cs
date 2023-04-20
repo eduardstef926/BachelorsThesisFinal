@@ -53,6 +53,11 @@ namespace NewBackend2.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("int");
 
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int>("UserId")
                         .HasMaxLength(10)
                         .HasColumnType("int");
@@ -181,11 +186,6 @@ namespace NewBackend2.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorId"), 1L, 1);
 
-                    b.Property<string>("CurrentPosition")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -196,20 +196,10 @@ namespace NewBackend2.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<string>("HospitalName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -262,6 +252,51 @@ namespace NewBackend2.Migrations
                     b.ToTable("Emails");
                 });
 
+            modelBuilder.Entity("NewBackend2.Model.EmploymentEntity", b =>
+                {
+                    b.Property<int>("EmploymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmploymentId"), 1L, 1);
+
+                    b.Property<string>("ConsultPrice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CurrentPosition")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasMaxLength(100)
+                        .HasColumnType("time");
+
+                    b.Property<string>("HospitalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasMaxLength(100)
+                        .HasColumnType("time");
+
+                    b.Property<int>("WeekDay")
+                        .HasMaxLength(100)
+                        .HasColumnType("int");
+
+                    b.HasKey("EmploymentId");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("HospitalName");
+
+                    b.ToTable("Employment");
+                });
+
             modelBuilder.Entity("NewBackend2.Model.EngineerEntity", b =>
                 {
                     b.Property<int>("EngineerId")
@@ -301,6 +336,21 @@ namespace NewBackend2.Migrations
                     b.HasKey("EngineerId");
 
                     b.ToTable("Engineer");
+                });
+
+            modelBuilder.Entity("NewBackend2.Model.HospitalEntity", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Hospital");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.ReviewEntity", b =>
@@ -459,6 +509,25 @@ namespace NewBackend2.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("NewBackend2.Model.EmploymentEntity", b =>
+                {
+                    b.HasOne("NewBackend2.Model.DoctorEntity", "Doctor")
+                        .WithMany("Employments")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NewBackend2.Model.HospitalEntity", "Hospital")
+                        .WithMany("Employments")
+                        .HasForeignKey("HospitalName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("Hospital");
+                });
+
             modelBuilder.Entity("NewBackend2.Model.ReviewEntity", b =>
                 {
                     b.HasOne("NewBackend2.Model.DoctorEntity", "Doctor")
@@ -494,7 +563,14 @@ namespace NewBackend2.Migrations
 
                     b.Navigation("Degrees");
 
+                    b.Navigation("Employments");
+
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("NewBackend2.Model.HospitalEntity", b =>
+                {
+                    b.Navigation("Employments");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.UserEntity", b =>

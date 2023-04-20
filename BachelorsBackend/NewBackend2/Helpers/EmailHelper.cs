@@ -151,5 +151,51 @@ namespace NewBackend2.Helpers
                         </body>
                     </html>";
         }
+
+        public static string GetAppointmentConfirmationEmailTemplate()
+        {
+            return @"<html>
+                                    <head>
+                                      <style>
+                                        body {
+                                          font-family: Arial, sans-serif;
+                                          font-size: 16px;
+                                          line-height: 1.5;
+                                          color: #333333;
+                                        }
+
+                                        .container {
+                                          max-width: 600px;
+                                          margin: 0 auto;
+                                          padding: 20px;
+                                          background-color: #f8f8f8;
+                                          border-radius: 10px;
+                                          box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                                        }
+
+                                        h1 {
+                                          margin-top: 0;
+                                          margin-bottom: 20px;
+                                          font-weight: normal;
+                                        }
+
+                                        p {
+                                          margin-top: 0;
+                                          margin-bottom: 20px;
+                                        }
+
+                                      </style>
+                                    </head>
+                                    <body>
+                                      <div class='container'>
+                                        <h1>Thank you for making the appointment!</h1>
+                                        <p>Dear [Recipient Name],</p>
+                                        <p>Your appointment is set for [StartDate] at [Location].</p>
+                                        <p style='margin-top: 2rem;'>The Virtual Clinic Team</p>
+                                      </div>
+                                    </body>
+                                    </html>";
+
+        }
     }
 }
