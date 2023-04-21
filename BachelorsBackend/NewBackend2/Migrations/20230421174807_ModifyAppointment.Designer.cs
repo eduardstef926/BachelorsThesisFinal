@@ -12,7 +12,7 @@ using NewBackend2.Repository;
 namespace NewBackend2.Migrations
 {
     [DbContext(typeof(ProjectDatabaseConfiguration))]
-    [Migration("20230420163812_ModifyAppointment")]
+    [Migration("20230421174807_ModifyAppointment")]
     partial class ModifyAppointment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

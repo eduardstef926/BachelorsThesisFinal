@@ -9,7 +9,7 @@
         public TimeSpan EndTime { get; set; }   
         public DateTime Date { get; set; }   
         public string HospitalName { get; set; }   
-        public int ConsultPrice { get; set; }  
+        public int Price { get; set; }  
         public float Rating { get; set; }
     }
 }
