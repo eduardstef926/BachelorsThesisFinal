@@ -80,30 +80,47 @@ namespace NewBackend2.Service.Concrete
             return locations;
         }
 
-        public async Task<List<AppoimentSlotDto>> GetDoctorAppointmentsByDateAndLocationAsync(string startDate, string endDate, string location)
+        public async Task<List<AppoimentSlotDto>> GetAppointmentDatesByDateSpecializationAndLocationAsync(string startInputDate, string endInputDate, string location, string specialization)
         {
-            DateTime startTime = DateTime.ParseExact(startDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            DateTime endTime = DateTime.ParseExact(endDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-            TimeSpan timeDifference = endTime - startTime;
-            
+            var startDate = DateTime.ParseExact(startInputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var endDate = DateTime.ParseExact(endInputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            var dayDifference = endDate - startDate;
             var appointmentSlotList = new List<AppoimentSlotDto>();
             int index = 0;
             
-            while (index < timeDifference.TotalDays)
+            while (index < dayDifference.TotalDays)
             {
-                startTime = startTime.AddDays(1);
-                if (!await appointmentRepository.CheckAppointmentDateAsync(startTime))
+                startDate = startDate.AddDays(1);
+                var currentDay = startDate.DayOfWeek;
+                var appointmentSlots = await employmentRepository.GetAppointmentDatesByDateSpecializationAndLocation(currentDay, location, specialization);
+                var appointmentSlotMappings = appointmentSlots
+                    .Select(mapper.Map<EmploymentEntity, AppoimentSlotDto>)
+                    .ToList();
+                
+                foreach (var appointment in appointmentSlotMappings)
                 {
-                    var currentDay = startTime.DayOfWeek;
-                    var appointmentSlots = await employmentRepository.GetAppointmentSlotsByDayAndLocationAsync(currentDay, location);
-                    var appointmentSlotDto = appointmentSlots
-                                            .Select(mapper.Map<EmploymentEntity, AppoimentSlotDto>)
-                                            .ToList();
-                    appointmentSlotDto.ForEach(x => x.Date = startTime);
-                    appointmentSlotDto.ForEach(x => x.EndTime = x.StartTime.Add(TimeSpan.FromMinutes(30)));
-                    appointmentSlotList.AddRange(appointmentSlotDto);
-                    index += 1;
+                    var startHour = appointment.StartTime;
+                    var newDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, startHour.Hours, startHour.Minutes, startHour.Seconds);
+                    var maximumEndHour = appointment.EndTime.Subtract(TimeSpan.FromMinutes(30));
+                    var hourDifference = maximumEndHour - startHour;
+                    while (hourDifference.TotalMinutes > 0)
+                    {
+                        if (!await appointmentRepository.CheckAppointmentDateAsync(newDate))
+                        {
+                            appointment.Date = newDate;
+                            appointment.StartTime = startHour;
+                            appointment.EndTime = startHour.Add(TimeSpan.FromMinutes(30));
+                            appointmentSlotList.Add(appointment);
+                            break;
+                        }
+
+                        startHour = startHour.Add(TimeSpan.FromMinutes(30));
+                        newDate = new DateTime(startDate.Year, startDate.Month, startDate.Day, startHour.Hours, startHour.Minutes, startHour.Seconds);
+                        hourDifference = maximumEndHour - startHour;
+                    }
                 }
+
+                index += 1;
             }
 
             return appointmentSlotList;

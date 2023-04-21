@@ -93,7 +93,7 @@ var mapperConfig = new MapperConfiguration(mc =>
         .ForMember(dto => dto.StartTime, opt => opt.MapFrom(src => src.StartTime))
         .ForMember(dto => dto.EndTime, opt => opt.MapFrom(src => src.EndTime))
         .ForMember(dto => dto.Rating, opt => opt.MapFrom(src => src.Doctor.Rating))
-        .ForMember(dto => dto.ConsultPrice, opt => opt.MapFrom(src => src.ConsultPrice));
+        .ForMember(dto => dto.Price, opt => opt.MapFrom(src => src.ConsultPrice));
     mc.CreateMap<AppointmentEntity, AppointmentDto>()
         .ForMember(dto => dto.DoctorFirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
         .ForMember(dto => dto.DoctorLastName, opt => opt.MapFrom(src => src.Doctor.LastName))

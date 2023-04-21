@@ -13,12 +13,12 @@ namespace NewBackend2.Repository.Concrete
             this.database = database;
         }
 
-        public Task<List<EmploymentEntity>> GetAppointmentSlotsByDayAndLocationAsync(DayOfWeek day,string location)
+        public Task<List<EmploymentEntity>> GetAppointmentDatesByDateSpecializationAndLocation(DayOfWeek day, string location, string specialization)
         {
             return database.employments
                 .Include(x => x.Hospital)
                 .Include(x => x.Doctor)
-                .Where(x => x.Hospital.Location == location && x.WeekDay == day)
+                .Where(x => x.Hospital.Location == location && x.WeekDay == day && x.Doctor.Specialization == specialization)
                 .AsNoTracking()
                 .ToListAsync();
         }

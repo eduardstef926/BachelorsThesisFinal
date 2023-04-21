@@ -39,13 +39,13 @@ namespace NewBackend2.Controllers
                 return NoContent();
             }
 
-            return Ok(locations);
+            return Ok(locations);   
         }
 
-        [HttpGet("GetDoctorAppointmentDatesByDateAndLocation")]
-        public async Task<IActionResult> GetDoctorAppointmentDatesByDateAndLocation(string startDate, string endDate, string location)
+        [HttpGet("GetAppointmentDatesByDateSpecializationAndLocation")]
+        public async Task<IActionResult> GetAppointmentDatesByDateSpecializationAndLocation(string startDate, string endDate, string location, string specialization)
         {   
-            var appointmentSlots = await doctorService.GetDoctorAppointmentsByDateAndLocationAsync(startDate, endDate, location);   
+            var appointmentSlots = await doctorService.GetAppointmentDatesByDateSpecializationAndLocationAsync(startDate, endDate, location, specialization);   
 
             if (!appointmentSlots.Any())
             {
