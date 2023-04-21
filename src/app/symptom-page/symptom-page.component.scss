@@ -1,6 +1,12 @@
-.container {
+
+.main-container {
+    padding-top: 1.5rem;
+}
+
+.sub-container {
     max-width: 600px; 
-    border-radius: 1rem;
+    border-top-left-radius: 0.7rem;
+    border-top-right-radius: 0.7rem;
     margin: 0 auto; 
     text-align: center; 
     font-size: 2rem;
@@ -9,14 +15,7 @@
     color: white;
 } 
 
-.arrow-button {
-    top: 50%;
-    height: 50%;
-    background-color:white;
-    color: #5dcb60;
-}
-
-.welcome-message {
+.button-container-text {
     width: 70%;
     padding-top: 2rem;
     font-family: Calibri;
@@ -24,50 +23,69 @@
     padding-bottom: 2rem;
 }
 
-.big-container {
-    padding-top: 1.5rem;
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
 }
 
-.symptom-element {
+.filter-input,
+.filter-button {
+    margin-top: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.filter-input {
+    width: 74%;
+    height: 30px;
+    font-family: "Arial";
+    text-indent: 4px;
+}
+
+.filter-button {
+    border: 1px solid grey;
+    margin-left: 1px;
+    background-color: white;
+    color: #5dcb60;
+}
+
+.submit-button {
+    top: 50%;
+    height: 50%;
+    background-color:white;
+    color: #5dcb60;
+}
+
+.table-element {
     display: flex;
     font-family: Calibri;
     justify-content: space-between;
-    padding: 1.8rem 4.8rem 2.5rem 2.8rem;
+    padding: 1.8rem 4rem 2.5rem 2.8rem;
 }
 
 .plus-button {
     background-color: white;
 }
 
-.form-group input,
-.form-group button {
-    margin-top: 0.5rem;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.form-group input {
-    border-radius: 4px !important;
-    width: 71%;
-    height: 30px;
-    font-family: "Arial";
-}
-
-.submit-button {
-    margin-left: 1.5px;
-    border-radius: 4px !important;
-    background-color: white;
-    color: #5dcb60;
-}
-
-.arrow-button-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
-}
-
 ::ng-deep .mat-paginator-outer-container {
     color: green;
     background-color: white;
+}
+
+::ng-deep .table-element .mat-checkbox-checked .mat-checkbox-background {
+    background-color: green;
+    color: white;
+}
+
+::ng-deep .snackbar {
+    background-color: white;
+    color: rgb(193, 35, 35);
+    text-align: center;
+    vertical-align: middle;
+}
+
+::ng-deep .mat-simple-snackbar-action button {
+    color: rgb(193, 35, 35) !important;
 }

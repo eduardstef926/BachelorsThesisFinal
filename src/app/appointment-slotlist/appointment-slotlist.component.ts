@@ -29,10 +29,8 @@ export class AppointmentSlotlistComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    var startDate = this.localStorage.get("startDate");
-    var endDate = this.localStorage.get("endDate");
-    var location = this.localStorage.get("location");
-    this.doctorService.getDoctorAppointmentDatesByDateAndLocation(startDate, endDate, location)
+    var appointmentRange = this.localStorage.get("appointmentRange");
+    this.doctorService.getAppointmentDatesByDateSpecializationAndLocation(appointmentRange)
       .subscribe((appointmentSlots) => {
         this.appointmentSlots = new MatTableDataSource(appointmentSlots);
         this.appointmentSlots.paginator = this.paginator;

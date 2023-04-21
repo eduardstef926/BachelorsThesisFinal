@@ -5,6 +5,7 @@ import { DoctorDto } from "../model/doctor.model";
 import { DegreeDto } from "../model/college.model";
 import { AppointmentSlotDto } from "./appointmentSlot.model";
 import { AppointmentDto } from "../model/appointment.model";
+import { AppointmentRangeDto } from "../model/appointmentRange.model";
 
 @Injectable()
 export class DoctorService{
@@ -25,10 +26,10 @@ export class DoctorService{
     );
   }
 
-  getDoctorAppointmentDatesByDateAndLocation(startDate: string, endDate: string, location: string): Observable<Array<AppointmentSlotDto>> {
+  getAppointmentDatesByDateSpecializationAndLocation(appointmentRange: AppointmentRangeDto): Observable<Array<AppointmentSlotDto>> {
     return this.httpClient.get<Array<AppointmentSlotDto>>(
-      this.baseUrl + "/Doctor/GetDoctorAppointmentDatesByDateAndLocation?startDate=" + startDate + 
-      "&endDate=" + endDate + "&location=" + location,
+      this.baseUrl + "/Doctor/GetAppointmentDatesByDateSpecializationAndLocation?startDate=" + appointmentRange.startDate + 
+      "&endDate=" + appointmentRange.endDate + "&location=" + appointmentRange.location + "&specialization=" + appointmentRange.specialization,
       this.options
     );
   }
