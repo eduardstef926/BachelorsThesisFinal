@@ -6,5 +6,6 @@ export class AppointmentSlotDto {
     date!: number;
     endTime!: number;
     hospitalName!: string;
+    price!: number;
     rating!: number;
 }

@@ -1,43 +1,38 @@
-<div
-    class="big-container"
-    @fade
->   
-    <div class="container">
-        <div
-          class="arrow-button-container"
-        >
-          <p class="welcome-message">
-            First step we need to know more about your symptoms
+<div class="main-container" @fade>   
+    <div class="sub-container">
+        <div class="button-container">
+          <p class="button-container-text">
+            First of all we need to know more about your symptoms. 
+            Select at least 5 from the list 
           </p>
           <button
             mat-button
             (click)="submitSymptoms()"
-            class="arrow-button"
+            class="submit-button"
           >
             <mat-icon>arrow_forward</mat-icon>
-            Next
           </button>
         </div>
-        <div class="form-group">
+        <div class="form-container">
           <input 
             [(ngModel)]="partialSymptomName" 
             type="text" 
-            class="form-control" 
-            placeholder="Enter symptom"
+            class="filter-input" 
+            placeholder="ex: Sore Throat"
           >
           <button 
             mat-button 
             type="submit" 
-            class="submit-button"
+            class="filter-button"
             (click)="filterSymptoms()"
           >
-            Search
+          <mat-icon>search</mat-icon>
           </button>
         </div>
-        <div *ngFor="let symptom of symptomList" class="symptom-element">
+        <div *ngFor="let symptom of symptomList" class="table-element">
           {{symptom[0]}}
           <mat-checkbox [(ngModel)]="symptom[1]"></mat-checkbox>
         </div>
-        <mat-paginator class="symptom-paginator" [pageSize]="pageSize" [length]="this.filteredTableCopy.length" (page)="onPageChange($event)"></mat-paginator>
+        <mat-paginator [pageSize]="pageSize" [length]="this.filteredTableCopy.length" (page)="onPageChange($event)"></mat-paginator>
     </div>
 </div>

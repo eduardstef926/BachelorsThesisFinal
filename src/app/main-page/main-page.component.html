@@ -1,23 +1,20 @@
-<div 
-  class="main-background"
-  @fade
->
+<div class="main-background" @fade>
   <div class="body-container">
-      <div class="body-title">
-        <p style="font-size: 65px">
+      <div class="text-container">
+        <p class="header-text">
           No ordinary doctor's office
         </p>
-        <p class="appointment-title">
+        <p class="subheader-text">
           Making an appointment has never been
           easier using our platform!
         </p>
         <button
           mat-button
+          class="join-button"
           (click)="enterMainPage()"
-          class="chat-button"
         >
-        <mat-icon>chat</mat-icon>
-          Chat with our online Assistant 
+          <mat-icon class="icon-div">medical_services</mat-icon>
+          <span>Join our medical program</span>
         </button>
       </div>
       <img src="assets\senior-main-page.jpg" class="main-image">

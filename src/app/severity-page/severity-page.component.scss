@@ -1,43 +1,60 @@
-.container {
-    max-width: 600px; 
+
+.main-container {
+    padding-top: 1.5rem;
+}
+
+.sub-container {
+    min-width: 400px;
+    max-width: 550px; 
     border-radius: 1rem;
+    font-size: 2rem;
     margin: 0 auto; 
     text-align: center; 
-    font-size: 2rem;
     border: 5px solid green;
-    background-color:#5dcb60;
     color: white;
+    background-color:#5dcb60;
 } 
 
-.arrow-button {
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.submit-button {
+    margin-right: 8%;
     top: 50%;
     height: 50%;
     background-color:white;
     color: #5dcb60;
 }
 
-.welcome-message {
+.button-container-message {
+    padding: 5% 0 5% 1%;
     width: 70%;
-    padding-top: 2rem;
     font-family: Calibri;
     font-size: 30px;
-    padding-bottom: 2rem;
 }
 
-.big-container {
-    padding-top: 1.5rem;
-}
-
-.severity-element {
+.table-element {
     display: flex;
     font-family: Calibri;
     justify-content: space-between;
-    padding: 1rem 4.8rem 2.5rem 3.8rem;
+    padding: 2% 12% 8% 6%;   
 }
 
-.arrow-button-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    align-items: center;
+::ng-deep .table-element .mat-checkbox-checked .mat-checkbox-background {
+    background-color: green;
+    color: white;
+}
+
+::ng-deep .snackbar {
+    background-color: white;
+    color: rgb(193, 35, 35);
+    text-align: center;
+    vertical-align: middle;
+}
+
+::ng-deep .mat-simple-snackbar-action button {
+    color: rgb(193, 35, 35)  !important;
 }

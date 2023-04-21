@@ -1,31 +1,23 @@
-<div>
-    <div
-    class="big-container"
-    @fade
->   
-    <div class="container">
-        <div
-          class="arrow-button-container"
+<div class="main-container" @fade>
+  <div class="sub-container">
+      <div class="button-container">
+        <p class="button-container-message">
+          Then we need to know how severe your symptoms are
+        </p>
+        <button
+          mat-button
+          class="submit-button"
+          (click)="submitSeverity()"
         >
-          <p class="welcome-message">
-            Then we need to know how sever your symptoms are from 1 to 3
-          </p>
-          <button
-            mat-button
-            (click)="moveNext()"
-            class="arrow-button"
-          >
-          <mat-icon>arrow_forward</mat-icon>
-            Next
-          </button>
-        </div>
-        <div 
-            *ngFor="let severity of severityLevels" 
-            class="severity-element"
-        >
-            {{severity}}
-            <mat-checkbox [disabled]="selected" (change)="onCheckboxChange(severity)"></mat-checkbox>
-        </div>
-    </div>
-</div>
+        <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+      <div 
+          *ngFor="let severity of severityLevels" 
+          class="table-element"
+      >
+          {{severity}}
+          <mat-checkbox [disabled]="selected" (change)="onCheckboxChange(severity)"></mat-checkbox>
+      </div>
+  </div>
 </div>

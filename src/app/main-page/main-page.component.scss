@@ -1,6 +1,6 @@
 .main-background {
     text-align: left;
-    background-color: rgb(254, 248, 248);
+    background-color: rgb(253, 246, 246);
 }
 
 .body-container {
@@ -9,27 +9,37 @@
 }
 
 .main-image {
-    height: 39rem;
+    height: 40rem;
     width: 60rem;
     border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
 }
 
-.appointment-title {
+.header-text {
+    font-size: 65px;
+}
+
+.subheader-text {
     font-size: 30px;
     margin-top: 2rem;
 }
 
-.body-title {
+.icon-div {
+    padding-bottom: 0.1rem; 
+    padding-right: 0.5rem;
+}
+
+.text-container {
     padding-top: 5rem;
     text-align: center;
     color: green;
     margin: 10px;
 }
 
-.chat-button {
+.join-button {
+    text-align: center;
     margin-top: 3rem;
-    width: 50%;
+    width: 100%;
+    width: auto;
     background-color: green;
     color: white;
     overflow: auto;

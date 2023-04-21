@@ -6,6 +6,8 @@ import { CoreService } from '../services/core.service';
 import { DiagnosticDto } from '../model/diagnostic.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppointmentRangeDto } from '../model/appointmentRange.model';
+import { specialization } from '../model/specialization.model';
 
 @Component({
   selector: 'diagnostic-page',
@@ -43,7 +45,7 @@ export class DiagnosticPageComponent implements OnInit {
   constructor(private doctorService: DoctorService,
               private coreService: CoreService,
               private localStorage: LocalStorageService,
-              private router: Router) { }
+              private router: Router) {}
               
 
   ngOnInit(): void {
@@ -72,9 +74,14 @@ export class DiagnosticPageComponent implements OnInit {
   }
 
   listAppointmentDates() {
-    this.localStorage.set("startDate",this.convertDate(this.getStart()));
-    this.localStorage.set("endDate", this.convertDate(this.getEnd()));
-    this.localStorage.set("location", this.selectedLocation);
+    var appointmentRange = {
+      startDate: this.convertDate(this.getStart()),
+      endDate: this.convertDate(this.getEnd()),
+      specialization: this.diagnostic.doctorSpecialization,
+      location:  this.selectedLocation
+    } as AppointmentRangeDto;
+
+    this.localStorage.set("appointmentRange", appointmentRange);
     this.router.navigate(['/appointment-page/list']);
   }
 }

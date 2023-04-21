@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-severity-page',
@@ -22,10 +23,11 @@ import { Router } from '@angular/router';
 })
 export class SeverityPageComponent implements OnInit {
   severityLevels = ["Very Severe", "Severe", "Mild"];
-  selectedSeverity!: string;
+  selectedSeverity = '';
   selected = false;
   
-  constructor(private router: Router) {}
+  constructor(private router: Router,
+              private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
   }
@@ -35,11 +37,16 @@ export class SeverityPageComponent implements OnInit {
     this.selectedSeverity = severity;
   }
 
-  moveNext() {
-    if (this.selectedSeverity == "Very Severe") {
-      this.router.navigate(['/emergency-page']);
+  submitSeverity() {
+    if (this.selectedSeverity.length == 0) {
+      this.snackBar.open('No Level Selected', 'X', {
+        duration: 5000,
+        panelClass: ['snackbar']
+      });  
     } else {
-      this.router.navigate(['/diagnostic-page']);
+      this.snackBar.dismiss();
+      this.selectedSeverity == "Very Severe" 
+          ? this.router.navigate(['/emergency-page']) : this.router.navigate(['/diagnostic-page']);
     }
   }
 }

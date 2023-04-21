@@ -1,25 +1,30 @@
-.button-container {
-    max-width: 500px; 
+.header-subcontainer {
+    min-width: 400px;
+    max-width: 600px; 
     margin: 0 auto; 
     text-align: center; 
 }
 
 .text-container {
+    padding-top: 3%;
+}
+
+.header-text {
+    font-size: 4rem;
+}
+
+.header-container {
     text-align: center; 
 }
 
-.phase-text {
+.header-subtext {
     font-size: 1.5rem;
-    padding-top: 2rem;
-}
-
-.welcome-message {
-    padding-top: 3rem;
+    padding-top: 3%;
 }
 
 .start-button {
-    margin-top: 3rem;
-    width: 10rem;
+    margin-top: 5%;
+    width: 25%;
     background-color: green;
     color: white;
 }

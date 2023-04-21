@@ -6,6 +6,7 @@ import { CoreService } from '../services/core.service';
 import { LocalStorageService } from '../services/localstorage.service';
 import { AuthService } from '../services/auth.service';
 import { SymptomDto } from '../model/symptom.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-symptom-page',
@@ -36,7 +37,8 @@ export class SymptomPageComponent implements OnInit {
   constructor(private router: Router,
               private authService: AuthService,
               private coreService: CoreService,
-              private localStorage: LocalStorageService) {}
+              private localStorage: LocalStorageService,
+              private snackBar: MatSnackBar) {}
   
   ngOnInit(): void {
     this.coreService.getAllSymptoms().subscribe((symptoms: SymptomDto[]) => {
@@ -76,12 +78,19 @@ export class SymptomPageComponent implements OnInit {
     const selectedSymptoms = this.symptomList
       .filter((symptom: any) => symptom[1])
       .map((symptom: any) => symptom[0]);
-
-    const loggedUserEmail = this.localStorage.get('loggedUserEmail');
-    this.authService
-      .addUserSymptoms(selectedSymptoms, loggedUserEmail)
-      .subscribe(() => {
-        this.router.navigate(['/severity-page']);
-    });
+    
+    if (selectedSymptoms.length < 5) {
+      this.snackBar.open('Not Enough Symptoms Selected!', 'X', {
+        duration: 5000,
+        panelClass: ['snackbar']
+      }); 
+    } else {
+      this.snackBar.dismiss();
+      const loggedUserEmail = this.localStorage.get('loggedUserEmail');
+      this.authService.addUserSymptoms(selectedSymptoms, loggedUserEmail)
+        .subscribe(() => {
+          this.router.navigate(['/severity-page']);
+        });
+    }
   }
 }
