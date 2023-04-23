@@ -15,6 +15,7 @@ import { EmergencyPageComponent } from './emergency-page/emergency-page.componen
 import { DiagnosticPageComponent } from './diagnostic-page/diagnostic-page.component';
 import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment-slotlist.component';
 import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
+import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
 
 const routes: Routes = [
   {
@@ -85,6 +86,10 @@ const routes: Routes = [
     path: 'appointment-page/confirmation',
     component: AppointmentPriceComponent,
   },
+  {
+    path: 'appointment-review/:id',
+    component: AppointmentReviewComponent
+  }
 ];
 
 @NgModule({

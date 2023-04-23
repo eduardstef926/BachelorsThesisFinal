@@ -42,9 +42,7 @@ export class EmployeePageComponent implements OnInit {
   formControl = new FormGroup({
     doctorName: new FormControl('')
   });
-
-  selectedOption = new FormControl('option1');
-
+  
   getDoctorName() {
     return this.formControl.get('doctorName')?.value;
   }
@@ -72,7 +70,7 @@ export class EmployeePageComponent implements OnInit {
         this.cityIndex ++;
       }
       if (!isSpecializationPresent) {
-        this.specializations.push({"value":  String(this.cityIndex), "viewValue": doctor.specialization})
+        this.specializations.push({"value":  String(this.specializationIndex), "viewValue": doctor.specialization})
         this.specializationIndex ++;
       }
     });
@@ -81,7 +79,7 @@ export class EmployeePageComponent implements OnInit {
   applyChanges() {
     var name = this.getDoctorName();
     var city = this.selectedCity != null ? this.cities[Number(this.selectedCity)].viewValue : null;
-    var specialization = this.selectedSpecialization != null ? this.specializations[Number(this.selectedSpecialization) - 1].viewValue : null;
+    var specialization = this.selectedSpecialization != null ? this.specializations[Number(this.selectedSpecialization)].viewValue : null;
     this.doctorTable.data = this.tableCopy.filter((doctor) => {
       return (
         (doctor.location === city || city == null) &&

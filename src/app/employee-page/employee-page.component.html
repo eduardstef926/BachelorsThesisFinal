@@ -1,14 +1,9 @@
 
-<div
-    class="main-background"
->
-    <p class="doctor-title">
+<div class="main-container">
+    <p class="container-title">
         Doctor List
     </p>
-    <div 
-        class="doctor-list-container"
-        @fade
-    >
+    <div class="doctor-list-container" @fade>
         <div class="filter-container">
             <div class="sorting-container">
                 <p class="sorting-title">
@@ -19,11 +14,11 @@
                         class="select-sort"
                         [(ngModel)]="selectSortingMethod"
                     >
-                        <option value="" disabled selected> Select sorting </option>
+                        <option value="" disabled selected>Select Sorting</option>
                         <option 
                             *ngFor="let sorting of sortings" 
                             [ngValue]="sorting" 
-                            style="font-style:Verdana;"
+                            style="font-style: Verdana;"
                         >
                             {{sorting}}
                         </option>
@@ -45,9 +40,10 @@
                 <div class="specialization-form">
                     <select 
                         class="select-class"
+                        required
                         [(ngModel)]="selectedSpecialization" 
-                    >
-                        <option value="" disabled selected> Select a specialization </option>
+                    >   
+                        <option value="" disabled selected>Select a specialization</option>
                         <option 
                             *ngFor="let specialization of specializations" 
                             [ngValue]="specialization.value" 
@@ -86,7 +82,7 @@
         <div class="doctor-list-table">
             <table class="content-table" mat-table [dataSource]="doctorTable" matSort>
             <ng-container matColumnDef="name">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Doctor Name</th>
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef> Name</th>
                 <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
             </ng-container>
             <ng-container matColumnDef="specialization">
@@ -105,7 +101,7 @@
                 <th class="column-spacer" mat-header-cell *matHeaderCellDef>Details</th>
                 <td mat-cell *matCellDef="let element"  style="text-align: center;">
                     <button mat-button [routerLink]="['/doctor-details', element.firstName, element.lastName]" style="background-color: #4CAF50; color: white;">
-                        >
+                        <mat-icon>arrow_forward</mat-icon>
                     </button>
                 </td>
             </ng-container>

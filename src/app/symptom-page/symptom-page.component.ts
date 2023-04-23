@@ -2,9 +2,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { CoreService } from '../services/core.service';
+import { UserService } from '../services/user.service';
 import { LocalStorageService } from '../services/localstorage.service';
-import { AuthService } from '../services/auth.service';
 import { SymptomDto } from '../model/symptom.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -35,13 +34,12 @@ export class SymptomPageComponent implements OnInit {
   pageIndex = 0;
 
   constructor(private router: Router,
-              private authService: AuthService,
-              private coreService: CoreService,
+              private userService: UserService,
               private localStorage: LocalStorageService,
               private snackBar: MatSnackBar) {}
   
   ngOnInit(): void {
-    this.coreService.getAllSymptoms().subscribe((symptoms: SymptomDto[]) => {
+    this.userService.getAllSymptoms().subscribe((symptoms: SymptomDto[]) => {
       this.symptomList = symptoms.map((symptom) => [symptom.name, false]);
       this.tableCopy =  this.symptomList;
       this.filteredTableCopy = this.symptomList;
@@ -87,7 +85,7 @@ export class SymptomPageComponent implements OnInit {
     } else {
       this.snackBar.dismiss();
       const loggedUserEmail = this.localStorage.get('loggedUserEmail');
-      this.authService.addUserSymptoms(selectedSymptoms, loggedUserEmail)
+      this.userService.addUserSymptoms(selectedSymptoms, loggedUserEmail)
         .subscribe(() => {
           this.router.navigate(['/severity-page']);
         });

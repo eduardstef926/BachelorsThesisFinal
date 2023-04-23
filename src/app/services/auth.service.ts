@@ -25,13 +25,6 @@ export class AuthService{
     );
   }
 
-  addUserSymptoms(symptomNames: Array<string>, loggedUserEmail: string): Observable<any> {
-    return this.httpClient.post<any>(
-      this.baseUrl + "/Core/AddUserSymptoms?email=" + loggedUserEmail + "&symptoms=" + symptomNames.toString(),
-      this.options
-    );
-  }
-
   loginAsPacient(user: LoggedUserDto): Observable<any> {
     return this.httpClient.post<string>(
       this.baseUrl + "/Auth/login?email=" + user.email + "&password=" + user.password,

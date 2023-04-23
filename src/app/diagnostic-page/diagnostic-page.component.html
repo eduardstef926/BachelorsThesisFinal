@@ -1,7 +1,4 @@
-<div
-    class="diagnostic-page"
-    @fade
->
+<div class="diagnostic-page" @fade>
     <div class="diagnostic-messsage">
         <p class="higher-message">
             We suspect you have some form of {{this.diseaseName}}
@@ -24,11 +21,11 @@
                         </select>
                     </mat-form-field>
                     <mat-form-field class="form-subcontainer" appearance="fill">
-                    <mat-label>Locations</mat-label>
-                    <select [(ngModel)]="selectedLocation" matNativeControl required>
-                        <option value=""></option>
-                        <option value="{{location}}" *ngFor="let location of this.locations" >{{location}}</option>
-                    </select>
+                        <mat-label>Locations</mat-label>
+                        <select [(ngModel)]="selectedLocation" matNativeControl required>
+                            <option value=""></option>
+                            <option value="{{location}}" *ngFor="let location of this.locations" >{{location}}</option>
+                        </select>
                     </mat-form-field>
                     <mat-form-field class="form-subcontainer" appearance="fill">
                         <mat-label>Enter a date range</mat-label>

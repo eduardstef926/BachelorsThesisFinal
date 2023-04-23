@@ -1,0 +1,64 @@
+<div @fade class="main-background">
+    <div class="form-container">
+        <div class="review-form">
+            <h1>
+                 Appointment Details
+            </h1>
+            <div class="doctor-text">
+                <p>Dr. {{this.appointment.doctorFirstName}} {{this.appointment.doctorLastName}}</p>
+            </div>
+            <div class="rating-container">
+                <div class="appointment-section">
+                    <p>Price</p>
+                    <p class="appointment-text">
+                        {{this.appointment.price}}
+                    </p>
+                </div>
+                <div class="appointment-section">
+                    <p>Appointment Date</p>
+                    <p class="appointment-text">
+                        {{appointmentDate}}
+                    </p>
+                </div>
+                <div class="appointment-section">
+                    <p>Hospital Name</p>
+                    <p class="appointment-text">
+                        {{this.appointment.hospitalName}}
+                    </p>
+                </div>
+                <div class="appointment-section">
+                    <p>Location</p>
+                    <p class="appointment-text">
+                        {{this.appointment.location}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="review-form">
+            <h1>
+                Review Appointment
+            </h1>
+            <div class="evaluation-container">
+                <div class="evaluation-subcontainer">
+                    <mat-form-field class="data-input">
+                        <mat-label>Evaluation out of 10</mat-label>
+                        <textarea [(ngModel)]="this.evaluationNumber" matInput placeholder="Ex. 9"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="price-subcontainer">
+                    <mat-form-field class="data-input">
+                        <mat-label>Message</mat-label>
+                        <textarea [(ngModel)]="this.evaluationMessage" matInput placeholder="Ex. My experience was..."></textarea>
+                    </mat-form-field>
+                </div>
+                <button 
+                    class="confirmation-button" 
+                    mat-button 
+                    (click)="submitReview()"
+                >
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
