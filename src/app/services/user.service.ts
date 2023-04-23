@@ -5,6 +5,7 @@ import { SymptomDto } from "../model/symptom.model";
 import { DiagnosticDto } from "../model/diagnostic.model";
 import { AppointmentDto } from "../model/appointment.model";
 import { ReviewDto } from "../model/review.model";
+import { SubscriptionDto } from "../model/subscription.model";
 
 @Injectable()
 export class UserService{
@@ -22,6 +23,33 @@ export class UserService{
   addUserSymptoms(symptomNames: Array<string>, loggedUserEmail: string): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + "/User/AddUserSymptoms?email=" + loggedUserEmail + "&symptoms=" + symptomNames.toString(),
+      this.options
+    );
+  }
+
+  
+  scheduleAppointment(appointment: AppointmentDto): Observable<any>  {
+    appointment.appointmentDate = new Date(appointment.appointmentDate);
+    const body = JSON.stringify(appointment);
+    return this.httpClient.post<any>(
+      this.baseUrl + "/User/ScheduleAppointment",
+      body,
+      this.options
+    );
+  }
+
+  addUserSubscription(subscription: SubscriptionDto) {
+    const body = JSON.stringify(subscription);
+    return this.httpClient.post<any>(
+      this.baseUrl + "/User/AddUserSubscription",
+      body,
+      this.options
+    );
+  }
+
+  checkUserSubscription(email: string) {
+    return this.httpClient.get<boolean>(
+      this.baseUrl + "/User/CheckUserSubscription?email=" + email,
       this.options
     );
   }

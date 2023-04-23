@@ -42,7 +42,7 @@ import { DiagnosticPageComponent } from './diagnostic-page/diagnostic-page.compo
 import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment-slotlist.component';
 import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
 import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +63,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AppointmentSlotlistComponent, 
     AppointmentPriceComponent, 
     AppointmentReviewComponent, 
+    SubscriptionsPageComponent, 
   ],
   imports: [
     HttpClientModule,

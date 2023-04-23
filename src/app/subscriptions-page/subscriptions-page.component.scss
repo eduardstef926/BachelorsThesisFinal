@@ -1,0 +1,67 @@
+.page-container {
+    margin-top: 5%;
+    text-align: center;
+    font-size: 4rem;
+    font-style: sans-serif;
+}
+
+.subscription-container {
+    margin-top: 4%; 
+    display: flex;
+    justify-content: center;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.plan-container {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    height: 20rem;
+    background-color: rgb(255, 255, 255);
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+
+.container-price {
+    font-size: 6rem;
+}
+
+.container-time {
+    margin-top: 5%;
+    font-size: 1.5rem;
+}
+
+.page-div {
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    gap: 4rem;
+}
+
+.image-div {
+    width: 30rem; 
+    height: 30rem;
+}
+
+.subscription-title {
+    font-size: 60px; 
+    font-family: Arial, sans-serif;
+}
+
+.subscription-description {
+    text-align: left; 
+    margin-top: 5%; 
+    font-size: 26px; 
+    width: 30rem;
+}
+
+.select-button {
+    background-color: green; 
+    color: white;
+}
+
+.plan-div {
+    margin-top: 8%;
+}

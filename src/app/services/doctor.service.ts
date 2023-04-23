@@ -71,14 +71,4 @@ export class DoctorService{
       this.options
     );
   }
-
-  scheduleAppointment(appointment: AppointmentDto): Observable<any>  {
-    appointment.appointmentDate = new Date(appointment.appointmentDate);
-    const body = JSON.stringify(appointment);
-    return this.httpClient.post<any>(
-      this.baseUrl + "/Doctor/ScheduleAppointment",
-      body,
-      this.options
-    );
-  }
 }

@@ -26,9 +26,14 @@ export class AppComponent {
     this.router.navigate(['/locations']);
   }
 
-  lookEmployeePage(event : Event) {
+  lookEmployeePage(event: Event) {
     event.preventDefault();
     this.router.navigate(['/employees']);
+  }
+  
+  lookSubscriptionsPage(event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/subscription-page']);
   }
 
   goHome(event : Event) {
