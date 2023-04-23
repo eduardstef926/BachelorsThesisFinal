@@ -80,15 +80,15 @@ namespace NewBackend2.Controllers
             }
         }
 
-        [HttpGet("GetDoctorByFirstNameAndLastName")]
-        public async Task<IActionResult> GetDoctorByFirstNameAndLastName(string firstName, string lastName)
+        [HttpGet("GetDoctorWithEmploymentByFirstNameAndLastNameAsync")]
+        public async Task<IActionResult> GetDoctorWithEmploymentByFirstNameAndLastNameAsync(string firstName, string lastName)
         {
             if (firstName == null || lastName == null)
             {
                 return BadRequest("Invalid input");
             }
 
-            var doctor = await doctorService.GetDoctorByFirstNameAndLastNameAsync(firstName, lastName); 
+            var doctor = await doctorService.GetDoctorWithEmploymentByFirstNameAndLastNameAsync(firstName, lastName); 
 
             if (doctor == null)
             {

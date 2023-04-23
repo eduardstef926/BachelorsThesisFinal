@@ -31,7 +31,7 @@ builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICoreService, CoreService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddQuartz(q =>
 {
     q.UseMicrosoftDependencyInjectionScopedJobFactory();
@@ -44,19 +44,19 @@ builder.Services.AddQuartz(q =>
        // .WithCronSchedule("0/5 * * * * ?"));   // runs every 5 seconds
         .WithCronSchedule("0 0 * * * ?"));       // runs every day at midnight
 
-    jobKey = new JobKey("AppointmentReminderJob");
+    /*jobKey = new JobKey("AppointmentReminderJob");
     q.AddJob<AppointmentReminderJob>(opts => opts.WithIdentity(jobKey));
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("AppointmentReminderJob-Trigger")
-        .WithCronSchedule("0 0 * * * ?"));      
+        .WithCronSchedule("0/5 * * * * ?"));*/
 
-    jobKey = new JobKey("AppointmentFeedbackJob");
+ /*   jobKey = new JobKey("AppointmentFeedbackJob");
     q.AddJob<AppointmentFeedbackJob>(opts => opts.WithIdentity(jobKey));
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("AppointmentFeedbackJob-Trigger")
-        .WithCronSchedule("0 0 * * * ?"));     
+        .WithCronSchedule("0/5 * * * * ?"));*/
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
@@ -82,7 +82,9 @@ var mapperConfig = new MapperConfiguration(mc =>
         .ForMember(dto => dto.EndYear, opt => opt.MapFrom(src => src.EndYear))
         .ForMember(dto => dto.StudyProgram, opt => opt.MapFrom(src => src.StudyProgram));
     mc.CreateMap<ReviewEntity, ReviewDto>()
-        .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.User.FirstName))
+        .ForMember(dto => dto.DoctorFirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
+        .ForMember(dto => dto.DoctorLastName, opt => opt.MapFrom(src => src.Doctor.LastName))
+        .ForMember(dto => dto.UserEmail, opt => opt.MapFrom(src => src.User.Email))
         .ForMember(dto => dto.Number, opt => opt.MapFrom(src => src.Number))
         .ForMember(dto => dto.Message, opt => opt.MapFrom(src => src.Message));
     mc.CreateMap<EmploymentEntity, AppoimentSlotDto>()

@@ -14,7 +14,7 @@ namespace NewBackend2.Jobs
 
         public async Task Execute(IJobExecutionContext context)
         {
-            await emailService.SendReviewEmailAsync();
+            await emailService.SendAppointmentFeedbackEmailAsync();
         }
     }
 }

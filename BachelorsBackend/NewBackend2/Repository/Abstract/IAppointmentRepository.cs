@@ -8,5 +8,6 @@ namespace NewBackend2.Repository.Abstract
         Task AddAppointmentAsync(AppointmentEntity appointment);
         Task<List<AppointmentEntity>> GetFullAppointmentsDataAsync();
         Task<AppointmentEntity> GetAppointmentByDateAsync(DateTime date);
+        Task<AppointmentEntity> GetAppointmentByIdAsync(int id);
     }
 }

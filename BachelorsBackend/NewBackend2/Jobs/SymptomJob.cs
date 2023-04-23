@@ -4,15 +4,15 @@ using Quartz;
 
 public class SymptomJob : IJob
 {
-    private ICoreService coreService;
+    private IUserService userService;
 
-    public SymptomJob(ICoreService coreService)
+    public SymptomJob(IUserService coreService)
     {
-        this.coreService = coreService;
+        this.userService = coreService;
     }
 
     public async Task Execute(IJobExecutionContext context)
     {
-        await coreService.UpdateSymptomsAsync();
+        await userService.UpdateSymptomsAsync();
     }
 }

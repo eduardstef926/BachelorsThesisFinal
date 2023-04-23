@@ -39,5 +39,13 @@ namespace NewBackend2.Repository.Concrete
                 .Include(x => x.User)
                 .FirstOrDefaultAsync(x => x.AppointmentDate == date);
         }
+
+        public Task<AppointmentEntity> GetAppointmentByIdAsync(int id)
+        {
+            return database.appointments.AsNoTracking()
+                .Include(x => x.Doctor)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.AppointmentId == id);
+        }
     }
 }

@@ -147,7 +147,7 @@ namespace NewBackend2.Service.Concrete
             }
         }
 
-        public async Task SendReviewEmailAsync()
+        public async Task SendAppointmentFeedbackEmailAsync()
         {
             var currentDate = DateTime.Now;
             var appointments = await appointmentRepository.GetFullAppointmentsDataAsync();
@@ -157,9 +157,9 @@ namespace NewBackend2.Service.Concrete
                 var difference = appointment.AppointmentDate - currentDate;
                 if (difference.Days >=-1 && difference.Days <= 0)
                 {
-                    var subject = "Appointment Reminder";
+                    var subject = "Appointment Feedback";
                     var body = EmailHelper.GetReviewEmailTemplate();
-                    var userLink = "http://localhost:4200";
+                    var userLink = "http://localhost:4200/appointment-review/" + appointment.AppointmentId;
                     body = body.Replace("[Recipient Name]", appointment.User.LastName)
                                .Replace("[Link]", userLink);
 

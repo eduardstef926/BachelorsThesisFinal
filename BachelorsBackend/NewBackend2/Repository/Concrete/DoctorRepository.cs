@@ -47,5 +47,15 @@ namespace NewBackend2.Repository.Concrete
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task UpdateDoctorEvaluationNumberAsync(int id, float newNumber)
+        {
+            var doctorToUpdate = database.doctors.FirstOrDefault(d => d.DoctorId == id);
+            if (doctorToUpdate != null)
+            {
+                doctorToUpdate.Rating = newNumber;
+                database.SaveChanges();
+            }
+        }
     }
 }

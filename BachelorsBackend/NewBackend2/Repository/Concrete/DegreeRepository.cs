@@ -18,6 +18,7 @@ namespace NewBackend2.Repository.Concrete
             return database.degrees
                 .Where(x => x.Doctor.FirstName == firstName && x.Doctor.LastName == lastName)
                 .Include(x => x.College)
+                .OrderByDescending(x => x.StartYear)
                 .ToListAsync();
                 
         }
