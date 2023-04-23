@@ -9,6 +9,6 @@ namespace NewBackend2.Service.Abstract
         public Task SendForgotPasswordEmailAsync(string userEmail);
         public Task SendWelcomeEmailAsync(string firstName, string lastName);
         public Task SendAppointmentReminderAsync();
-        public Task SendReviewEmailAsync();
+        public Task SendAppointmentFeedbackEmailAsync();
     }
 }

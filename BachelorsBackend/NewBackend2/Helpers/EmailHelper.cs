@@ -269,7 +269,7 @@ namespace NewBackend2.Helpers
                           }
 
                           .text-div {
-                            width: 5rem;
+                            width: 4.5rem;
                             height: 1.4rem;
                             border-radius: 2px;
                             background-color: green;
@@ -301,7 +301,7 @@ namespace NewBackend2.Helpers
                         <div class='container'>
                           <h1>Leave a feedback!</h1>
                           <p>Dear [Recipient Name],</p>
-                          <p>I hope you had an amazing experience. We would appreciate if you could leave a review of your experience</p>
+                          <p>I hope you had an amazing experience. We would appreciate if you could leave a review.</p>
                           <div class='text-div'>
                             <p><a href='[Link]' style='color: white'>Review</a></p>
                           </div><br><br>

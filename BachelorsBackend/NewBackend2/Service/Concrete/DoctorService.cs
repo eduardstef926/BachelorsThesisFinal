@@ -39,9 +39,17 @@ namespace NewBackend2.Service.Concrete
         public async Task<List<DoctorDto>> GetAllDoctorsAsync()
         {
             var doctors = await doctorRepository.GetAllDoctorsAsync();
-            return doctors
-                .Select(mapper.Map<DoctorEntity, DoctorDto>)
-                .ToList();
+            var doctorDtos = new List<DoctorDto>();
+
+            for (int i=0; i< doctors.Count; i++)
+            {
+                var doctorDto = mapper.Map<DoctorEntity, DoctorDto>(doctors[i]);
+                var locations = await employmentRepository.GetDoctorLocationsByDoctorId(doctors[i].DoctorId);
+                doctorDto.Location = locations[0];
+                doctorDtos.Add(doctorDto);
+            }
+
+            return doctorDtos;
         }
 
         public async Task<List<DegreeDto>> GetDoctorDegreeByFirstNameAndLastNameAsync(string firstName, string lastName)
@@ -52,10 +60,17 @@ namespace NewBackend2.Service.Concrete
                 .ToList();
         }
 
-        public async Task<DoctorDto> GetDoctorByFirstNameAndLastNameAsync(string firstName, string lastName)
+        public async Task<DoctorDto> GetDoctorWithEmploymentByFirstNameAndLastNameAsync(string firstName, string lastName)
         {
             var doctor = await doctorRepository.GetDoctorByFirstNameAndLastNameAsync(firstName, lastName);
-            return mapper.Map<DoctorEntity, DoctorDto>(doctor);
+            var employment = await employmentRepository.GetEmploymentByDoctorIdAsync(doctor.DoctorId);
+            var doctorDto = mapper.Map<DoctorEntity, DoctorDto>(doctor);
+
+            doctorDto.CurrentPosition = employment.CurrentPosition;
+            doctorDto.HospitalName = employment.HospitalName;
+            doctorDto.Location = employment.Hospital.Location;
+
+            return doctorDto;
         }
 
         public async Task<List<ReviewDto>> GetDoctorReviewsByFirstNameAndLastNameAsync(string firstName, string lastName)

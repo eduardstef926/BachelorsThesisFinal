@@ -11,7 +11,7 @@ namespace NewBackend2.Service.Abstract
         public Task<List<string>> GetDoctorLocationsBySpecializationAsync(string specialization);
         public Task<List<DegreeDto>> GetDoctorDegreeByFirstNameAndLastNameAsync(string firstName, string lastName);
         public Task<List<ReviewDto>> GetDoctorReviewsByFirstNameAndLastNameAsync(string firstName, string lastName);
-        public Task<DoctorDto> GetDoctorByFirstNameAndLastNameAsync(string firstName, string lastName);
+        public Task<DoctorDto> GetDoctorWithEmploymentByFirstNameAndLastNameAsync(string firstName, string lastName);
         public Task<List<DoctorDto>> GetDoctorsBySpecialization(string specialization);
     }
 }
