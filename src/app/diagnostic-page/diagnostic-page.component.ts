@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DoctorService } from '../services/doctor.service';
 import { LocalStorageService } from '../services/localstorage.service';
-import { CoreService } from '../services/core.service';
+import { UserService } from '../services/user.service';
 import { DiagnosticDto } from '../model/diagnostic.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppointmentRangeDto } from '../model/appointmentRange.model';
-import { specialization } from '../model/specialization.model';
 
 @Component({
   selector: 'diagnostic-page',
@@ -43,14 +42,14 @@ export class DiagnosticPageComponent implements OnInit {
   }
 
   constructor(private doctorService: DoctorService,
-              private coreService: CoreService,
+              private userService: UserService,
               private localStorage: LocalStorageService,
               private router: Router) {}
               
 
   ngOnInit(): void {
     var userEmail = this.localStorage.get('loggedUserEmail');
-    this.coreService.getLastDiagnosticByUserEmail(userEmail)
+    this.userService.getLastDiagnosticByUserEmail(userEmail)
       .subscribe((diagnostic:any) => {
         this.diagnostic = diagnostic;
         this.doctorTitle = diagnostic.doctorTitle.toLowerCase();

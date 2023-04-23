@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule, MatDateSelectionModel } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
-import { CoreService } from './services/core.service';
+import { UserService } from './services/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -41,6 +41,8 @@ import { EmergencyPageComponent } from './emergency-page/emergency-page.componen
 import { DiagnosticPageComponent } from './diagnostic-page/diagnostic-page.component';
 import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment-slotlist.component';
 import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
+import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { AppointmentPriceComponent } from './appointment-price/appointment-price
     DiagnosticPageComponent, 
     AppointmentSlotlistComponent, 
     AppointmentPriceComponent, 
+    AppointmentReviewComponent, 
   ],
   imports: [
     HttpClientModule,
@@ -90,7 +93,7 @@ import { AppointmentPriceComponent } from './appointment-price/appointment-price
     MatPaginatorModule,
     MatCheckboxModule,
   ],
-  providers: [CoreService, AuthService, DoctorService, LocalStorageService],
+  providers: [UserService, AuthService, DoctorService, LocalStorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { DoctorDto } from "../model/doctor.model";
 import { DegreeDto } from "../model/college.model";
-import { AppointmentSlotDto } from "./appointmentSlot.model";
+import { AppointmentSlotDto } from "../model/appointmentSlot.model";
 import { AppointmentDto } from "../model/appointment.model";
 import { AppointmentRangeDto } from "../model/appointmentRange.model";
 
@@ -48,9 +48,9 @@ export class DoctorService{
     );
   }
 
-  getDoctorByFirstNameAndLastName(firstName: string, lastName: string): Observable<DoctorDto> {
+  getDoctorWithEmploymentByFirstNameAndLastNameAsync(firstName: string, lastName: string): Observable<DoctorDto> {
     return this.httpClient.get<DoctorDto>(
-      this.baseUrl + "/Doctor/GetDoctorByFirstNameAndLastName?firstName=" + firstName + 
+      this.baseUrl + "/Doctor/GetDoctorWithEmploymentByFirstNameAndLastNameAsync?firstName=" + firstName + 
       "&lastName=" + lastName,
       this.options
     );
