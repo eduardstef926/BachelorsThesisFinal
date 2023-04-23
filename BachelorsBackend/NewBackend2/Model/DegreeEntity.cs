@@ -35,5 +35,16 @@ namespace NewBackend2.Model
 
         public DoctorEntity Doctor { get; set; }
         public CollegeEntity College { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is DegreeEntity entity &&
+                DegreeId == entity.DegreeId;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(DegreeId);
+        }
     }
 }

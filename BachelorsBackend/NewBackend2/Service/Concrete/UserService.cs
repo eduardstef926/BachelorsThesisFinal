@@ -11,14 +11,18 @@ namespace NewBackend2.Service.Concrete
     public class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
+        private readonly IEmailService emailService;
         private readonly IDoctorRepository doctorRepository;
         private readonly IReviewRepository reviewRepository;
+        private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IAppointmentRepository appointmentRepository;
         private readonly IMedicalRepository medicalRepository;
         private readonly IMapper mapper;
 
-        public UserService(IReviewRepository reviewRepository, IDoctorRepository doctorRepository, IUserRepository userRepository, IAppointmentRepository appointmentRepository, IMedicalRepository medicalRepository, IMapper mapper)
+        public UserService(ISubscriptionRepository subscriptionRepository, IEmailService emailService, IReviewRepository reviewRepository, IDoctorRepository doctorRepository, IUserRepository userRepository, IAppointmentRepository appointmentRepository, IMedicalRepository medicalRepository, IMapper mapper)
         {
+            this.emailService = emailService;
+            this.subscriptionRepository = subscriptionRepository;
             this.doctorRepository = doctorRepository;
             this.reviewRepository = reviewRepository;
             this.appointmentRepository = appointmentRepository;
@@ -77,6 +81,17 @@ namespace NewBackend2.Service.Concrete
             await medicalRepository.AddDiagnosticAsync(userDiagnostic);
         }
 
+        public async Task AddUserSubscriptionAsync(SubscriptionDto subscriptionDto)
+        {
+            var subscription = mapper.Map<SubscriptionDto, SubscriptionEntity>(subscriptionDto);
+            
+            subscription.UserId = await userRepository.GetUserIdByEmailAsync(subscriptionDto.Email);
+            subscription.StartDate = DateTime.Now;
+            subscription.EndDate = subscription.StartDate.AddMonths(subscriptionDto.Length);
+            
+            await subscriptionRepository.AddUserSubscriptionAsync(subscription);
+        }
+
         public async Task<DiagnosticDto> GetLastDiagnosticByUserEmailAsync(string email)
         {
             var userId = await userRepository.GetUserIdByEmailAsync(email);
@@ -107,6 +122,31 @@ namespace NewBackend2.Service.Concrete
             reviewEntity.DoctorId = doctorId;
             reviewEntity.UserId = userId;
             await reviewRepository.AddAppointmentReviewAsync(reviewEntity);
+        }
+
+        public async Task ScheduleAppointment(AppointmentDto appointment)
+        {
+            var user = await userRepository.GetUserByEmailAsync(appointment.UserEmail);
+            var doctor = await doctorRepository.GetDoctorByFirstNameAndLastNameAsync(appointment.DoctorFirstName, appointment.DoctorLastName);
+            var appointmentEntity = new AppointmentEntity
+            {
+                UserId = user.UserId,
+                DoctorId = doctor.DoctorId,
+                Price = appointment.Price,
+                Location = appointment.Location,
+                HospitalName = appointment.HospitalName,
+                AppointmentDate = appointment.AppointmentDate.AddHours(3)
+            };
+            await appointmentRepository.AddAppointmentAsync(appointmentEntity);
+            await emailService.SendAppointmentConfirmationEmailAsync(user, doctor, appointmentEntity);
+        }
+
+        public async Task<bool> CheckUserSubscriptionAsync(string email)
+        {
+            var subscription = await userRepository.GetUserSubscriptionAsync(email);
+            if (subscription == null) 
+                return false;
+            return (DateTime.Now.CompareTo(subscription.StartDate) >= 0 && DateTime.Now.CompareTo(subscription.EndDate) <= 0);
         }
     }
 }

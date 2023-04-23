@@ -19,6 +19,13 @@ namespace NewBackend2.Repository.Concrete
             await database.SaveChangesAsync();
         }
 
+        public Task<SubscriptionEntity> GetUserSubscriptionAsync(string email)
+        {
+            return database.subscriptions
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.User.Email == email);
+        }
+
         public async Task ConfirmEmailAsync(int id)
         {
             var userToUpdate = database.users.FirstOrDefault(u => u.UserId == id);

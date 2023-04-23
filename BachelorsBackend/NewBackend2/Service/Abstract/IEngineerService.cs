@@ -4,7 +4,7 @@ namespace NewBackend2.Service.Abstract
 {
     public interface IEngineerService
     {
-        public Task AddEngineerAsync(EngineerDto engineer);
-        public Task<List<EngineerDto>> GetAllEngineersAsync();
+        Task AddEngineerAsync(EngineerDto engineer);
+        Task<List<EngineerDto>> GetAllEngineersAsync();
     }
 }

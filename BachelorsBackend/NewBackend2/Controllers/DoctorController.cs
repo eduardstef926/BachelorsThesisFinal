@@ -151,18 +151,5 @@ namespace NewBackend2.Controllers
 
             return Ok(doctors);
         }
-
-        [HttpPost("ScheduleAppointment")]
-        public async Task<IActionResult> ScheduleAppointment([FromBody] AppointmentDto appointment)
-        {
-            if (appointment == null)
-            {
-                return BadRequest("Invalid input");
-            }
-
-            await doctorService.ScheduleAppointment(appointment);
-
-            return Ok();
-        }
     }
 }
