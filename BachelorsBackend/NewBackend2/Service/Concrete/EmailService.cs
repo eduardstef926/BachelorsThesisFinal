@@ -55,7 +55,6 @@ namespace NewBackend2.Service.Concrete
                 To = userEmail,
                 Message = body,
                 Subject = subject,
-                Send = false
             };
 
             await this.SendEmailAsync(email);
@@ -76,7 +75,6 @@ namespace NewBackend2.Service.Concrete
                 To = user.Email,
                 Message = body,
                 Subject = subject,
-                Send = false
             };
 
             await this.SendEmailAsync(email);
@@ -103,7 +101,6 @@ namespace NewBackend2.Service.Concrete
                 To = user.Email,
                 Message = body,
                 Subject = subject,
-                Send = false
             };
 
             await this.SendEmailAsync(email);
@@ -138,7 +135,6 @@ namespace NewBackend2.Service.Concrete
                         To = appointment.User.Email,
                         Message = body,
                         Subject = subject,
-                        Send = false
                     };
 
                     await this.SendEmailAsync(email);
@@ -168,7 +164,6 @@ namespace NewBackend2.Service.Concrete
                         To = appointment.User.Email,
                         Message = body,
                         Subject = subject,
-                        Send = false
                     };
 
                     await this.SendEmailAsync(email);

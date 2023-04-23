@@ -11,19 +11,15 @@ namespace NewBackend2.Service.Concrete
     {
         private readonly IDoctorRepository doctorRepository;
         private readonly IAppointmentRepository appointmentRepository;
-        private readonly IEmailService emailService;
         private readonly IDegreeRepository degreeRepository;
         private readonly IEmploymentRepository employmentRepository;
         private readonly IReviewRepository reviewRepository;
-        private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
 
-        public DoctorService(IDoctorRepository doctorRepository, IEmailService emailService, IUserRepository userRepository, IAppointmentRepository appointmentRepository, IEmploymentRepository employmentRepository, 
+        public DoctorService(IDoctorRepository doctorRepository, IAppointmentRepository appointmentRepository, IEmploymentRepository employmentRepository, 
             IReviewRepository reviewRepository, IDegreeRepository degreeRepository, IMapper mapper)
         {
             this.appointmentRepository = appointmentRepository;
-            this.emailService = emailService;
-            this.userRepository = userRepository;
             this.doctorRepository = doctorRepository;
             this.employmentRepository = employmentRepository;
             this.degreeRepository = degreeRepository;
@@ -139,23 +135,6 @@ namespace NewBackend2.Service.Concrete
             }
 
             return appointmentSlotList;
-        }
-
-        public async Task ScheduleAppointment(AppointmentDto appointment)
-        {
-            var user = await userRepository.GetUserByEmailAsync(appointment.UserEmail);
-            var doctor = await doctorRepository.GetDoctorByFirstNameAndLastNameAsync(appointment.DoctorFirstName, appointment.DoctorLastName);
-            var appointmentEntity = new AppointmentEntity
-            {
-                UserId = user.UserId,
-                DoctorId = doctor.DoctorId,
-                Price = appointment.Price,
-                Location = appointment.Location,
-                HospitalName = appointment.HospitalName,
-                AppointmentDate = appointment.AppointmentDate.AddHours(3)
-            };
-            await appointmentRepository.AddAppointmentAsync(appointmentEntity);
-            await emailService.SendAppointmentConfirmationEmailAsync(user, doctor, appointmentEntity);
         }
     }
 }

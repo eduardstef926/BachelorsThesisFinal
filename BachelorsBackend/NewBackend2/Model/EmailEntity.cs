@@ -18,7 +18,15 @@ namespace NewBackend2.Model
         [Required]
         public string To { get; set; }  
 
-        [Required]
-        public bool Send { get; set; }
+        public override bool Equals(object? obj)
+        {
+            return obj is EmailEntity entity &&
+                Id == entity.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id);
+        }
     }
 }

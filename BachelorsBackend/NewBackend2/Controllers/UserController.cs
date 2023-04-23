@@ -102,5 +102,45 @@ namespace NewBackend2.Controllers
 
             return Ok();
         }
+
+        [HttpPost("AddUserSubscription")]
+        public async Task<IActionResult> AddUserSubscription([FromBody] SubscriptionDto subscription)
+        {
+            if (subscription == null)
+            {
+                return BadRequest("Invalid input data");
+            }
+
+            await userService.AddUserSubscriptionAsync(subscription);
+
+            return Ok();
+        }
+
+
+        [HttpPost("ScheduleAppointment")]
+        public async Task<IActionResult> ScheduleAppointment([FromBody] AppointmentDto appointment)
+        {
+            if (appointment == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            await userService.ScheduleAppointment(appointment);
+
+            return Ok();
+        }
+
+        [HttpGet("CheckUserSubscription")]
+        public async Task<IActionResult> CheckUserSubscription(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            var result = await userService.CheckUserSubscriptionAsync(email);
+
+            return Ok(result);
+        }
     }
 }

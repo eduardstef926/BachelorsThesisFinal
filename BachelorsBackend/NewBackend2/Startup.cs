@@ -18,6 +18,7 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ProjectDatabaseConfiguration>(ServiceLifetime.Transient);
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IEmploymentRepository, EmploymentRepository>();
@@ -71,7 +72,8 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<EngineerEntity, EngineerDto>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
     mc.CreateMap<DiseaseEntity, DiseaseDto>();
-    mc.CreateMap<DiagnosticEntity, DiagnosticDto>();    
+    mc.CreateMap<DiagnosticEntity, DiagnosticDto>();
+    mc.CreateMap<SubscriptionDto, SubscriptionEntity>();
     mc.CreateMap<SymptomEntity, SymptomDto>()
         .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Name));
     mc.CreateMap<ReviewDto, ReviewEntity>();
