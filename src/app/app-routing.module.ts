@@ -17,6 +17,7 @@ import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment
 import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
 import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
 import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
+import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
 
 const routes: Routes = [
   {
@@ -94,6 +95,10 @@ const routes: Routes = [
   {
     path: 'subscription-page',
     component: SubscriptionsPageComponent
+  },
+  {
+    path: 'my-account',
+    component: MyAccountPageComponent
   },
 ];
 

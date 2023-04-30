@@ -5,6 +5,8 @@ import { SymptomDto } from "../model/symptom.model";
 import { DiagnosticDto } from "../model/diagnostic.model";
 import { AppointmentDto } from "../model/appointment.model";
 import { ReviewDto } from "../model/review.model";
+import { SubscriptionInputDto } from "../model/subscriptionInput.model";
+import { UserDto } from "../model/user.model";
 import { SubscriptionDto } from "../model/subscription.model";
 
 @Injectable()
@@ -27,7 +29,6 @@ export class UserService{
     );
   }
 
-  
   scheduleAppointment(appointment: AppointmentDto): Observable<any>  {
     appointment.appointmentDate = new Date(appointment.appointmentDate);
     const body = JSON.stringify(appointment);
@@ -38,7 +39,21 @@ export class UserService{
     );
   }
 
-  addUserSubscription(subscription: SubscriptionDto) {
+  getUserAppointmentsByEmail(email: string): Observable<Array<AppointmentDto>>  {
+    return this.httpClient.get<Array<AppointmentDto>>(
+      this.baseUrl + "/User/GetUserAppointments?email=" + email,
+      this.options
+    );
+  }
+
+  getUserSubscriptionByEmail(email: string): Observable<SubscriptionDto> {
+    return this.httpClient.get<SubscriptionDto>(
+      this.baseUrl + "/User/GetUserSubscription?email=" + email,
+      this.options
+    );
+  }
+
+  addUserSubscription(subscription: SubscriptionInputDto) {
     const body = JSON.stringify(subscription);
     return this.httpClient.post<any>(
       this.baseUrl + "/User/AddUserSubscription",
@@ -80,6 +95,23 @@ export class UserService{
   getAppointmentById(id: number): Observable<AppointmentDto> {
     return this.httpClient.get<AppointmentDto>(
       this.baseUrl + "/User/GetAppointmentById?id=" + id,
+      this.options
+    );
+  }
+
+  getFullUserDataByEmail(email: string): Observable<UserDto> {
+    return this.httpClient.get<UserDto>(
+      this.baseUrl + "/User/GetFullUserDataByEmail?email=" + email,
+      this.options
+    );
+  }
+
+  updateUserData(user: UserDto): Observable<any> {
+    return this.httpClient.put<any>(
+      this.baseUrl + "/User/UpdateUserData?email=" + user.email 
+      + "&firstName=" + user.firstName 
+      + "&lastName=" + user.lastName
+      + "&phoneNumber=" + user.phoneNumber,
       this.options
     );
   }

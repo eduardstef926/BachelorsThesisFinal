@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { LoggedUserDto } from '../model/loginUser.model';
 import { AuthService } from '../services/auth.service';
 import { LocalStorageService } from '../services/localstorage.service';
+import * as Fingerprint2 from 'fingerprintjs2';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login-page',
@@ -32,6 +34,7 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private router: Router,
               private userService: AuthService,
+              private cookieService: CookieService,
               private snackBar: MatSnackBar,
               private localStorage: LocalStorageService) {}
   
@@ -58,24 +61,31 @@ export class LoginPageComponent implements OnInit {
       this.getEmail().length == 0
     ) {
       this.inputErrorMessage = true;
+    } else {
+      Fingerprint2.get((components: any) => {
+        const values = components.map((component: any) => component.value);
+        const identifier = Fingerprint2.x64hash128(values.join(''), 31);
+        const loggedUser = {
+          password: this.getPassword(), 
+          email: this.getEmail(),
+          name: "user",
+          identifier: identifier
+        } as LoggedUserDto;
+
+        this.userService.login(loggedUser).subscribe((data: any) => {
+            console.log(this.cookieService);
+            this.cookieService.set(data.identifier, data.dateTime);
+            this.localStorage.set("loggedUserEmail", loggedUser.email);
+            this.router.navigate(['/main']);
+          },
+          (errors) => {
+            if (errors.status == 400) {
+                this.loginErrorMessage = true;
+            }
+          }
+        );
+      });
     }
-
-    const loggedUser = {
-      password: this.getPassword(), 
-      email: this.getEmail()
-    } as LoggedUserDto;
-
-    this.userService.loginAsPacient(loggedUser).subscribe((data) => {
-        this.localStorage.set("loggedIn", true);
-        this.localStorage.set("loggedUserEmail", loggedUser.email);
-        this.router.navigate(['/main']);
-      },
-      (errors) => {
-        if (errors.status == 400) {
-            this.loginErrorMessage = true;
-        }
-      }
-    );
   }
 
   showMessage(message: string): void {

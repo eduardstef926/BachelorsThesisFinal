@@ -1,0 +1,103 @@
+<div class="background-div" @fade>
+    <div class="navigation-tab">
+        <button (click)="showAccountPage('showProfilePage')" class="account-tab" mat-button>
+            <mat-icon class="icon-tab">person</mat-icon>
+            Account
+        </button>
+        <button (click)="showAccountPage('showAppointmentPage')" class="account-tab" mat-button>
+            <mat-icon class="icon-tab">calendar_today</mat-icon>
+            Appointments
+        </button>
+        <button (click)="showAccountPage('showSubscriptionPage')" class="account-tab" mat-button>
+            <mat-icon class="icon-tab">notifications</mat-icon>
+            Subscription
+        </button>
+        <button  (click)="logOut()" class="exit-tab" mat-button>
+            <mat-icon class="icon-tab">exit_to_app</mat-icon>
+            Log out
+        </button>
+    </div>
+    <div *ngIf="this.accountPages.showProfilePage" class="profile-tab">
+        <p class="profile-title">
+            Public Profile
+        </p>
+        <p class="name-section">
+            First Name
+        </p>
+        <input 
+            class="name-input"
+            [(ngModel)]="firstName"
+            type="text"
+        >
+        <p class="name-section">
+            Last Name
+        </p>
+        <input 
+            class="name-input"
+            [(ngModel)]="lastName"
+            type="text"
+        >
+        <p class="name-section">
+            Email
+        </p>
+        <input 
+            class="name-input"
+            [(ngModel)]="email"
+            type="text"
+        >
+        <p class="name-section">
+            Phone Number
+        </p>
+        <input 
+            class="name-input"
+            [(ngModel)]="phoneNumber"
+            type="text"
+        >
+        <div class="button-container">
+            <button (click)="updateProfile()" mat-button class="modify-button">
+                Update Profile
+            </button>
+        </div>
+    </div>
+    <div *ngIf="this.accountPages.showAppointmentPage" class="profile-tab">
+        <p class="appontment-title">
+            Past Appointments
+        </p>
+        <div class="appointment-container">
+            <div *ngFor="let appointment of this.appointments">
+                <div class="appointment-div">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th class="header-div">Doctor Name</th>
+                                <td>Dr. {{appointment.doctorFirstName}} {{appointment.doctorLastName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="header-div">Hospital</th>
+                                <td>{{appointment.hospitalName}}</td>
+                            </tr>
+                            <tr>
+                                <th class="header-div">Location</th>
+                                <td>{{appointment.location}}</td>
+                            </tr>
+                            <tr>
+                                <th class="header-div">Price</th>
+                                <td>{{appointment.price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <mat-paginator [pageSize]="pageSize" [length]="this.tableCopy.length" (page)="onPageChange($event)"></mat-paginator>
+    </div>
+    <div *ngIf="this.accountPages.showSubscriptionPage" class="profile-tab">
+        <p class="appontment-title">
+            Subscription is valid until
+        </p>
+        <div class="subscription-container">
+           {{this.endDate}}
+        </div>
+    </div>
+    <img class="flower-image" src="assets/flower2.jpg">
+</div>

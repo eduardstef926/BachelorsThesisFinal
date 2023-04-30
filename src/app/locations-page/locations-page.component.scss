@@ -1,32 +1,121 @@
 
 .main-background {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 2rem;
-    padding-left: 2rem;
+    text-align: center;
+    padding-top: 1.7%;
 }
 
-.parent {
-    display: table;
-    width: 13%;
-    height: 35rem;
-    background-color: rgb(64, 152, 64);
-    border-radius: 4px;
-    color: white;
+.page-title {
+    font-size: 30px;
+}
+
+.location-title {
+    margin-bottom: 5%;
+    margin-left: 15%;
+    font-size: 25px;
+}
+
+.location-div {
     text-align: center;
 }
 
-.child {
-    display: table-cell;
-    vertical-align: middle;
+.hospital-item {
+    padding-left: 8%;
+    padding-right: 8%;
+    margin-bottom: 5%;
+    height: 15vh;
+    width: 40rem;
+    border-radius: 7px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    background-color: rgb(250, 246, 246);
+    color: green;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
-.carrer-button {
+.select-container {
+    padding-top: 2.5%;
+    display: flex; 
+    justify-content: center; 
+    gap: 10rem;
+}
+
+.mobile-div, .address-div {
+    display: flex;
+}
+
+.address-div {
+    margin-top: 4%;
+}
+
+.select-city {
+    margin-top: 10%;
+    height: 1.8rem;
+    width: 70%;
+}
+
+.call-div {
+    margin-top: 10%;
+}
+
+.filter-div {
+    align-items: center;
+    color: white !important;
+}
+
+.filter-title, .contact-call {
+    font-size: 25px;
+    color: white;   
+}
+
+.contact-call {
+    width: 99%;
+}
+
+.filter-container {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%;
+    padding: 15% 5%;
+    height: auto;
+    background-color: #4CAF50;
+}
+
+.call-container {
+    border-bottom: 2px solid white;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    padding: 20% 5%;
+    height: auto;
+    background-color: #4CAF50;
+}
+
+.call-button {
     background-color: white;
-    color: black;
-    margin-top: 1rem;
+    width: 70%;
 }
 
-.carrer-title {
-    font-size: 20px;
+* {
+    font-family: sans-serif;
+}
+
+.material-icons {
+    font-family: 'Material Icons' !important;
+} 
+
+.filter-button {
+   font-weight: 600;
+   background-color: white;  
+   margin-bottom: 8%; 
+   margin-top: 8%; 
+   width: 70%; 
+   color: green;
+}
+
+.hospital-title {
+    font-weight: 600; 
+    font-size: 25px;
 }

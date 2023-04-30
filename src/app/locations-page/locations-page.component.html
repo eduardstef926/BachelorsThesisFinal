@@ -1,16 +1,73 @@
-<div class="main-background">
-    <div class="parent">
-        <div class="child">
-            <p class="carrer-title">
-                More information?
-            </p>
-            <button
-                mat-button
-                class="carrer-button"
-            >
-            <mat-icon>phone</mat-icon>
-                Contact us
-            </button>
+<div class="main-background" @fade>
+    <p class="page-title">
+        Locations
+    </p>
+    <div class="select-container">
+        <div class="detail-container">
+            <div class="filter-container">
+                <p class="filter-title">
+                    Select City
+                </p>
+                <div class="filter-div">
+                    <select 
+                        class="select-city"
+                        [(ngModel)]="selectedCity"
+                    >
+                        <option value="" disabled selected>Select City</option>
+                        <option 
+                            *ngFor="let city of dictionaryCopy.keys()" 
+                            [ngValue]="city" 
+                            style="font-style: Verdana;"
+                        >
+                            {{city}}
+                        </option>
+                    </select>
+                </div>
+                <button
+                    class="filter-button"
+                    (click)="filterLocations()"
+                    mat-button
+                >
+                    Filter 
+                </button>
+            </div>
+            <div class="call-container">
+                <p class="contact-call">
+                    For More Information
+                </p> 
+                <div class="call-div">
+                    <button
+                        class="call-button"
+                        mat-button
+                    >   
+                        <mat-icon>phone</mat-icon>
+                        Contact
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div *ngFor="let key of locationDictionary.keys()">
+                <div class="location-div">
+                    <p class="location-title">
+                        {{key}}
+                    </p>
+                    <div 
+                        *ngFor="let value of locationDictionary.get(key)" 
+                        class="hospital-item"
+                    >
+                        <p class="hospital-title">{{value.name}}</p>
+                        <div>
+                            <p class="mobile-div">
+                                Mobile: {{value.phoneNumber}}
+                            </p>
+                            <p class="address-div">
+                                Address: {{value.address}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

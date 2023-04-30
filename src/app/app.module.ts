@@ -43,6 +43,8 @@ import { AppointmentSlotlistComponent } from './appointment-slotlist/appointment
 import { AppointmentPriceComponent } from './appointment-price/appointment-price.component';
 import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
 import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
+import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
+import { HospitalService } from './services/hospital.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,7 @@ import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-p
     AppointmentPriceComponent, 
     AppointmentReviewComponent, 
     SubscriptionsPageComponent, 
+    MyAccountPageComponent, 
   ],
   imports: [
     HttpClientModule,
@@ -94,7 +97,7 @@ import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-p
     MatPaginatorModule,
     MatCheckboxModule,
   ],
-  providers: [UserService, AuthService, DoctorService, LocalStorageService],
+  providers: [UserService, AuthService, DoctorService, HospitalService, LocalStorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
