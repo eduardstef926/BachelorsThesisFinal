@@ -1322,3 +1322,8 @@ C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\obj\Debug\net6.
 C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\obj\Debug\net6.0\NewBackend2.pdb
 C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\obj\Debug\net6.0\NewBackend2.genruntimeconfig.cache
 C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\obj\Debug\net6.0\ref\NewBackend2.dll
+C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\bin\Debug\net6.0\RestSharp.dll
+C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\eddis\BachelorsThesisFinal\BachelorsBackend\NewBackend2\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll

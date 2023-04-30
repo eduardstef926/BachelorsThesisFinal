@@ -6,6 +6,7 @@ namespace NewBackend2.Repository.Abstract
     {
         Task AddUserAsync(UserEntity user);
         Task UpdateUserPasswordAsync(int id, string newPassword);
+        Task UpdateUserDataAsync(UserEntity user);
         Task ConfirmEmailAsync(int id);
         Task<int> GetUserIdByEmailAsync(string email);
         Task<SubscriptionEntity> GetUserSubscriptionAsync(string email);

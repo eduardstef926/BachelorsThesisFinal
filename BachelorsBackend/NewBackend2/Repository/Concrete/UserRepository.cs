@@ -66,9 +66,25 @@ namespace NewBackend2.Repository.Concrete
         public async Task UpdateUserPasswordAsync(int id, string newPassword)
         {
             var userToUpdate = database.users.FirstOrDefault(u => u.UserId == id);
+            
             if (userToUpdate != null)
             {
                 userToUpdate.Password = newPassword;
+                database.SaveChanges();
+            }
+        }
+
+        public async Task UpdateUserDataAsync(UserEntity user)
+        {
+            var userToUpdate = database.users.FirstOrDefault(u => u.Email == user.Email);
+            
+            if (userToUpdate != null)
+            {
+                userToUpdate.FirstName = user.FirstName;
+                userToUpdate.LastName = user.LastName;
+                userToUpdate.Email = user.Email;
+                userToUpdate.PhoneNumber = user.PhoneNumber;
+
                 database.SaveChanges();
             }
         }

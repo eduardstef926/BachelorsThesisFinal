@@ -81,9 +81,9 @@ namespace NewBackend2.Service.Concrete
             await medicalRepository.AddDiagnosticAsync(userDiagnostic);
         }
 
-        public async Task AddUserSubscriptionAsync(SubscriptionDto subscriptionDto)
+        public async Task AddUserSubscriptionAsync(SubscriptionInputDto subscriptionDto)
         {
-            var subscription = mapper.Map<SubscriptionDto, SubscriptionEntity>(subscriptionDto);
+            var subscription = mapper.Map<SubscriptionInputDto, SubscriptionEntity>(subscriptionDto);
             
             subscription.UserId = await userRepository.GetUserIdByEmailAsync(subscriptionDto.Email);
             subscription.StartDate = DateTime.Now;
@@ -128,6 +128,7 @@ namespace NewBackend2.Service.Concrete
         {
             var user = await userRepository.GetUserByEmailAsync(appointment.UserEmail);
             var doctor = await doctorRepository.GetDoctorByFirstNameAndLastNameAsync(appointment.DoctorFirstName, appointment.DoctorLastName);
+            
             var appointmentEntity = new AppointmentEntity
             {
                 UserId = user.UserId,
@@ -137,6 +138,7 @@ namespace NewBackend2.Service.Concrete
                 HospitalName = appointment.HospitalName,
                 AppointmentDate = appointment.AppointmentDate.AddHours(3)
             };
+
             await appointmentRepository.AddAppointmentAsync(appointmentEntity);
             await emailService.SendAppointmentConfirmationEmailAsync(user, doctor, appointmentEntity);
         }
@@ -144,9 +146,45 @@ namespace NewBackend2.Service.Concrete
         public async Task<bool> CheckUserSubscriptionAsync(string email)
         {
             var subscription = await userRepository.GetUserSubscriptionAsync(email);
+            
             if (subscription == null) 
                 return false;
+
             return (DateTime.Now.CompareTo(subscription.StartDate) >= 0 && DateTime.Now.CompareTo(subscription.EndDate) <= 0);
+        }
+
+        public async Task<FullUserDataDto> GetFullUserDataByEmailAsync(string email)
+        {
+            var user = await userRepository.GetUserByEmailAsync(email);
+            return mapper.Map<UserEntity, FullUserDataDto>(user);
+        }
+
+        public async Task UpdateUserDataAsync(string firstName, string lastName, string email, int phoneNumber)
+        {
+            var user = new UserEntity
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                PhoneNumber = phoneNumber
+            };
+
+            await userRepository.UpdateUserDataAsync(user); 
+        }
+
+        public async Task<List<AppointmentDto>> GetUserAppointmentsByEmailAsync(string email)
+        {
+            var appointments = await appointmentRepository.GetUserAppointmentsByEmailAsync(email);
+            return appointments
+                .Select(mapper.Map<AppointmentEntity, AppointmentDto>)
+                .ToList();
+        }
+
+        public async Task<SubscriptionDto> GetUserSubscriptionAsync(string email)
+        {
+            var subscription = await userRepository.GetUserSubscriptionAsync(email);
+
+            return mapper.Map<SubscriptionEntity, SubscriptionDto>(subscription);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class SubscriptionDto
     {
-        public string Email { get; set; }   
-        public int Length { get; set; } 
+        public DateTime startDate { get; set; }
+        public DateTime endDate { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using NewBackend2.Dtos;
-using NewBackend2.Jobs;
 using NewBackend2.Model;
 using NewBackend2.Repository;
 using NewBackend2.Repository.Abstract;
@@ -8,7 +10,7 @@ using NewBackend2.Repository.Concrete;
 using NewBackend2.Service.Abstract;
 using NewBackend2.Service.Concrete;
 using Quartz;
-using System.Configuration;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -18,6 +20,8 @@ builder.Services.AddCors();
 builder.Services.AddHttpClient();
 builder.Services.AddDbContext<ProjectDatabaseConfiguration>(ServiceLifetime.Transient);
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<ICookieRepository, CookieRepository>();
+builder.Services.AddScoped<IHospitalRepository, HospitalRepository>();
 builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
@@ -31,6 +35,7 @@ builder.Services.AddScoped<IMedicalRepository, MedicalRepository>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IHospitalService, HospitalService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddQuartz(q =>
@@ -67,13 +72,16 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<DoctorEntity, DoctorDto>();
     mc.CreateMap<DoctorDto, DoctorEntity>();
     mc.CreateMap<UserEntity, UserDto>();
+    mc.CreateMap<UserEntity, FullUserDataDto>();
     mc.CreateMap<UserDto, UserEntity>();
     mc.CreateMap<EngineerDto, EngineerEntity>();
     mc.CreateMap<EngineerEntity, EngineerDto>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
     mc.CreateMap<DiseaseEntity, DiseaseDto>();
     mc.CreateMap<DiagnosticEntity, DiagnosticDto>();
-    mc.CreateMap<SubscriptionDto, SubscriptionEntity>();
+    mc.CreateMap<HospitalEntity, HospitalDto>();
+    mc.CreateMap<SubscriptionInputDto, SubscriptionEntity>();
+    mc.CreateMap<SubscriptionEntity, SubscriptionDto>();
     mc.CreateMap<SymptomEntity, SymptomDto>()
         .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Name));
     mc.CreateMap<ReviewDto, ReviewEntity>();
@@ -123,7 +131,7 @@ app.UseCors(x => x
 );
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
@@ -132,8 +140,6 @@ app.UseEndpoints(endpoints =>
 });
 
 app.UseHttpsRedirection();
-
 app.MapControllers();
-
 app.Run();
 

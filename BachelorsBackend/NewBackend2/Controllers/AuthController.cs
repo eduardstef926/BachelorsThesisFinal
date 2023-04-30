@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using NewBackend2.Dtos;
 using NewBackend2.Service.Abstract;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace NewBackend2.Controllers
@@ -30,16 +32,21 @@ namespace NewBackend2.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(LoggedUserDto user)
         {
-            var response = await authService.Login(email, password);
-
-            if (response)
+            if (user == null)
             {
-                return Ok();
+                return BadRequest("Invalid object");
             }
 
-            return BadRequest("Invalid credentials");
+            var response = await authService.Login(user);
+
+            if (response == null)
+            {
+                return BadRequest("Invalid username or password!");
+            }
+
+            return Ok(response);
         }
 
         [HttpPut("ModifyPassword")]
@@ -115,6 +122,19 @@ namespace NewBackend2.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpDelete("LogOut")]
+        public async Task<IActionResult> LogOut(string identifier)
+        {
+            if (identifier == null)
+            {
+                return BadRequest("Invalid input data");
+            }
+
+            await authService.LogOut(identifier);
+
+            return Ok();
         }
     }
 }

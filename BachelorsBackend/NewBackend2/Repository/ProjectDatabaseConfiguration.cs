@@ -27,6 +27,8 @@ namespace NewBackend2.Repository
         public DbSet<DiseaseEntity> diseases { get; set; }
         public DbSet<EmploymentEntity> employments { get; set; }
         public DbSet<SubscriptionEntity> subscriptions { get; set; }
+        public DbSet<CookiesEntity> cookies { get; set; }
+        public DbSet<HospitalEntity> hospitals { get; set; }
 
         public ProjectDatabaseConfiguration(DbContextOptions<ProjectDatabaseConfiguration> options) : base(options)
         {
