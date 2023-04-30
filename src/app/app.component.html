@@ -45,3 +45,79 @@
   </div>
 </div>
 <router-outlet></router-outlet>
+<footer>
+  <div class="container">
+    <div class="footer-container">
+      <div class="col-auto">
+        <div class="title-container">
+          <p class="company-title">
+            Virtual Clinic Team.
+          </p>
+        </div>
+        <div class="residence-container">
+          <mat-icon>home</mat-icon>
+          <p>
+            Hollosi Simon nr.10, Cluj-Napoca, Romania
+          </p>
+        </div>
+        <div class="phone-container">
+          <mat-icon>phone</mat-icon>
+          <p>
+            0723245023
+          </p>
+        </div>
+        <div class="icon-container">
+          <mat-icon>facebook</mat-icon>
+          <mat-icon>email</mat-icon>
+          <mat-icon>ondemand_video</mat-icon>
+        </div>
+        <p class="rights-title">
+          @2023 All rights reserved. Virtual Clinic
+        </p>
+      </div>
+      <div class="col-auto">
+        <ul class="footer-menu d-flex">
+          <li>
+            <a href="#" class="footer-title">
+              About Us
+            </a>
+            <div class="footer-firstItem">
+              <a 
+                href="#" 
+                (click)="lookEmployeePage($event)"
+              >
+              Employees
+            </a>
+            </div>
+            <div class="footer-item">
+              <a 
+                href="#" 
+                (click)="lookLocationsPage($event)"
+              >
+                Locations
+              </a>
+            </div>
+            <div class="footer-item">
+              <a 
+                href="#" 
+                (click)="lookSubscriptionsPage($event)"
+              >
+                Subscriptions
+              </a>
+            </div>
+          </li>
+          <li>
+            <a href="#" class="footer-title">
+              Contact
+            </a>
+            <div class="support-title">
+              <a href="#">Contact Support</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+

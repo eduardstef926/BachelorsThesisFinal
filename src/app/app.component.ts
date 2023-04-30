@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from './services/localstorage.service';
 
@@ -21,16 +21,19 @@ export class AppComponent {
 
   lookLocationsPage(event : Event) {
     event.preventDefault();
+    window.scrollTo(0, 0);
     this.router.navigate(['/locations']);
   }
 
   lookEmployeePage(event: Event) {
     event.preventDefault();
+    window.scrollTo(0, 0);
     this.router.navigate(['/employees']);
   }
   
   lookSubscriptionsPage(event: Event) {
     event.preventDefault();
+    window.scrollTo(0, 0);
     this.router.navigate(['/subscription-page']);
   }
 
