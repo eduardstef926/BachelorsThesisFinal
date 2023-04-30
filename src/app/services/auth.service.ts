@@ -25,9 +25,18 @@ export class AuthService{
     );
   }
 
-  loginAsPacient(user: LoggedUserDto): Observable<any> {
+  login(user: LoggedUserDto): Observable<any> {
+    const body = JSON.stringify(user);
     return this.httpClient.post<string>(
-      this.baseUrl + "/Auth/login?email=" + user.email + "&password=" + user.password,
+      this.baseUrl + "/Auth/login",
+      body,
+      this.options
+    );
+  }
+  
+  logOut(identifier: string): Observable<any> {
+    return this.httpClient.delete<string>(
+      this.baseUrl + "/Auth/LogOut?identifier=" + identifier,
       this.options
     );
   }

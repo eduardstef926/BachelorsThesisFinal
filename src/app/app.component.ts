@@ -16,9 +16,7 @@ export class AppComponent {
               private route: ActivatedRoute) {}
 
   ngOnInit() {
-    // if (this.localStorage.get("loggedIn")) {
-    //   this.loggedIn = true;
-    // } 
+    this.loggedIn = this.localStorage.get("loggedIn");
   }
 
   lookLocationsPage(event : Event) {
@@ -39,6 +37,11 @@ export class AppComponent {
   goHome(event : Event) {
     event.preventDefault();
     this.router.navigate(['']);
+  }
+
+  lookAccountPage(event : Event) {
+    event.preventDefault();
+    this.router.navigate(['/my-account']);
   }
 
   login() {

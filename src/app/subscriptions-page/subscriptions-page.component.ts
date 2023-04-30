@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '../services/localstorage.service';
 import { UserService } from '../services/user.service';
-import { SubscriptionDto } from '../model/subscription.model';
+import { SubscriptionInputDto } from '../model/subscriptionInput.model';
 
 @Component({
   selector: 'app-subscriptions-page',
@@ -30,7 +30,7 @@ export class SubscriptionsPageComponent implements OnInit {
     var subscription = {
       email: userEmail,
       length: length
-    } as SubscriptionDto;
+    } as SubscriptionInputDto;
     this.userService.addUserSubscription(subscription).subscribe(() => {});
   }
 }

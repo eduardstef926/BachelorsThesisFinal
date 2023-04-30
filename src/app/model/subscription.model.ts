@@ -1,4 +1,4 @@
 export class SubscriptionDto {
-    email!: string;
-    length!: number;
+    startDate!: string
+    endDate!: string
 }

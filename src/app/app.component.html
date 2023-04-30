@@ -14,14 +14,15 @@
         <a href="#" (click)="lookLocationsPage($event)">
           Locations
         </a>
-        <a href="#">
-          Prices
-        </a>
         <a href="#" (click)="lookSubscriptionsPage($event)">
           Subscriptions
         </a>
-        <a href="#">
-          Community
+        <a 
+          *ngIf="this.loggedIn" 
+          (click)="lookAccountPage($event)"
+          href="#" 
+        >
+          My Account
         </a>
         <button
             *ngIf="!this.loggedIn"
