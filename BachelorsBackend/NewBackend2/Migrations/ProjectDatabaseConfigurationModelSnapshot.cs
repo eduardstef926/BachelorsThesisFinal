@@ -100,6 +100,33 @@ namespace NewBackend2.Migrations
                     b.ToTable("College");
                 });
 
+            modelBuilder.Entity("NewBackend2.Model.CookiesEntity", b =>
+                {
+                    b.Property<int>("CookieId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CookieId"), 1L, 1);
+
+                    b.Property<DateTime>("DateTime")
+                        .HasMaxLength(100)
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Identifier")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("CookieId");
+
+                    b.ToTable("Cookies");
+                });
+
             modelBuilder.Entity("NewBackend2.Model.DegreeEntity", b =>
                 {
                     b.Property<int>("DegreeId")
@@ -348,10 +375,19 @@ namespace NewBackend2.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PhoneNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("int");
 
                     b.HasKey("Name");
 

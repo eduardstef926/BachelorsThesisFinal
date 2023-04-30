@@ -41,7 +41,7 @@ namespace NewBackend2.Controllers
         }
 
         [HttpGet("GetAllSymptoms")]
-        public async Task<IActionResult> GetAllSymptoms()
+        public async Task<IActionResult> LogOut()
         {
             var symptoms = await userService.GetAllSymptomsAsync();
 
@@ -52,7 +52,6 @@ namespace NewBackend2.Controllers
 
             return Ok(symptoms);
         }
-
 
         [HttpGet("GetLastDiagnosticByUserEmail")]
         public async Task<IActionResult> GetLastDiagnosticByUserEmail(string email)
@@ -104,7 +103,7 @@ namespace NewBackend2.Controllers
         }
 
         [HttpPost("AddUserSubscription")]
-        public async Task<IActionResult> AddUserSubscription([FromBody] SubscriptionDto subscription)
+        public async Task<IActionResult> AddUserSubscription([FromBody] SubscriptionInputDto subscription)
         {
             if (subscription == null)
             {
@@ -141,6 +140,58 @@ namespace NewBackend2.Controllers
             var result = await userService.CheckUserSubscriptionAsync(email);
 
             return Ok(result);
+        }
+
+        [HttpGet("GetFullUserDataByEmail")]
+        public async Task<IActionResult> GetFullUserDataByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            var result = await userService.GetFullUserDataByEmailAsync(email);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetUserSubscription")]
+        public async Task<IActionResult> GetUserSubscription(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest("Invalid input!");
+            }
+
+            var result = await userService.GetUserSubscriptionAsync(email);
+
+            return Ok(result);
+        }
+
+        [HttpPut("UpdateUserData")] 
+        public async Task<IActionResult> UpdateUserData(string firstName, string lastName, string email, int phoneNumber)
+        {
+            if (firstName == null || lastName == null || email == null || phoneNumber == 0)
+            {
+                return BadRequest("Invalid input data");
+            }
+
+            await userService.UpdateUserDataAsync(firstName, lastName, email, phoneNumber);
+            
+            return Ok();
+        }
+
+        [HttpGet("GetUserAppointments")]
+        public async Task<IActionResult> GetUserAppointments(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest("Invalid object");
+            }
+
+            var appointments = await userService.GetUserAppointmentsByEmailAsync(email);
+
+            return Ok(appointments);
         }
     }
 }

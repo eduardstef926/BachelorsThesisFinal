@@ -10,22 +10,37 @@ namespace NewBackend2.Service.Concrete
     public class AuthService : IAuthService
     {
         private readonly IEmailService emailService;
+        private readonly ICookieRepository cookieRepository;
         private readonly IUserRepository userRepository;
         private readonly IMapper mapper;    
 
-        public AuthService(IEmailService emailService, IUserRepository userRepository, IMapper mapper)
+        public AuthService(ICookieRepository cookieRepository, IEmailService emailService, IUserRepository userRepository, IMapper mapper)
         {
+            this.cookieRepository = cookieRepository;
             this.emailService = emailService;
             this.userRepository = userRepository;
             this.mapper = mapper;
         }
 
-        public async Task<bool> Login(string email, string password)
+        public async Task<CookiesEntity> Login(LoggedUserDto user)
         {
             var users = await userRepository.GetAllUsersAsync();
-            var hashedPassword = PasswordService.HashPassword(password);
+            var hashedPassword = PasswordService.HashPassword(user.Password);
 
-            return users.Any(x => x.Email == email && x.Password == hashedPassword);
+            var isUserPresent = users.Any(x => x.Email == user.Email && x.Password == hashedPassword);
+            if (isUserPresent)
+            {
+                var cookieEntity = new CookiesEntity
+                {
+                    Name = user.Name,
+                    Identifier = user.Identifier,
+                    DateTime = DateTime.Now.AddMonths(1),
+                };
+
+                await cookieRepository.AddCookie(cookieEntity);
+                return cookieEntity;
+            }
+            return null;
         }
 
         public async Task Register(UserDto user)
@@ -54,6 +69,11 @@ namespace NewBackend2.Service.Concrete
         public async Task ConfirmEmail(string id)
         {
             await userRepository.ConfirmEmailAsync(Convert.ToInt32(id));
+        }
+
+        public async Task LogOut(string identifier)
+        {
+            await cookieRepository.DeleteCookie(identifier);
         }
     }
 }

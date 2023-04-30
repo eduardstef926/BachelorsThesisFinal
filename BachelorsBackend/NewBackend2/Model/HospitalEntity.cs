@@ -14,6 +14,14 @@ namespace NewBackend2.Model
         [MaxLength(100)]
         public string Location { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        public string Address { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public int PhoneNumber { get; set; }
+
         public virtual ICollection<EmploymentEntity> Employments { get; set; }
 
         public override bool Equals(object? obj)
