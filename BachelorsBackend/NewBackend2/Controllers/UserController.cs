@@ -163,21 +163,26 @@ namespace NewBackend2.Controllers
                 return BadRequest("Invalid input!");
             }
 
-            var result = await userService.GetUserSubscriptionAsync(email);
+            var subscription = await userService.GetUserSubscriptionAsync(email);
 
-            return Ok(result);
+            if (subscription == null)
+            {
+                return BadRequest("No subscription");
+            }
+
+            return Ok(subscription);
         }
 
         [HttpPut("UpdateUserData")] 
-        public async Task<IActionResult> UpdateUserData(string firstName, string lastName, string email, int phoneNumber)
+        public async Task<IActionResult> UpdateUserData([FromBody] FullUserDataDto user)
         {
-            if (firstName == null || lastName == null || email == null || phoneNumber == 0)
+            if (user == null)
             {
                 return BadRequest("Invalid input data");
             }
 
-            await userService.UpdateUserDataAsync(firstName, lastName, email, phoneNumber);
-            
+            await userService.UpdateUserDataAsync(user);
+
             return Ok();
         }
 
@@ -190,6 +195,11 @@ namespace NewBackend2.Controllers
             }
 
             var appointments = await userService.GetUserAppointmentsByEmailAsync(email);
+
+            if (appointments.Count == 0)
+            {
+                return BadRequest("No Appointments");
+            }
 
             return Ok(appointments);
         }

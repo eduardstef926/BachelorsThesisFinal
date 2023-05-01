@@ -4,11 +4,12 @@ namespace NewBackend2.Service.Abstract
 {
     public interface IEmailService
     {
-        public Task SendEmailAsync(EmailEntity email);
-        public Task SendAppointmentConfirmationEmailAsync(UserEntity user, DoctorEntity doctor, AppointmentEntity appointment);
-        public Task SendForgotPasswordEmailAsync(string userEmail);
-        public Task SendWelcomeEmailAsync(string firstName, string lastName);
-        public Task SendAppointmentReminderAsync();
-        public Task SendAppointmentFeedbackEmailAsync();
+        Task SendEmailAsync(EmailEntity email);
+        Task SendSubscriptionPaymentAsync(UserEntity user, DateTime endDate);
+        Task SendAppointmentConfirmationEmailAsync(UserEntity user, DoctorEntity doctor, AppointmentEntity appointment);
+        Task SendForgotPasswordEmailAsync(string userEmail);
+        Task SendWelcomeEmailAsync(string firstName, string lastName);
+        Task SendAppointmentReminderAsync();
+        Task SendAppointmentFeedbackEmailAsync();
     }
 }

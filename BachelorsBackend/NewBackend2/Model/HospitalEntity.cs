@@ -20,7 +20,7 @@ namespace NewBackend2.Model
 
         [Required]
         [MaxLength(100)]
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public virtual ICollection<EmploymentEntity> Employments { get; set; }
 

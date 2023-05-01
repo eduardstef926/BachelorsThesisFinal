@@ -155,7 +155,7 @@ namespace NewBackend2.Service.Concrete
                 {
                     var subject = "Appointment Feedback";
                     var body = EmailHelper.GetReviewEmailTemplate();
-                    var userLink = "http://localhost:4200/appointment-review/" + appointment.AppointmentId;
+                    var userLink = "http://localhost:4200/appointment/review/" + appointment.AppointmentId;
                     body = body.Replace("[Recipient Name]", appointment.User.LastName)
                                .Replace("[Link]", userLink);
 
@@ -170,6 +170,24 @@ namespace NewBackend2.Service.Concrete
                     await emailRepository.AddEmailAsync(email);
                 }
             }
+        }
+
+        public async Task SendSubscriptionPaymentAsync(UserEntity user, DateTime endDate)
+        {
+            var subject = "Subscription Confirmed";
+            var body = EmailHelper.GetSubscriptionEmailPaymentTemplate();
+            body = body.Replace("[Recipient Name]", user.FirstName)
+                   .Replace("[End Date]", endDate.Year + "/" + endDate.Month + "/" + endDate.Day);
+
+            var email = new EmailEntity
+            {
+                To = user.Email,
+                Message = body,
+                Subject = subject,
+            };
+
+            await this.SendEmailAsync(email);
+            await emailRepository.AddEmailAsync(email);
         }
     }
 }

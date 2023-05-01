@@ -19,16 +19,8 @@ namespace NewBackend2.Model
         public string LastName { get; set; }
 
         [Required]
-        [MaxLength(10)]
-        public string Password { get; set; }
-
-        [Required]
         [MaxLength(100)]
         public string Email { get; set; }
-
-        [Required]
-        [MaxLength(10)]
-        public int PhoneNumber { get; set; }
 
         [Required]
         [MaxLength(100)]

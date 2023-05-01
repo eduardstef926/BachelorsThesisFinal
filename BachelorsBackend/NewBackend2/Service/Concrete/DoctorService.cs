@@ -101,7 +101,6 @@ namespace NewBackend2.Service.Concrete
             
             while (index < dayDifference.TotalDays)
             {
-                startDate = startDate.AddDays(1);
                 var currentDay = startDate.DayOfWeek;
                 var appointmentSlots = await employmentRepository.GetAppointmentDatesByDateSpecializationAndLocation(currentDay, location, specialization);
                 var appointmentSlotMappings = appointmentSlots
@@ -131,6 +130,7 @@ namespace NewBackend2.Service.Concrete
                     }
                 }
 
+                startDate = startDate.AddDays(1);
                 index += 1;
             }
 

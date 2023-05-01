@@ -11,6 +11,7 @@ namespace NewBackend2.Repository.Abstract
         Task<int> GetUserIdByEmailAsync(string email);
         Task<SubscriptionEntity> GetUserSubscriptionAsync(string email);
         Task<UserEntity> GetUserByFirstNameAndLastNameAsync(string firstName, string lastName);
+        Task<string> GetUserPasswordByIdAsync(int id);
         Task<UserEntity> GetUserByEmailAsync(string email);
         Task<List<UserEntity>> GetAllUsersAsync();
     }

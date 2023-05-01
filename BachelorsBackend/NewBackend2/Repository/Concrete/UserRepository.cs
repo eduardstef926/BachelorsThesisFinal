@@ -76,17 +76,16 @@ namespace NewBackend2.Repository.Concrete
 
         public async Task UpdateUserDataAsync(UserEntity user)
         {
-            var userToUpdate = database.users.FirstOrDefault(u => u.Email == user.Email);
-            
-            if (userToUpdate != null)
-            {
-                userToUpdate.FirstName = user.FirstName;
-                userToUpdate.LastName = user.LastName;
-                userToUpdate.Email = user.Email;
-                userToUpdate.PhoneNumber = user.PhoneNumber;
+            database.users.Update(user);
+            await database.SaveChangesAsync();
+        }
 
-                database.SaveChanges();
-            }
+        public Task<string> GetUserPasswordByIdAsync(int id)
+        {
+            return database.users.AsNoTracking()
+                .Where(x => x.UserId == id)
+                .Select(x => x.Password)
+                .FirstOrDefaultAsync();
         }
     }
 }

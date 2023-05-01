@@ -13,7 +13,7 @@ namespace NewBackend2.Service.Abstract
         Task<SubscriptionDto> GetUserSubscriptionAsync(string email);
         Task AddUserSubscriptionAsync(SubscriptionInputDto subscriptionDto);
         Task UpdateSymptomsAsync();
-        Task UpdateUserDataAsync(string firstName, string lastName, string email, int phoneNumber);
+        Task UpdateUserDataAsync(FullUserDataDto user);
         Task<FullUserDataDto> GetFullUserDataByEmailAsync(string email);
         Task<AppointmentDto> GetAppointmentByIdAsync(int id);
         Task<DiagnosticDto> GetLastDiagnosticByUserEmailAsync(string email);

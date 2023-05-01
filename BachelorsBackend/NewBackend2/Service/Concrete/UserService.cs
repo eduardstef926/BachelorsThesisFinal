@@ -84,11 +84,13 @@ namespace NewBackend2.Service.Concrete
         public async Task AddUserSubscriptionAsync(SubscriptionInputDto subscriptionDto)
         {
             var subscription = mapper.Map<SubscriptionInputDto, SubscriptionEntity>(subscriptionDto);
-            
-            subscription.UserId = await userRepository.GetUserIdByEmailAsync(subscriptionDto.Email);
+            var user = await userRepository.GetUserByEmailAsync(subscriptionDto.Email);
+
+            subscription.UserId = user.UserId;
             subscription.StartDate = DateTime.Now;
             subscription.EndDate = subscription.StartDate.AddMonths(subscriptionDto.Length);
-            
+
+            await this.emailService.SendSubscriptionPaymentAsync(user, subscription.EndDate);
             await subscriptionRepository.AddUserSubscriptionAsync(subscription);
         }
 
@@ -159,17 +161,11 @@ namespace NewBackend2.Service.Concrete
             return mapper.Map<UserEntity, FullUserDataDto>(user);
         }
 
-        public async Task UpdateUserDataAsync(string firstName, string lastName, string email, int phoneNumber)
+        public async Task UpdateUserDataAsync(FullUserDataDto user)
         {
-            var user = new UserEntity
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                PhoneNumber = phoneNumber
-            };
-
-            await userRepository.UpdateUserDataAsync(user); 
+            var updatedUser = mapper.Map<FullUserDataDto, UserEntity>(user);
+            updatedUser.Password = await userRepository.GetUserPasswordByIdAsync(user.UserId);
+            await userRepository.UpdateUserDataAsync(updatedUser); 
         }
 
         public async Task<List<AppointmentDto>> GetUserAppointmentsByEmailAsync(string email)

@@ -4,9 +4,7 @@
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Password { get; set; }
         public string Email { get; set; }
-        public int PhoneNumber { get; set; }
         public string HospitalName { get; set; }
         public string CurrentPosition { get; set; } 
         public string Specialization { get; set; }
