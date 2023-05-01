@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChatPageComponent } from './chat-page/chat-page.component';
 import { EmployeePageComponent } from './employee-page/employee-page.component';
 import { LocationPageComponent } from './locations-page/locations-page.component';
 import { ForgotPasswordComponent } from './login-page/forgot-password/forgot-password.component';
@@ -18,6 +17,7 @@ import { AppointmentPriceComponent } from './appointment-price/appointment-price
 import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
 import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
 import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
+import { SubscriptionPaymentPageComponent } from './subscription-payment-page/subscription-payment-page.component';
 
 const routes: Routes = [
   {
@@ -57,11 +57,7 @@ const routes: Routes = [
     component: ModifyPasswordComponent,
   },
   {
-    path: 'chat',
-    component: ChatPageComponent,
-  },
-  {
-    path: 'symptom-page',
+    path: 'symptom',
     component: SymptomPageComponent,
   },
   {
@@ -73,31 +69,35 @@ const routes: Routes = [
     component: DoctorDetailsComponent,
   },
   {
-    path: 'emergency-page',
+    path: 'emergency',
     component: EmergencyPageComponent,
   },
   {
-    path: 'diagnostic-page',
+    path: 'diagnostic',
     component: DiagnosticPageComponent,
   },
   {
-    path: 'appointment-page/list',
+    path: 'appointment/list',
     component: AppointmentSlotlistComponent,
   },
   {
-    path: 'appointment-page/confirmation',
+    path: 'appointment/confirmation',
     component: AppointmentPriceComponent,
   },
   {
-    path: 'appointment-review/:id',
+    path: 'appointment/review/:id',
     component: AppointmentReviewComponent
   },
   {
-    path: 'subscription-page',
+    path: 'subscription',
     component: SubscriptionsPageComponent
   },
   {
-    path: 'my-account',
+    path: 'subscription/payment/:length',
+    component: SubscriptionPaymentPageComponent
+  },
+  {
+    path: 'account',
     component: MyAccountPageComponent
   },
 ];

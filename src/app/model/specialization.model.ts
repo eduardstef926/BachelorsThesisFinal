@@ -1,4 +1,4 @@
-export class specialization {
+export class Specialization {
     value!: string;
     viewValue!: string;
 }

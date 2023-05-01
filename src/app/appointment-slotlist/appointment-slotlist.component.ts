@@ -39,6 +39,6 @@ export class AppointmentSlotlistComponent implements OnInit {
 
   moveToFinalPage(element: any) {
     this.localStorage.set("appointment", element);
-    this.router.navigate(['/appointment-page/confirmation']);
+    this.router.navigate(['/appointment/confirmation']);
   }
 }

@@ -6,7 +6,7 @@ import { DoctorService } from '../services/doctor.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { City } from '../model/city.model';
 import { MatPaginator } from '@angular/material/paginator';
-import { specialization } from '../model/specialization.model';
+import { Specialization } from '../model/specialization.model';
 
 @Component({
   selector: 'app-employee-page',
@@ -29,7 +29,7 @@ export class EmployeePageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   doctorTable!: MatTableDataSource<any>;
   cities: City[] = [];
-  specializations: specialization[] = [];
+  specializations: Specialization[] = [];
   sortings: string[] = [];
   tableCopy: DoctorDto[] = [];
   cityIndex!: number;

@@ -107,11 +107,11 @@ export class UserService{
   }
 
   updateUserData(user: UserDto): Observable<any> {
+    const body = JSON.stringify(user);
+    console.log(user);
     return this.httpClient.put<any>(
-      this.baseUrl + "/User/UpdateUserData?email=" + user.email 
-      + "&firstName=" + user.firstName 
-      + "&lastName=" + user.lastName
-      + "&phoneNumber=" + user.phoneNumber,
+      this.baseUrl + "/User/UpdateUserData",
+      body,
       this.options
     );
   }

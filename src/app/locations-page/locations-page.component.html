@@ -17,7 +17,6 @@
                         <option 
                             *ngFor="let city of dictionaryCopy.keys()" 
                             [ngValue]="city" 
-                            style="font-style: Verdana;"
                         >
                             {{city}}
                         </option>
@@ -38,6 +37,7 @@
                 <div class="call-div">
                     <button
                         class="call-button"
+                        (click)="callNumber()"
                         mat-button
                     >   
                         <mat-icon>phone</mat-icon>
@@ -56,7 +56,9 @@
                         *ngFor="let value of locationDictionary.get(key)" 
                         class="hospital-item"
                     >
-                        <p class="hospital-title">{{value.name}}</p>
+                        <p class="hospital-title">
+                            {{value.name}}
+                        </p>
                         <div>
                             <p class="mobile-div">
                                 Mobile: {{value.phoneNumber}}

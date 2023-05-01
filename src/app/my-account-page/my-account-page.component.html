@@ -1,23 +1,41 @@
 <div class="background-div" @fade>
-    <div class="navigation-tab">
-        <button (click)="showAccountPage('showProfilePage')" class="account-tab" mat-button>
-            <mat-icon class="icon-tab">person</mat-icon>
-            Account
+    <div class="navigation-tab">  
+        <button 
+            mat-button
+            class="account-tab" 
+            (click)="showAccountPage('showProfilePage')" 
+        >
+            <mat-icon class="icon-tab">person</mat-icon> Account
         </button>
-        <button (click)="showAccountPage('showAppointmentPage')" class="account-tab" mat-button>
+        <button 
+            mat-button
+            class="account-tab" 
+            (click)="showAccountPage('showAppointmentPage')" 
+        >
             <mat-icon class="icon-tab">calendar_today</mat-icon>
             Appointments
         </button>
-        <button (click)="showAccountPage('showSubscriptionPage')" class="account-tab" mat-button>
+        <button 
+            mat-button
+            class="account-tab" 
+            (click)="showAccountPage('showSubscriptionPage')" 
+        >
             <mat-icon class="icon-tab">notifications</mat-icon>
             Subscription
         </button>
-        <button  (click)="logOut()" class="exit-tab" mat-button>
+        <button 
+            mat-button
+            class="exit-tab" 
+            (click)="logOut()" 
+        >
             <mat-icon class="icon-tab">exit_to_app</mat-icon>
             Log out
         </button>
     </div>
-    <div *ngIf="this.accountPages.showProfilePage" class="profile-tab">
+    <div 
+        *ngIf="this.accountPages.showProfilePage" 
+        class="profile-tab"
+    >
         <p class="profile-title">
             Public Profile
         </p>
@@ -54,12 +72,19 @@
             type="text"
         >
         <div class="button-container">
-            <button (click)="updateProfile()" mat-button class="modify-button">
+            <button 
+                mat-button 
+                (click)="updateProfile()" 
+                class="modify-button"
+            >
                 Update Profile
             </button>
         </div>
     </div>
-    <div *ngIf="this.accountPages.showAppointmentPage" class="profile-tab">
+    <div 
+        *ngIf="this.accountPages.showAppointmentPage && this.showAppointments" 
+        class="profile-tab"
+    >
         <p class="appontment-title">
             Past Appointments
         </p>
@@ -69,34 +94,78 @@
                     <table>
                         <tbody>
                             <tr>
-                                <th class="header-div">Doctor Name</th>
-                                <td>Dr. {{appointment.doctorFirstName}} {{appointment.doctorLastName}}</td>
+                                <th class="header-div">
+                                    Doctor Name
+                                </th>
+                                <td class="header-info">
+                                    Dr. {{appointment.doctorFirstName}} {{appointment.doctorLastName}}
+                                </td>
                             </tr>
                             <tr>
-                                <th class="header-div">Hospital</th>
-                                <td>{{appointment.hospitalName}}</td>
+                                <th class="header-div">
+                                    Hospital
+                                </th>
+                                <td class="header-info">
+                                    {{appointment.hospitalName}}
+                                </td>
                             </tr>
                             <tr>
-                                <th class="header-div">Location</th>
-                                <td>{{appointment.location}}</td>
+                                <th class="header-div">
+                                    Location
+                                </th>
+                                <td class="header-info">
+                                    {{appointment.location}}
+                                </td>
                             </tr>
                             <tr>
-                                <th class="header-div">Price</th>
-                                <td>{{appointment.price}}</td>
+                                <th class="header-div">
+                                    Price
+                                </th>
+                                <td class="header-info">
+                                    {{appointment.price}}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <mat-paginator [pageSize]="pageSize" [length]="this.tableCopy.length" (page)="onPageChange($event)"></mat-paginator>
+        <mat-paginator 
+            *ngIf="this.tableCopy.length > pageSize" 
+            [pageSize]="pageSize" 
+            [length]="this.tableCopy.length" 
+            (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
-    <div *ngIf="this.accountPages.showSubscriptionPage" class="profile-tab">
-        <p class="appontment-title">
+    <div 
+        *ngIf="this.accountPages.showAppointmentPage && !this.showAppointments" 
+        class="profile-tab"
+    >
+        <div class="subscription-container">
+            <p class="container-body">
+                No Past Appointments
+            </p>
+        </div>
+    </div>
+    <div 
+        *ngIf="this.accountPages.showSubscriptionPage && this.showSubscription" 
+        class="profile-tab"
+    >
+        <p class="subscription-title">
             Subscription is valid until
         </p>
         <div class="subscription-container">
            {{this.endDate}}
+        </div>
+    </div>
+    <div 
+        *ngIf="this.accountPages.showSubscriptionPage && !this.showSubscription" 
+        class="profile-tab"
+    >
+        <div class="subscription-container">
+            <p class="container-body">
+                No Active Subscription
+            </p>
         </div>
     </div>
     <img class="flower-image" src="assets/flower2.jpg">

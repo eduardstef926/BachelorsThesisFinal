@@ -80,8 +80,8 @@
 .footer-container {
     display: flex; 
     justify-content: space-between;
-    height: 10rem;
-    padding: 15% 10% 20% 8%;
+    height: 8rem;
+    padding: 6% 10% 20% 8%;
 }
 
 .title-container {
@@ -98,6 +98,7 @@
 }
 
 .rights-title {
+       color: rgb(93, 91, 91);
     margin-top: 40%;
 }
 
@@ -108,8 +109,13 @@
 
 .company-title {
     font-family: 'Verdana';
+    color: rgb(93, 91, 91);
     font-weight: 500;
     font-size: 40px;
+}
+
+.footer-piece {
+   color: rgb(93, 91, 91);
 }
 
 .footer-firstItem {

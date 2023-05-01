@@ -76,7 +76,7 @@ export class SymptomPageComponent implements OnInit {
     const selectedSymptoms = this.symptomList
       .filter((symptom: any) => symptom[1])
       .map((symptom: any) => symptom[0]);
-    
+      
     if (selectedSymptoms.length < 5) {
       this.snackBar.open('Not Enough Symptoms Selected!', 'X', {
         duration: 5000,

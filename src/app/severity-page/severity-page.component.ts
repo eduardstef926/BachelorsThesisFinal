@@ -46,7 +46,7 @@ export class SeverityPageComponent implements OnInit {
     } else {
       this.snackBar.dismiss();
       this.selectedSeverity == "Very Severe" 
-          ? this.router.navigate(['/emergency-page']) : this.router.navigate(['/diagnostic-page']);
+          ? this.router.navigate(['/emergency']) : this.router.navigate(['/diagnostic']);
     }
   }
 }

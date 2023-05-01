@@ -34,7 +34,7 @@ export class AppComponent {
   lookSubscriptionsPage(event: Event) {
     event.preventDefault();
     window.scrollTo(0, 0);
-    this.router.navigate(['/subscription-page']);
+    this.router.navigate(['/subscription']);
   }
 
   goHome(event : Event) {
@@ -44,7 +44,7 @@ export class AppComponent {
 
   lookAccountPage(event : Event) {
     event.preventDefault();
-    this.router.navigate(['/my-account']);
+    this.router.navigate(['/account']);
   }
 
   login() {

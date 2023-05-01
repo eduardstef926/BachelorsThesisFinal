@@ -77,7 +77,7 @@ export class MainPageComponent implements OnInit {
 
   enterMainPage() {
     if (this.localStorage.get("loggedIn")) {
-      this.router.navigate(['/chat']);
+      this.router.navigate(['/symptom']);
     } else {
       this.router.navigate(['/login']);
     }

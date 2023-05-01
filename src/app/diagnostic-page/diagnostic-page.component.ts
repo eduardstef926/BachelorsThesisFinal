@@ -81,7 +81,7 @@ export class DiagnosticPageComponent implements OnInit {
     } as AppointmentRangeDto;
 
     this.localStorage.set("appointmentRange", appointmentRange);
-    this.router.navigate(['/appointment-page/list']);
+    this.router.navigate(['/appointment/list']);
   }
 }
 

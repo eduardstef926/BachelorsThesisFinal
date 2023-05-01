@@ -19,10 +19,15 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class EmergencyPageComponent implements OnInit {
+  phoneNumber = '911';
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  callNumber() {
+    window.location.href = 'whatsapp://send?phone=' + this.phoneNumber;
   }
 
 }

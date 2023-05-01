@@ -1,22 +1,34 @@
-<div class="main-background" @fade>
-  <div class="body-container">
-      <div class="text-container">
-        <p class="header-text">
-          No ordinary doctor's office
-        </p>
-        <p class="subheader-text">
-          Making an appointment has never been
-          easier using our platform!
-        </p>
-        <button
-          mat-button
-          class="join-button"
-          (click)="enterMainPage()"
-        >
-          <mat-icon class="icon-div">medical_services</mat-icon>
-          <span>Join our medical program</span>
-        </button>
-      </div>
-      <img src="assets\senior-main-page.jpg" class="main-image">
+<div @fade>
+  <div class="main-background" @fade>
+    <div class="body-container">
+        <div class="text-container">
+          <p class="header-text">
+            No ordinary doctor's office
+          </p>
+          <p class="subheader-text">
+            Making an appointment has never been
+            easier using our platform!
+          </p>
+          <button
+            mat-button
+            class="join-button"
+            (click)="enterMainPage()"
+          >
+            <mat-icon class="icon-div">medical_services</mat-icon>
+            <span>Join our medical program</span>
+          </button>
+        </div>
+        <img src="assets\senior-main-page.jpg" class="main-image">
+    </div>
+  </div>
+  <div class="partial-background" @fade>
+    <div class="partial-container">
+        <img src="assets\sunflower.jpg" class="partial-image">
+        <div class="partial-title">
+          <p class="partial-subheader">
+            Our platform combines software with healthcare for a better user experience
+          </p>
+        </div>
+    </div>
   </div>
 </div>

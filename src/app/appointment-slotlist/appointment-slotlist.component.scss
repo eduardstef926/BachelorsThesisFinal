@@ -3,6 +3,7 @@
 }
 
 .table-container {
+    min-height: 100%;
     margin-top: 3%;
     display: flex;
     justify-content: center;
@@ -35,7 +36,7 @@
 .content-table td {
     text-align: center;
     padding: 12px 15px;
-    width: 9rem;
+    width: 7.5rem;
 }
 
 .content-table tbody tr {

@@ -1,0 +1,55 @@
+<div class="main-background">
+    <div class="form-container">
+        <form 
+            class="login-form" 
+            [formGroup]="formControl"
+        >
+            <h1>
+                Payment System
+            </h1>
+            <div class="payment-container">
+                <div class="subscription-container">
+                    <p class="container-title">
+                        Medical subscription:
+                    </p>
+                    <p class="container-title">
+                        {{this.length}} months
+                    </p>
+                </div>
+                <div class="amount-container">
+                    <p class="container-title">
+                        Total Amount:
+                    </p>
+                    <p class="container-title">
+                        {{this.price}} euros
+                    </p>
+                </div>
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="Card Number" 
+                    formControlName="cardNumber"
+                >
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="Expiration Date" 
+                    formControlName="expirationDate"
+                >
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="CCV" 
+                    formControlName="ccv"
+                >
+                <button 
+                    class="logIn-button" 
+                    (click)="confirmPay()"
+                    mat-button 
+                >
+                    Confirm Pay
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

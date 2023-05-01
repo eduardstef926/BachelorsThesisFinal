@@ -2,16 +2,18 @@
 .main-background {
     text-align: center;
     padding-top: 1.7%;
+    padding-bottom: 10%;    
+    height: 100%;
 }
 
 .page-title {
-    font-size: 30px;
+    font-size: 32px;
 }
 
 .location-title {
     margin-bottom: 5%;
     margin-left: 15%;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .location-div {
@@ -21,23 +23,24 @@
 .hospital-item {
     padding-left: 8%;
     padding-right: 8%;
-    margin-bottom: 5%;
+    margin-bottom: 7%;
     height: 15vh;
-    width: 40rem;
+    width: 100%;
     border-radius: 7px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     background-color: rgb(250, 246, 246);
     color: green;
     align-items: center;
     display: flex;
-    justify-content: space-between;
+    gap: 3rem;
+    justify-content: center;
 }
 
 .select-container {
-    padding-top: 2.5%;
+    padding-top: 3%;
     display: flex; 
     justify-content: center; 
-    gap: 10rem;
+    gap: 5rem;
 }
 
 .mobile-div, .address-div {
@@ -77,7 +80,7 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     width: 100%;
-    padding: 15% 5%;
+    padding: 18% 5%;
     height: auto;
     background-color: #4CAF50;
 }
@@ -88,18 +91,15 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     width: 100%;
-    padding: 20% 5%;
+    padding: 25% 5%;
     height: auto;
     background-color: #4CAF50;
 }
 
 .call-button {
     background-color: white;
+    color: black;
     width: 70%;
-}
-
-* {
-    font-family: sans-serif;
 }
 
 .material-icons {
@@ -107,15 +107,15 @@
 } 
 
 .filter-button {
-   font-weight: 600;
+   font-weight: 500;
    background-color: white;  
    margin-bottom: 8%; 
    margin-top: 8%; 
    width: 70%; 
-   color: green;
+   color: black;
 }
 
 .hospital-title {
-    font-weight: 600; 
+    font-weight: 500; 
     font-size: 25px;
 }

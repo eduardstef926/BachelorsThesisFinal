@@ -32,7 +32,6 @@ import { EmployeePageComponent } from './employee-page/employee-page.component';
 import { DoctorService } from './services/doctor.service';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { LocalStorageService } from './services/localstorage.service';
-import { ChatPageComponent } from './chat-page/chat-page.component';
 import { SymptomPageComponent } from './symptom-page/symptom-page.component';
 import { SeverityPageComponent } from './severity-page/severity-page.component';
 import { DoctorDetailsComponent } from './doctor-details/doctor-details.component';
@@ -45,6 +44,7 @@ import { AppointmentReviewComponent } from './appointment-review/appointment-rev
 import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
 import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
 import { HospitalService } from './services/hospital.service';
+import { SubscriptionPaymentPageComponent } from './subscription-payment-page/subscription-payment-page.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,6 @@ import { HospitalService } from './services/hospital.service';
     LocationPageComponent, 
     ModifyPasswordComponent, 
     EmployeePageComponent, 
-    ChatPageComponent, 
     SymptomPageComponent, 
     SeverityPageComponent, 
     DoctorDetailsComponent, 
@@ -66,7 +65,8 @@ import { HospitalService } from './services/hospital.service';
     AppointmentPriceComponent, 
     AppointmentReviewComponent, 
     SubscriptionsPageComponent, 
-    MyAccountPageComponent, 
+    MyAccountPageComponent,
+     SubscriptionPaymentPageComponent, 
   ],
   imports: [
     HttpClientModule,

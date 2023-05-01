@@ -21,6 +21,7 @@ import { HospitalDto } from '../model/hospital.model';
   ]
 })
 export class LocationPageComponent implements OnInit {
+  phoneNumber = '+400774487082';
   selectedCity!: string;
   dictionaryCopy!: Map<string, Array<HospitalDto>>;
   locationDictionary!: Map<string, Array<HospitalDto>>;
@@ -31,16 +32,20 @@ export class LocationPageComponent implements OnInit {
     this.locationDictionary = new Map<string, Array<HospitalDto>>();
     this.hospitalService.getAllHospitals().subscribe((hospitals: Array<HospitalDto>) => {
       hospitals.forEach((hospital: HospitalDto) => {
-        if (this.locationDictionary.has(hospital.location)) {
-          var hospitals = this.locationDictionary.get(hospital.location) as HospitalDto[];
-          hospitals.push(hospital);
-          this.locationDictionary.set(hospital.location, hospitals);
-        } else {
-          this.locationDictionary.set(hospital.location, [hospital]);
-        }
+        this.mapLocationDictionary(hospital);
       });
       this.dictionaryCopy = this.locationDictionary;
     });
+  }
+
+  mapLocationDictionary(hospital: HospitalDto) {
+    if (this.locationDictionary.has(hospital.location)) {
+      var hospitals = this.locationDictionary.get(hospital.location) as HospitalDto[];
+      hospitals.push(hospital);
+      this.locationDictionary.set(hospital.location, hospitals);
+    } else {
+      this.locationDictionary.set(hospital.location, [hospital]);
+    }
   }
 
   filterLocations() {
@@ -51,5 +56,9 @@ export class LocationPageComponent implements OnInit {
       }
     });
     this.locationDictionary = filteredList;
+  }
+
+  callNumber() {
+    window.location.href = 'whatsapp://send?phone=' + this.phoneNumber;
   }
 }

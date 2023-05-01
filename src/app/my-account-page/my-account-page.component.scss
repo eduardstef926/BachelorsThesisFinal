@@ -1,30 +1,44 @@
+
+* {
+    font-style: 'sans-serif';
+}
+
 .background-div {
     margin-top: 3%;
     display: flex;
     justify-content: center;
     gap: 4rem;  
+    margin-bottom: 8%;
 }
 
 .profile-tab {
-    width: auto;
-    padding: 2% 5% 2% 5%;
+    width: 18rem;
+    padding: 3% 5%;
     height: 100%;
     border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     background-color: #4CAF50;
 }
 
+
 .navigation-tab {
-    width: 14%;
+    overflow: auto;
+    width: 15%; 
     height: 100%;
     border-radius: 5px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     background-color: #4CAF50;
 }
 
 .account-tab, .exit-tab {
+    display: flex;
+    justify-content: left;
+    margin-left: 15%;
     height: 3rem;
     border-radius: 0px !important;
     color: white;
-    width: 100%;
+    width: auto;
     font-size: 18px;
     margin-top: 25%;
 }
@@ -39,7 +53,7 @@
 }
 
 .profile-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: white;
     margin-top: 5%;
 }
@@ -47,7 +61,7 @@
 .name-section {
     font-size: 1.5rem;
     color: white;
-    margin-top: 10%;
+    margin-top: 12%;
 }
 
 .name-input {
@@ -56,15 +70,14 @@
     width: auto;
     font-style: verdana;
     font-size: 18px;
-    margin-top: 10%;
+    margin-top: 4%;
     margin-bottom: 10%;
 }
 
 .modify-button {
-    margin-top: 10%;
-    width: 100%;
-    height: 10%;
-    text-align: center;
+    margin-top: 12%;
+    width: 75%;
+    height: 20%;
     background-color: white;
     color: green;
 }
@@ -73,7 +86,7 @@
     margin-top: 5%;
     margin-bottom: 5%;
     display: flex;
-    gap: 0.5rem;
+    justify-content: center;
 }
 
 .flower-image {
@@ -126,18 +139,10 @@
 }
 
 .content-table th {
-    text-align: center;
     background-color: #4CAF50;;
     color: white;
     font-weight: 300;
     font-size: 15px;
-}
-
-.content-table th,
-.content-table td {
-    text-align: center;
-    padding: 1rem 1rem 1rem 1rem;
-    width: 9rem;
 }
 
 .appontment-title {
@@ -147,16 +152,22 @@
 }
 
 .header-div {
+    font-weight: 500 !important;
     color: #4CAF50;
-    padding-top: 0.8rem; 
-    padding-left: 0.5rem;
-    padding-bottom: 0.8rem; 
-    padding-right: 2.5rem;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.header-info {
+    padding-left: 2.5rem;
+    text-align: center;
 }
 
 .appointment-div {
+    display: flex;
+    justify-content: center;
     background-color: white; 
-    margin-top: 2rem; 
+    margin-top: 10%; 
     border-radius: 5px;
 }
 
@@ -167,8 +178,19 @@
     color: white;
 }
 
+::ng-deep .my-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: green;
+}
+
+::ng-deep .mat-simple-snackbar-action button {
+    color: green !important;
+}
+
 .subscription-container {
-    margin-top: 15%;
+    margin-top: 10%;
     padding: 10%;
     width: auto;
     height: auto;
@@ -177,7 +199,17 @@
     align-items: center;
     font-size:  2rem;
     border-radius: 10px;
-    border: 5px solid green;
     background-color: white;
     color: green;
+}
+
+.subscription-title {
+    color: white;
+    font-size: 24px; 
+    text-align: center;
+}
+
+.container-body {
+    font-size: 30px; 
+    text-align: center;
 }

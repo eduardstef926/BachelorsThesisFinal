@@ -7,7 +7,8 @@ import { AppointmentDto } from '../model/appointment.model';
 import { AuthService } from '../services/auth.service';
 import * as Fingerprint2 from 'fingerprintjs2';
 import { CookieService } from 'ngx-cookie-service';
-import { SubscriptionDto } from '../model/subscription.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-account-page',
@@ -28,11 +29,13 @@ export class MyAccountPageComponent implements OnInit {
   lastName!: string;
   email!: string;
   endDate!: string;
-  phoneNumber!: number;
+  phoneNumber!: string;
   tableCopy: AppointmentDto[] = [];
   appointments: AppointmentDto[] = [];
   pageSize = 2;
   pageIndex = 0;
+  showAppointments = false;
+  showSubscription = false;
   paginatorLength = 5;
   accountPages: {
     [key: string]: boolean;
@@ -42,10 +45,12 @@ export class MyAccountPageComponent implements OnInit {
     showAppointmentPage: false,
   };
 
-  constructor(private authService: AuthService,
+  constructor(private snackBar: MatSnackBar,
+              private router: Router,
+              private userService: UserService,
+              private authService: AuthService,
               private cookieService: CookieService,
-              private localStorage: LocalStorageService,
-              private userService: UserService) {}
+              private localStorage: LocalStorageService) {}
 
   ngOnInit(): void {
     var userEmail = this.localStorage.get("loggedUserEmail");
@@ -62,13 +67,22 @@ export class MyAccountPageComponent implements OnInit {
 
   updateProfile() {
     var modifiedUser = {
+      userId: this.user.userId,
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
       phoneNumber: this.phoneNumber
     } as UserDto;
+
     this.userService.updateUserData(modifiedUser)
       .subscribe((response: any) => {
+        this.localStorage.set("loggedUserEmail", this.email);
+        this.snackBar.open('Profile updated successfully!', 'X', {
+          duration: 5000,
+          panelClass: ['my-snackbar']
+        });
+        window.scrollTo(0, 0);
+        this.router.navigate(['']);
     })
   }
 
@@ -78,8 +92,10 @@ export class MyAccountPageComponent implements OnInit {
       if (page == "showAppointmentPage") {
         this.userService.getUserAppointmentsByEmail(this.email)
           .subscribe((data: any) => {
+            console.log(data);
             this.appointments = data;
             this.tableCopy = data;
+            this.showAppointments = true;
             this.renderReviews();
           }
         );
@@ -87,6 +103,7 @@ export class MyAccountPageComponent implements OnInit {
         this.userService.getUserSubscriptionByEmail(this.email)
         .subscribe((data: any) => {
             this.endDate = data.endDate.split('T')[0];
+            this.showSubscription = true;
           }
         );
       }
