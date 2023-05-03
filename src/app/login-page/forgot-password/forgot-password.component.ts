@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { EmailService } from 'src/app/services/email.service';
 
 @Component({
   selector: 'app-forgout-password',
@@ -20,13 +19,13 @@ export class ForgotPasswordComponent implements OnInit {
     return this.formGroup.get('email')?.value;
   }
   
-  constructor(private userService: AuthService) { }
+  constructor(private emailService: EmailService) {}
 
   ngOnInit(): void {
   }
 
   sendVerificationEmail() {
-    this.userService.forgotPassword(this.getEmail()).subscribe(
+    this.emailService.sendForgotPasswordEmail(this.getEmail()).subscribe(
       (data) => {
       }
     );

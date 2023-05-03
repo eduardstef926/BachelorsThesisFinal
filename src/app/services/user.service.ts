@@ -22,9 +22,9 @@ export class UserService{
 
   private options = { headers : this.headers, withCredentials: true};
 
-  addUserSymptoms(symptomNames: Array<string>, loggedUserEmail: string): Observable<any> {
+  addUserSymptoms(cookieId: number, symptomNames: Array<string>): Observable<any> {
     return this.httpClient.post<any>(
-      this.baseUrl + "/User/AddUserSymptoms?email=" + loggedUserEmail + "&symptoms=" + symptomNames.toString(),
+      this.baseUrl + "/User/AddUserSymptoms?cookieId=" + cookieId + "&symptoms=" + symptomNames.toString(),
       this.options
     );
   }
@@ -62,9 +62,16 @@ export class UserService{
     );
   }
 
-  checkUserSubscription(email: string) {
+  checkUserSubscription(cookieId: number) {
     return this.httpClient.get<boolean>(
-      this.baseUrl + "/User/CheckUserSubscription?email=" + email,
+      this.baseUrl + "/User/CheckUserSubscription?cookieId=" + cookieId,
+      this.options
+    );
+  }
+
+  cancelUserSubscription(cookieId: number) {
+    return this.httpClient.delete<any>(
+      this.baseUrl + "/User/CancelUserSubscription?cookieId=" + cookieId,
       this.options
     );
   }
@@ -85,9 +92,9 @@ export class UserService{
     );
   }
 
-  getLastDiagnosticByUserEmail(email: string): Observable<DiagnosticDto> {
+  getLastDiagnosticByUserEmail(cookieId: number): Observable<DiagnosticDto> {
     return this.httpClient.get<DiagnosticDto>(
-      this.baseUrl + "/User/GetLastDiagnosticByUserEmail?email=" + email,
+      this.baseUrl + "/User/GetLastDiagnosticBySessionId?cookieId=" + cookieId,
       this.options
     );
   }
@@ -99,16 +106,15 @@ export class UserService{
     );
   }
 
-  getFullUserDataByEmail(email: string): Observable<UserDto> {
+  getFullUserDataByCookieId(cookieId: number): Observable<UserDto> {
     return this.httpClient.get<UserDto>(
-      this.baseUrl + "/User/GetFullUserDataByEmail?email=" + email,
+      this.baseUrl + "/User/GetFullUserDataByCookieId?cookieId=" + cookieId,
       this.options
     );
   }
 
   updateUserData(user: UserDto): Observable<any> {
     const body = JSON.stringify(user);
-    console.log(user);
     return this.httpClient.put<any>(
       this.baseUrl + "/User/UpdateUserData",
       body,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from './services/localstorage.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,17 @@ export class AppComponent {
 
   constructor(private localStorage: LocalStorageService,
               private router: Router,
+              private authService: AuthService,
               private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.loggedIn = this.localStorage.get("loggedIn");
+    var id = Number(this.localStorage.get("loggedUserId"));
+    if (id != 0) {
+      this.authService.checkLoginCookie(id).subscribe((response: boolean) => {
+        this.localStorage.set("loggedIn", true);
+        this.loggedIn = true;
+      });
+    }
   }
 
   lookLocationsPage(event : Event) {

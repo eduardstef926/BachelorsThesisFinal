@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserDto } from '../../model/user.model';
 import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -47,6 +48,7 @@ export class SignUpPageComponent implements OnInit {
   }
 
   constructor(private authService: AuthService,
+              private snackBar: MatSnackBar,
               private router: Router) {}
 
   register() {
@@ -64,21 +66,30 @@ export class SignUpPageComponent implements OnInit {
     ) {
       this.confirmationErrorMessage = true;
     } else {
-      const newUser = {
-        firstName: this.getFirstName(), 
-        lastName: this.getLastName(), 
-        phoneNumber: this.getPhoneNumber(), 
-        password: this.getPassword(), 
-        email: this.getEmail()
-      } as UserDto;
-
-      this.authService.register(newUser).subscribe(() => {
-          this.router.navigate(['/main']);
-      });
+      this.addUser();
     }
   }
 
   ngOnInit(): void {
+  }
+
+  addUser() {
+    const newUser = {
+      firstName: this.getFirstName(), 
+      lastName: this.getLastName(), 
+      phoneNumber: this.getPhoneNumber(), 
+      password: this.getPassword(), 
+      email: this.getEmail()
+    } as UserDto;
+
+    this.authService.register(newUser).subscribe(() => {
+        this.snackBar.open('Successful registration!', 'X', {
+          duration: 5000,
+          panelClass: ['my-snackbar']
+        });
+        window.scrollTo(0, 0);
+        this.router.navigate(['/main']);
+    });
   }
 
   closeErrorMessage() {

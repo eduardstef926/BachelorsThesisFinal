@@ -61,7 +61,7 @@ const routes: Routes = [
     component: SymptomPageComponent,
   },
   {
-    path: 'severity-page',
+    path: 'severity',
     component: SeverityPageComponent,
   },
   {

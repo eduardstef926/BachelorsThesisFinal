@@ -48,8 +48,8 @@ export class DiagnosticPageComponent implements OnInit {
               
 
   ngOnInit(): void {
-    var userEmail = this.localStorage.get('loggedUserEmail');
-    this.userService.getLastDiagnosticByUserEmail(userEmail)
+    var cookieId = this.localStorage.get('loggedUserId');
+    this.userService.getLastDiagnosticByUserEmail(cookieId)
       .subscribe((diagnostic:any) => {
         this.diagnostic = diagnostic;
         this.doctorTitle = diagnostic.doctorTitle.toLowerCase();

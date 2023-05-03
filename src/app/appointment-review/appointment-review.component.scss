@@ -75,11 +75,26 @@
     justify-content: space-between;
 }
 
+.error-message {
+    display: flex;
+    justify-content: center;   
+    align-items: center;     
+    margin-top: 7%;
+    font-size: 2rem;
+    font-style: 'sans-serif';
+    background-color: #3caa61;
+    color: white;
+    width: 50%;
+    height: 9rem;
+    border-radius: 10px;
+    margin-left: 25%;
+}
+
 ::ng-deep .error-snackbar {
     background-color: white;
     text-align: center;
     vertical-align: middle;
-    color: green;
+    color: rgb(206, 70, 25);
 }
 
 ::ng-deep .mat-simple-snackbar-action button {

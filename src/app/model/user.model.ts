@@ -5,4 +5,5 @@ export class UserDto {
     phoneNumber!: string;
     password!: string;
     email!: string;
+    isEmailConfirmed!: boolean;
 }

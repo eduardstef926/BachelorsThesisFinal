@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { LoggedUserDto } from '../model/loginUser.model';
 import { AuthService } from '../services/auth.service';
 import { LocalStorageService } from '../services/localstorage.service';
-import * as Fingerprint2 from 'fingerprintjs2';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login-page',
@@ -16,8 +14,6 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoginPageComponent implements OnInit {  
   loginErrorMessage = false;
   inputErrorMessage = false;
-  pacientSelected = true;
-  doctorSelected = false;
 
   formControl = new FormGroup({
     email: new FormControl(''),
@@ -34,57 +30,39 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private router: Router,
               private userService: AuthService,
-              private cookieService: CookieService,
               private snackBar: MatSnackBar,
-              private localStorage: LocalStorageService) {}
+              private localStorage: LocalStorageService,
+              private ngZone: NgZone) {}
   
   ngOnInit(): void {
   }
 
-  switchToDoctorLogin() {
-    if (this.pacientSelected) {
-      this.pacientSelected = false;
-      this.doctorSelected = true;
-    } 
-  }
-
-  switchToPatientLogin() {
-    if (!this.pacientSelected) {
-      this.pacientSelected = true;
-      this.doctorSelected = false;
-    } 
-  }
-
-  logInAsPacient() {
+  logIn() {
     if (
-      this.getPassword().length == 0 || 
-      this.getEmail().length == 0
+        this.getPassword().length == 0 || 
+        this.getEmail().length == 0
     ) {
-      this.inputErrorMessage = true;
+        this.inputErrorMessage = true;
     } else {
-      Fingerprint2.get((components: any) => {
-        const values = components.map((component: any) => component.value);
-        const identifier = Fingerprint2.x64hash128(values.join(''), 31);
         const loggedUser = {
           password: this.getPassword(), 
           email: this.getEmail(),
-          name: "user",
-          identifier: identifier
         } as LoggedUserDto;
 
         this.userService.login(loggedUser).subscribe((data: any) => {
-            console.log(this.cookieService);
-            this.cookieService.set(data.identifier, data.dateTime);
-            this.localStorage.set("loggedUserEmail", loggedUser.email);
-            this.router.navigate(['/main']);
-          },
-          (errors) => {
-            if (errors.status == 400) {
-                this.loginErrorMessage = true;
-            }
+          window.scrollTo(0, 0);
+          this.localStorage.set("loggedUserId", data);
+          this.router.navigate(['']).then(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 50);
+          });
+        },
+        (errors) => {
+          if (errors.status == 400) {
+            this.loginErrorMessage = true;
           }
-        );
-      });
+        });
     }
   }
 

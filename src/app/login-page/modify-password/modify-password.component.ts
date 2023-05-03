@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -27,6 +28,8 @@ export class ModifyPasswordComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
+              private snackBar: MatSnackBar,
               private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -36,14 +39,27 @@ export class ModifyPasswordComponent implements OnInit {
   }
 
   modifyPassword() {
-    if (this.getPassword().length == 0 ||
-        this.getConfirmedPassword().length == 0) {
-      this.inputErrorMessage = true;
-    } else if (this.getPassword() != 
-        this.getConfirmedPassword()) {
-      this.confirmationErrorMessage = true;
+    if (
+        this.getPassword().length == 0 ||
+        this.getConfirmedPassword().length == 0
+    ) {
+        this.inputErrorMessage = true;
+    } 
+    else if (
+        this.getPassword() != this.getConfirmedPassword()
+    ) {
+        this.confirmationErrorMessage = true;
     } else {
-      this.authService.modifyPassword(this.userId, this.getPassword()).subscribe(() => {});
+      this.authService.modifyPassword(this.userId, this.getPassword())
+        .subscribe(() => {
+          this.snackBar.open('Password modified successfully!', 'X', {
+            duration: 5000,
+            panelClass: ['my-snackbar']
+          });
+          window.scrollTo(0, 0);
+          this.router.navigate(['']);
+        }
+      );
     }
   }
   

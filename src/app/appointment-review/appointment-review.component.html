@@ -1,5 +1,14 @@
 <div @fade class="main-background">
-    <div class="form-container">
+    <div 
+        *ngIf="this.appointment.isReviewed"
+        class="error-message"
+    >
+       <p>Appointment has already been reviewed.</p>
+    </div>
+    <div 
+        *ngIf="!this.appointment.isReviewed" 
+        class="form-container"
+    >
         <div class="review-form">
             <h1>
                  Appointment Details

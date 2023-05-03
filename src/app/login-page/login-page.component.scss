@@ -13,7 +13,8 @@
 .main-background {
     height: 100%;
     width: 100%;
-    padding-top: 1rem;
+    padding-top: 1%;
+    padding-bottom: 15%;
 }
 
 .error-button {
@@ -84,4 +85,15 @@
     width: 100%;
     background-color: #1a9142;
     color: #ffffff !important;
+}
+
+::ng-deep .my-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: green;
+}
+
+::ng-deep .mat-simple-snackbar-action button {
+    color: green !important;
 }

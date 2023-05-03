@@ -1,7 +1,6 @@
 export class ReviewDto {
-    userEmail!: string;
-    doctorFirstName!: string;
-    doctorLastName!: string;
+    cookieId!: number;
+    appointmentId!: number;
     number!: number;
     message!: string;
 }

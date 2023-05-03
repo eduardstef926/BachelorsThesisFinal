@@ -1,5 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { LocalStorageService } from '../services/localstorage.service';
 
 @Component({
   selector: 'app-emergency-page',
@@ -19,11 +21,18 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class EmergencyPageComponent implements OnInit {
-  phoneNumber = '911';
+  phoneNumber = '+40 0774487082';
+  diseaseName = "HelloWorld";
 
-  constructor() { }
+  constructor(private userService: UserService,
+              private localStorage: LocalStorageService) {}
 
   ngOnInit(): void {
+    var cookieId = this.localStorage.get("loggedUserId");
+    this.userService.getLastDiagnosticByUserEmail(cookieId)
+    .subscribe((diagnostic:any) => {
+      this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
+  });
   }
 
   callNumber() {

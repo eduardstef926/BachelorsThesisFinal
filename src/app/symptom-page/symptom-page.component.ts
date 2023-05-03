@@ -84,11 +84,12 @@ export class SymptomPageComponent implements OnInit {
       }); 
     } else {
       this.snackBar.dismiss();
-      const loggedUserEmail = this.localStorage.get('loggedUserEmail');
-      this.userService.addUserSymptoms(selectedSymptoms, loggedUserEmail)
+      const cookieId = this.localStorage.get('loggedUserId');
+      this.userService.addUserSymptoms(cookieId, selectedSymptoms)
         .subscribe(() => {
-          this.router.navigate(['/severity-page']);
-        });
+          this.router.navigate(['/severity']);
+        }
+      );
     }
   }
 }

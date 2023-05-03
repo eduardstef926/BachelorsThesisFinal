@@ -30,9 +30,9 @@ export class AppointmentPriceComponent implements OnInit {
               private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    const userEmail = this.localStorage.get("loggedUserEmail");
+    const cookieId = this.localStorage.get("loggedUserId");
     this.appointmentPrice = this.localStorage.get("appointment").price;
-    this.userService.checkUserSubscription(userEmail).subscribe((data: any) => {
+    this.userService.checkUserSubscription(cookieId).subscribe((data: any) => {
       this.updatedPrice = data == false ? 0 : this.appointmentPrice;
       this.totalPrice = this.appointmentPrice - this.updatedPrice;
     });
@@ -48,7 +48,7 @@ export class AppointmentPriceComponent implements OnInit {
       doctorLastName: appointment.lastName,
       hospitalName: appointment.hospitalName,
       price: this.totalPrice,
-      userEmail: this.localStorage.get("loggedUserEmail")
+      cookieId: this.localStorage.get("loggedUserId")
     } as AppointmentDto;
 
     this.userService.scheduleAppointment(newAppointment).subscribe((data: any) => {

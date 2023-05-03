@@ -1,4 +1,4 @@
 export class SubscriptionInputDto {
-    email!: string;
+    cookieId!: number;
     length!: number;
 }

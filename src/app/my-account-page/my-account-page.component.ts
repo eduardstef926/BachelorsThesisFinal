@@ -5,10 +5,9 @@ import { UserService } from '../services/user.service';
 import { UserDto } from '../model/user.model';
 import { AppointmentDto } from '../model/appointment.model';
 import { AuthService } from '../services/auth.service';
-import * as Fingerprint2 from 'fingerprintjs2';
-import { CookieService } from 'ngx-cookie-service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { EmailService } from '../services/email.service';
 
 @Component({
   selector: 'app-my-account-page',
@@ -29,13 +28,11 @@ export class MyAccountPageComponent implements OnInit {
   lastName!: string;
   email!: string;
   endDate!: string;
+  cookieId!: number;
+  confirmationCode!: number;
   phoneNumber!: string;
-  tableCopy: AppointmentDto[] = [];
-  appointments: AppointmentDto[] = [];
   pageSize = 2;
   pageIndex = 0;
-  showAppointments = false;
-  showSubscription = false;
   paginatorLength = 5;
   accountPages: {
     [key: string]: boolean;
@@ -43,24 +40,33 @@ export class MyAccountPageComponent implements OnInit {
     showProfilePage: true,
     showSubscriptionPage: false,
     showAppointmentPage: false,
+    showConfirmEmailPage: false,
   };
+  showEmailConfirmButton = false;
+  showAppointments = false;
+  showSubscription = false;
+  showEmailConfirmation = false;
+  tableCopy: AppointmentDto[] = [];
+  appointments: AppointmentDto[] = [];
 
   constructor(private snackBar: MatSnackBar,
               private router: Router,
               private userService: UserService,
               private authService: AuthService,
-              private cookieService: CookieService,
+              private emailService: EmailService,
               private localStorage: LocalStorageService) {}
 
+
   ngOnInit(): void {
-    var userEmail = this.localStorage.get("loggedUserEmail");
-    this.userService.getFullUserDataByEmail(userEmail)
+    this.cookieId = this.localStorage.get("loggedUserId");
+    this.userService.getFullUserDataByCookieId(this.cookieId)
       .subscribe((user: any) => {
         this.user = user;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.email = user.email;
         this.phoneNumber = user.phoneNumber;
+        this.showEmailConfirmButton = user.isEmailConfirmed;
       }
     )
   }
@@ -68,15 +74,15 @@ export class MyAccountPageComponent implements OnInit {
   updateProfile() {
     var modifiedUser = {
       userId: this.user.userId,
+      email: this.email,
+      phoneNumber: this.phoneNumber,
       firstName: this.firstName,
       lastName: this.lastName,
-      email: this.email,
-      phoneNumber: this.phoneNumber
+      isEmailConfirmed: this.user.isEmailConfirmed
     } as UserDto;
 
     this.userService.updateUserData(modifiedUser)
       .subscribe((response: any) => {
-        this.localStorage.set("loggedUserEmail", this.email);
         this.snackBar.open('Profile updated successfully!', 'X', {
           duration: 5000,
           panelClass: ['my-snackbar']
@@ -89,23 +95,16 @@ export class MyAccountPageComponent implements OnInit {
   showAccountPage(page: string): void {
     if (page in this.accountPages) {
       this.accountPages[page] = true;
-      if (page == "showAppointmentPage") {
-        this.userService.getUserAppointmentsByEmail(this.email)
-          .subscribe((data: any) => {
-            console.log(data);
-            this.appointments = data;
-            this.tableCopy = data;
-            this.showAppointments = true;
-            this.renderReviews();
-          }
-        );
-      } else if (page == "showSubscriptionPage") {
-        this.userService.getUserSubscriptionByEmail(this.email)
-        .subscribe((data: any) => {
-            this.endDate = data.endDate.split('T')[0];
-            this.showSubscription = true;
-          }
-        );
+      switch (page) {
+        case "showAppointmentPage":
+          this.displayAppointmentPage();
+          break;
+        case "showSubscriptionPage":
+          this.displaySubscriptionPage();
+          break;
+        case "showConfirmEmailPage":
+          this.displayEmailConfirmationPage();
+          break;
       }
     }
     for (const key in this.accountPages) {
@@ -113,6 +112,27 @@ export class MyAccountPageComponent implements OnInit {
         this.accountPages[key] = false;
       }
     } 
+  }
+
+  displayAppointmentPage() { 
+    this.userService.getUserAppointmentsByEmail(this.email).subscribe((data: any) => {
+      this.appointments = data;
+      this.tableCopy = data;
+      this.showAppointments = true;
+      this.renderReviews();
+    });
+  }
+
+  displaySubscriptionPage() {
+    this.userService.getUserSubscriptionByEmail(this.email).subscribe((data: any) => {
+      this.endDate = data.endDate.split('T')[0];
+      this.showSubscription = true;
+    });
+  }
+
+  displayEmailConfirmationPage() {
+    this.emailService.sendEmailConfirmation(this.email)
+    .subscribe((data: any) => {});
   }
 
   onPageChange(event: any) {
@@ -127,17 +147,53 @@ export class MyAccountPageComponent implements OnInit {
     this.appointments = this.tableCopy.slice(start, end);
   }
 
-  logOut() {
-    Fingerprint2.get((components: any) => {
-      const values = components.map((component: any) => component.value);
-      const identifier = Fingerprint2.x64hash128(values.join(''), 31);
-      this.authService.logOut(identifier)
-        .subscribe((data: any) => {
-          this.cookieService.delete(identifier);
-          this.localStorage.set("loggedIn", false);
-        }
-      );
+  confirmEmail() {
+    this.authService.confirmEmail(this.email, this.confirmationCode)
+      .subscribe(
+        (data: any) => this.handleConfirmationSucess(),
+        (errors) => this.handleConfirmationError()
+    );
+  }
+
+  handleConfirmationSucess() {
+    this.snackBar.open('Email confirmed successfully!', 'X', {
+      duration: 5000,
+      panelClass: ['my-snackbar']
     });
+    window.scrollTo(0, 0);
+    this.router.navigate(['']);
+  }
+
+  handleConfirmationError() {
+    this.snackBar.open('Invalid code!', 'X', {
+      duration: 5000,
+      panelClass: ['error-snackbar']
+    });
+  }
+
+  logOut() {
+    var id = this.localStorage.get("loggedUserId");
+    if (id != 0) {
+      this.authService.logOut(id).subscribe((data: any) => {
+        this.handleLogOutSuccess();
+      });
+    }
+  }
+
+  handleLogOutSuccess() {
+    this.localStorage.set("loggedUserId", 0);
+    this.localStorage.set("loggedIn", false);
+    this.router.navigate(['']).then(() => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        window.location.reload();
+      }, 50);
+    });
+  }
+
+  cancelSubscription() {
+    this.userService.cancelUserSubscription(this.cookieId)
+      .subscribe((data: any) => {});
   }
 
 }

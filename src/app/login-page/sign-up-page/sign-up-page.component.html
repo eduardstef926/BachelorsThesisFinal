@@ -1,18 +1,9 @@
 <div class="main-background">
-    <div class="signUp-form">
-        <div 
-            [formGroup]="formControl" 
-            class="signUp-form"
+    <div class="form-container">
+        <form 
+            class="register-form" 
+            [formGroup]="formControl"
         >
-            <button 
-                *ngIf="confirmationErrorMessage" 
-                mat-button 
-                class="error-button" 
-                (click)="closeErrorMessage()"
-            >
-                <mat-icon>close</mat-icon>
-                Passwords are not the same
-            </button>
             <button 
                 *ngIf="inputErrorMessage" 
                 mat-button 
@@ -23,51 +14,53 @@
                 Empty input fields
             </button>
             <h1>
-                Sign Up Here
+                Sign Up
             </h1>
-            <input 
-                class="signUp-input" 
-                type="text" 
-                placeholder="FirstName" 
-                formControlName="firstName"
-            >
-            <input 
-                class="signUp-input" 
-                type="text" 
-                placeholder="LastName" 
-                formControlName="lastName"
-            >
-            <input 
-                class="signUp-input" 
-                type="text" 
-                placeholder="Phone Number" 
-                formControlName="phoneNumber"
-            >
-            <input 
-                class="signUp-input" 
-                type="text" 
-                placeholder="Email" 
-                formControlName="email"
-            >
-            <input 
-                class="signUp-input" 
-                type="password" 
-                placeholder="Password" 
-                formControlName="password"
-            >
-            <input 
-                class="signUp-input" 
-                type="password" 
-                placeholder="Confirm Password" 
-                formControlName="confirmedPassword"
-            >
-            <button 
-                class="register-button" 
-                (click)="register()" 
-                mat-button
-            >
-                Register
-            </button>
-        </div>
+            <div>
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="First Name" 
+                    formControlName="firstName"
+                >
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="Last Name" 
+                    formControlName="lastName"
+                >
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="Phone Number" 
+                    formControlName="phoneNumber"
+                >
+                <input 
+                    class="data-input"
+                    type="text" 
+                    placeholder="Email" 
+                    formControlName="email"
+                >
+                <input 
+                    class="data-input"
+                    type="password" 
+                    placeholder="Password" 
+                    formControlName="password"
+                >
+                <input 
+                    class="data-input"
+                    type="password" 
+                    placeholder="Confirm Password" 
+                    formControlName="confirmedPassword"
+                >
+                <button 
+                    class="register-button" 
+                    mat-button 
+                    (click)="register()"
+                >
+                    Register
+                </button>
+            </div>
+        </form>
     </div>
 </div>

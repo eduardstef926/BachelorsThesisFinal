@@ -42,9 +42,8 @@ export class AppointmentReviewComponent implements OnInit {
 
   submitReview() {
     const review = {
-      userEmail: this.localStorage.get("loggedUserEmail"),
-      doctorFirstName: this.appointment.doctorFirstName,
-      doctorLastName: this.appointment.doctorLastName,
+      cookieId: this.localStorage.get("loggedUserId"),
+      appointmentId: this.appointment.appointmentId,
       number: this.evaluationNumber,
       message: this.evaluationMessage,
     } as ReviewDto;

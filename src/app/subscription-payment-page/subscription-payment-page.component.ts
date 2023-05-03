@@ -50,14 +50,16 @@ export class SubscriptionPaymentPageComponent implements OnInit {
 
   confirmPay() {
     var subscription = {
-      email: this.localStorage.get("loggedUserEmail"),
+      cookieId: this.localStorage.get("loggedUserId"),
       length: this.length
     } as SubscriptionInputDto;
+    
     this.userService.addUserSubscription(subscription).subscribe(() => {
       this.snackBar.open('Successful payment!', 'X', {
         duration: 5000,
         panelClass: ['my-snackbar']
       });
+      window.scrollTo(0, 0);
       this.router.navigate(['']);
     });
   }

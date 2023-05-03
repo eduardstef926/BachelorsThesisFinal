@@ -45,6 +45,7 @@ import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-p
 import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
 import { HospitalService } from './services/hospital.service';
 import { SubscriptionPaymentPageComponent } from './subscription-payment-page/subscription-payment-page.component';
+import { EmailService } from './services/email.service';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { SubscriptionPaymentPageComponent } from './subscription-payment-page/su
     AppointmentReviewComponent, 
     SubscriptionsPageComponent, 
     MyAccountPageComponent,
-     SubscriptionPaymentPageComponent, 
+    SubscriptionPaymentPageComponent, 
   ],
   imports: [
     HttpClientModule,
@@ -97,7 +98,7 @@ import { SubscriptionPaymentPageComponent } from './subscription-payment-page/su
     MatPaginatorModule,
     MatCheckboxModule,
   ],
-  providers: [UserService, AuthService, DoctorService, HospitalService, LocalStorageService],
+  providers: [UserService, EmailService, AuthService, DoctorService, HospitalService, LocalStorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -34,23 +34,9 @@ export class AuthService{
     );
   }
   
-  logOut(identifier: string): Observable<any> {
+  logOut(id: number): Observable<any> {
     return this.httpClient.delete<string>(
-      this.baseUrl + "/Auth/LogOut?identifier=" + identifier,
-      this.options
-    );
-  }
-
-  forgotPassword(email: string): Observable<any> {
-    return this.httpClient.post<string>(
-      this.baseUrl + "/Auth/SendForgotPasswordEmail?email=" + email,
-      this.options
-    );
-  }
-
-  confirmEmail(userId: number): Observable<any> {
-    return this.httpClient.put<string>(
-      this.baseUrl + "/Auth/ConfirmEmail?id=" + userId,
+      this.baseUrl + "/Auth/LogOut?id=" + id,
       this.options
     );
   }
@@ -58,6 +44,20 @@ export class AuthService{
   modifyPassword(userId: number, newPassword: string): Observable<any> {
     return this.httpClient.put<string>(
       this.baseUrl + "/Auth/ModifyPassword?id=" + userId + "&newPassword=" + newPassword,
+      this.options
+    );
+  }
+
+  confirmEmail(email: string, confirmationCode: number): Observable<any> {
+    return this.httpClient.put<string>(
+      this.baseUrl + "/Auth/ConfirmEmail?email=" + email + "&code=" + confirmationCode,
+      this.options
+    );
+  }
+
+  checkLoginCookie(id: number): Observable<any> {
+    return this.httpClient.get<any>(
+      this.baseUrl + "/Auth/CheckLoginCookie?id=" + id,
       this.options
     );
   }

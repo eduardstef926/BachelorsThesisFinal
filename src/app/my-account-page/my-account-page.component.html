@@ -8,6 +8,14 @@
             <mat-icon class="icon-tab">person</mat-icon> Account
         </button>
         <button 
+            *ngIf="!this.showEmailConfirmButton"
+            mat-button
+            class="account-tab" 
+            (click)="showAccountPage('showConfirmEmailPage')" 
+        >
+            <mat-icon class="icon-tab">email</mat-icon> Confirm Email
+        </button>
+        <button 
             mat-button
             class="account-tab" 
             (click)="showAccountPage('showAppointmentPage')" 
@@ -37,7 +45,7 @@
         class="profile-tab"
     >
         <p class="profile-title">
-            Public Profile
+            Public Profile 
         </p>
         <p class="name-section">
             First Name
@@ -75,7 +83,7 @@
             <button 
                 mat-button 
                 (click)="updateProfile()" 
-                class="modify-button"
+                class="update-button"
             >
                 Update Profile
             </button>
@@ -157,6 +165,13 @@
         <div class="subscription-container">
            {{this.endDate}}
         </div>
+        <button
+            mat-button
+            (click)="cancelSubscription()"
+            class="cancel-button"
+        >
+            Cancel Subscription
+        </button>
     </div>
     <div 
         *ngIf="this.accountPages.showSubscriptionPage && !this.showSubscription" 
@@ -166,6 +181,33 @@
             <p class="container-body">
                 No Active Subscription
             </p>
+        </div>
+    </div>
+    <div 
+        *ngIf="this.accountPages.showConfirmEmailPage" 
+        class="profile-tab"
+    >
+        <p class="subbody-title">
+            Confirmation email has been sent.
+        </p>
+        <p class="code-title">
+            Enter the code
+        </p>
+        <div class="code-container">
+            <input 
+                [(ngModel)]="confirmationCode"
+                class="name-input"
+                type="text"
+            >
+        </div>
+        <div class="enter-container">
+            <button 
+                mat-button 
+                (click)="confirmEmail()" 
+                class="enter-button"
+            >
+                Submit
+            </button>
         </div>
     </div>
     <img class="flower-image" src="assets/flower2.jpg">

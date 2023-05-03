@@ -16,7 +16,7 @@
     padding: 3% 5%;
     height: 100%;
     border-radius: 5px;
-    text-align: center;
+    text-align: left;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
     background-color: #4CAF50;
 }
@@ -64,18 +64,38 @@
     margin-top: 12%;
 }
 
+.material-icons{
+    font-family: 'Material Icons' !important;
+} 
+
 .name-input {
     padding: 8px;
     border-radius: 5px !important;
     width: auto;
+    overflow: auto;
     font-style: verdana;
     font-size: 18px;
     margin-top: 4%;
     margin-bottom: 10%;
 }
 
-.modify-button {
+.update-button {
     margin-top: 12%;
+    width: 70%;
+    height: 20%;
+    background-color: white;
+    color: green;
+}
+
+.code-container {
+    display: flex; 
+    justify-content: center; 
+    width: 100%; 
+    margin-top: 1rem;
+}
+
+.enter-button {
+    margin-top: 2%;
     width: 75%;
     height: 20%;
     background-color: white;
@@ -84,6 +104,13 @@
 
 .button-container {
     margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    justify-content: left;
+}
+
+.enter-container {
+    margin-top: 2%;
     margin-bottom: 5%;
     display: flex;
     justify-content: center;
@@ -189,15 +216,22 @@
     color: green !important;
 }
 
+::ng-deep .error-snackbar {
+    background-color: rgb(156, 86, 86);
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+}
+
 .subscription-container {
-    margin-top: 10%;
+    margin-top: 15%;
     padding: 10%;
     width: auto;
     height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size:  2rem;
+    font-size:  2.5rem;
     border-radius: 10px;
     background-color: white;
     color: green;
@@ -205,11 +239,43 @@
 
 .subscription-title {
     color: white;
-    font-size: 24px; 
+    font-size:  1.6rem; 
     text-align: center;
+}
+
+.code-title {
+    color: white;
+    font-size: 35px; 
+    text-align: center;
+    margin-top: 8%;
+}
+
+.subbody-title {
+    color: green;
+    background-color: white;
+    margin-top: 5%;
+    font-size: 18px; 
+    text-align: center;
+    padding: 7px;
+    border-radius: 3px;
+}
+
+.cancel-button {
+    background-color: white;
+    color: green;
+    text-align: center;
+    width: 100%;
+    margin-top: 15%;
+    height: 2.5rem;
 }
 
 .container-body {
     font-size: 30px; 
     text-align: center;
+}
+
+.confirm-button {
+    height: 3.5rem;
+    background-color: #4CAF50;
+    color: white;
 }

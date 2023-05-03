@@ -25,9 +25,7 @@
             <h1>
                 Login Here
             </h1>
-            <div 
-                *ngIf="pacientSelected" 
-            >
+            <div>
                 <input 
                     class="data-input"
                     type="text" 
@@ -43,7 +41,7 @@
                 <button 
                     class="logIn-button" 
                     mat-button 
-                    (click)="logInAsPacient()"
+                    (click)="logIn()"
                 >
                     Log In
                 </button>
