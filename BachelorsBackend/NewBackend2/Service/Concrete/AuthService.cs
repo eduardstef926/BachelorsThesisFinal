@@ -22,25 +22,26 @@ namespace NewBackend2.Service.Concrete
             this.mapper = mapper;
         }
 
-        public async Task<CookiesEntity> Login(LoggedUserDto user)
+        public async Task<int> Login(LoggedUserDto user)
         {
-            var users = await userRepository.GetAllUsersAsync();
             var hashedPassword = PasswordService.HashPassword(user.Password);
 
-            var isUserPresent = users.Any(x => x.Email == user.Email && x.Password == hashedPassword);
-            if (isUserPresent)
+            if (await userRepository.CheckUserInformationAsync(user.Email, hashedPassword))
             {
+                var userId = await userRepository.GetUserIdByEmailAsync(user.Email);
+
                 var cookieEntity = new CookiesEntity
                 {
-                    Name = user.Name,
-                    Identifier = user.Identifier,
+                    UserId = userId,
                     DateTime = DateTime.Now.AddMonths(1),
                 };
 
-                await cookieRepository.AddCookie(cookieEntity);
-                return cookieEntity;
+                await cookieRepository.AddCookieAsync(cookieEntity);
+
+                return cookieEntity.CookieId;
             }
-            return null;
+
+            return -1;
         }
 
         public async Task Register(UserDto user)
@@ -53,27 +54,35 @@ namespace NewBackend2.Service.Concrete
             await emailService.SendWelcomeEmailAsync(user.FirstName, user.LastName);
         }
 
-        public async Task ModifyPassword(string id, string newPassword)
+        public async Task ModifyPassword(int id, string newPassword)
         {
-            var userId = Convert.ToInt32(id);
             var hashedPassword = PasswordService.HashPassword(newPassword);
 
-            await userRepository.UpdateUserPasswordAsync(userId, hashedPassword);
+            await userRepository.UpdateUserPasswordAsync(id, hashedPassword);
         }
 
-        public async Task SendForgotPasswordEmail(string email)
+        public async Task<bool> ConfirmEmail(string email, int confirmationCode)
         {
-            await emailService.SendForgotPasswordEmailAsync(email);
+            var code = await userRepository.GetConfirmationCodeByEmailAsync(email);
+            
+            if (code == confirmationCode)
+            {
+                await userRepository.ConfirmEmailAsync(email);
+                
+                return true;
+            }
+
+            return false;
         }
 
-        public async Task ConfirmEmail(string id)
+        public async Task LogOut(int id)
         {
-            await userRepository.ConfirmEmailAsync(Convert.ToInt32(id));
+            await cookieRepository.DeleteCookieAsync(id);
         }
 
-        public async Task LogOut(string identifier)
+        public async Task<bool> CheckLoginCookie(int id)
         {
-            await cookieRepository.DeleteCookie(identifier);
+            return await cookieRepository.CheckCookieAsync(id);
         }
     }
 }

@@ -33,7 +33,10 @@ namespace NewBackend2.Model
         public string HospitalName { get; set; }
 
         [Required]
-        public int Price { get; set; }  
+        public int Price { get; set; }
+
+        [Required]
+        public bool IsReviewed { get; set; }
 
         public virtual UserEntity User { get; set; }
 

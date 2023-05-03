@@ -79,6 +79,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<HospitalEntity, HospitalDto>();
     mc.CreateMap<SubscriptionInputDto, SubscriptionEntity>();
     mc.CreateMap<SubscriptionEntity, SubscriptionDto>();
+    mc.CreateMap<ReviewEntity, ReviewDto>();
     mc.CreateMap<SymptomEntity, SymptomDto>()
         .ForMember(dto => dto.Name, opt => opt.MapFrom(src => src.Name));
     mc.CreateMap<ReviewDto, ReviewEntity>();
@@ -88,12 +89,6 @@ var mapperConfig = new MapperConfiguration(mc =>
         .ForMember(dto => dto.StartYear, opt => opt.MapFrom(src => src.StartYear))
         .ForMember(dto => dto.EndYear, opt => opt.MapFrom(src => src.EndYear))
         .ForMember(dto => dto.StudyProgram, opt => opt.MapFrom(src => src.StudyProgram));
-    mc.CreateMap<ReviewEntity, ReviewDto>()
-        .ForMember(dto => dto.DoctorFirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
-        .ForMember(dto => dto.DoctorLastName, opt => opt.MapFrom(src => src.Doctor.LastName))
-        .ForMember(dto => dto.UserEmail, opt => opt.MapFrom(src => src.User.Email))
-        .ForMember(dto => dto.Number, opt => opt.MapFrom(src => src.Number))
-        .ForMember(dto => dto.Message, opt => opt.MapFrom(src => src.Message));
     mc.CreateMap<EmploymentEntity, AppoimentSlotDto>()
         .ForMember(dto => dto.FirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
         .ForMember(dto => dto.LastName, opt => opt.MapFrom(src => src.Doctor.LastName))
@@ -106,7 +101,6 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<AppointmentEntity, AppointmentDto>()
         .ForMember(dto => dto.DoctorFirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
         .ForMember(dto => dto.DoctorLastName, opt => opt.MapFrom(src => src.Doctor.LastName))
-        .ForMember(dto => dto.UserEmail, opt => opt.MapFrom(src => src.User.Email))
         .ForMember(dto => dto.AppointmentDate, opt => opt.MapFrom(src => src.AppointmentDate));
 });
 

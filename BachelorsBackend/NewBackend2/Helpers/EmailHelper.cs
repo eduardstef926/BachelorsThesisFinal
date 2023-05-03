@@ -88,7 +88,7 @@ namespace NewBackend2.Helpers
                     </html>";
         }
 
-        public static string GetUserWelcomeEmailTemplate()
+        public static string GetConfirmationEmailTemplate()
         {
             return @"<html>
                         <head>
@@ -110,12 +110,69 @@ namespace NewBackend2.Helpers
                                 }
 
                                 .text-div {
-                                  width: 7rem;
+                                  width: 3.7rem;
                                   height: 1.4rem;
                                   border-radius: 2px;
                                   background-color: green;
                                 }
                                 
+                                h1, h2, h3 {
+                                  margin-top: 0;
+                                  margin-bottom: 20px;
+                                  font-weight: normal;
+                                }
+                                
+                                p {
+                                  margin-top: 0;
+                                  margin-bottom: 20px;
+                                }
+                                
+                                a {
+                                  color: #007bff;
+                                  padding-left: 0.8rem;
+                                  text-decoration: none;
+                                }
+                                
+                                a:hover {
+                                  text-decoration: underline;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class='container'>
+                                <h1>Email Confirmation</h1>
+                                <p>Dear [Recipient Name],</p>
+                                <p>Please enter the following code to confirm your email:</p>
+                                <div class='text-div'>
+                                    <p><a style='color: white'>[Confirmation Code]</a></p>
+                                </div><br><br>
+                                <p>The Virtual Clinic Team</p>
+                            </div>
+                        </body>
+                    </html>";
+        }
+
+        public static string GetUserWelcomeEmailTemplate()
+        {
+            return @"<html>
+                        <head>
+                            <style>
+                                body {
+                                  font-family: Arial, sans-serif;
+                                  font-size: 16px;
+                                  line-height: 1.5;
+                                  color: #333333;
+                                }
+                                
+                                .container {
+                                  max-width: 600px;
+                                  margin: 0 auto;
+                                  padding: 20px;
+                                  background-color: #f8f8f8;
+                                  border-radius: 10px;
+                                  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                                }
+
                                 h1, h2, h3 {
                                   margin-top: 0;
                                   margin-bottom: 20px;
@@ -142,10 +199,7 @@ namespace NewBackend2.Helpers
                             <div class='container'>
                                 <h1>Thank you for signing in</h1>
                                 <p>Dear [Recipient Name],</p>
-                                <p>Welcome to the team, please click the link below to confirm your email:</p>
-                                <div class='text-div'>
-                                    <p><a href='[Link]' style='color: white'>Confirm email</a></p>
-                                </div><br><br>
+                                <p>Welcome to the team, we are glad to have you here.</p>
                                 <p>The Virtual Clinic Team</p>
                             </div>
                         </body>
@@ -308,6 +362,7 @@ namespace NewBackend2.Helpers
                 </html>";
 
         }
+
 
         public static string GetReviewEmailTemplate()
         {

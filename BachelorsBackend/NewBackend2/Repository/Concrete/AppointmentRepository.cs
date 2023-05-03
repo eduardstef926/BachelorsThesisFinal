@@ -37,7 +37,7 @@ namespace NewBackend2.Repository.Concrete
         {
             return database.appointments.AsNoTracking()
                 .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.AppointmentDate == date);
+                .FirstOrDefaultAsync(x => x.AppointmentDate == date)!;
         }
 
         public Task<AppointmentEntity> GetAppointmentByIdAsync(int id)
@@ -45,7 +45,7 @@ namespace NewBackend2.Repository.Concrete
             return database.appointments.AsNoTracking()
                 .Include(x => x.Doctor)
                 .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.AppointmentId == id);
+                .FirstOrDefaultAsync(x => x.AppointmentId == id)!;
         }
 
         public Task<List<AppointmentEntity>> GetUserAppointmentsByEmailAsync(string email)
@@ -56,6 +56,17 @@ namespace NewBackend2.Repository.Concrete
                 .Where(x => x.User.Email == email)
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task UpdateAppointmentReviewStatusAsync(int appointmentId)
+        {
+            var appointmentToUpdate = await database.appointments.FirstOrDefaultAsync(x => x.AppointmentId == appointmentId);
+
+            if (appointmentToUpdate != null)
+            {
+                appointmentToUpdate.IsReviewed = true;
+                await database.SaveChangesAsync();
+            }
         }
     }
 }

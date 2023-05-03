@@ -14,14 +14,16 @@ namespace NewBackend2.Service.Concrete
         private readonly IEmailService emailService;
         private readonly IDoctorRepository doctorRepository;
         private readonly IReviewRepository reviewRepository;
+        private readonly ICookieRepository cookieRepository;
         private readonly ISubscriptionRepository subscriptionRepository;
         private readonly IAppointmentRepository appointmentRepository;
         private readonly IMedicalRepository medicalRepository;
         private readonly IMapper mapper;
 
-        public UserService(ISubscriptionRepository subscriptionRepository, IEmailService emailService, IReviewRepository reviewRepository, IDoctorRepository doctorRepository, IUserRepository userRepository, IAppointmentRepository appointmentRepository, IMedicalRepository medicalRepository, IMapper mapper)
+        public UserService(ISubscriptionRepository subscriptionRepository, ICookieRepository cookieRepository, IEmailService emailService, IReviewRepository reviewRepository, IDoctorRepository doctorRepository, IUserRepository userRepository, IAppointmentRepository appointmentRepository, IMedicalRepository medicalRepository, IMapper mapper)
         {
             this.emailService = emailService;
+            this.cookieRepository = cookieRepository;
             this.subscriptionRepository = subscriptionRepository;
             this.doctorRepository = doctorRepository;
             this.reviewRepository = reviewRepository;
@@ -55,7 +57,7 @@ namespace NewBackend2.Service.Concrete
                 .ToList();
         }
 
-        public async Task AddUserSymptomsAsync(string userEmail, string symptoms)
+        public async Task AddUserSymptomsAsync(int cookieId, string symptoms)
         {
             var client = new HttpClient();
             var response = await client.GetAsync(ApiHelper.baseUrl + $"getInformationBySymptoms/{symptoms}");
@@ -69,7 +71,7 @@ namespace NewBackend2.Service.Concrete
             };
             await medicalRepository.AddDiseaseAsync(disease);
 
-            var userId = await userRepository.GetUserIdByEmailAsync(userEmail);
+            var userId = await cookieRepository.GetUserIdByCookieIdAsync(cookieId);
             var userDiagnostic = new DiagnosticEntity
             {
                 UserId = userId,
@@ -84,7 +86,7 @@ namespace NewBackend2.Service.Concrete
         public async Task AddUserSubscriptionAsync(SubscriptionInputDto subscriptionDto)
         {
             var subscription = mapper.Map<SubscriptionInputDto, SubscriptionEntity>(subscriptionDto);
-            var user = await userRepository.GetUserByEmailAsync(subscriptionDto.Email);
+            var user = await cookieRepository.GetUserByCookieIdAsync(subscriptionDto.CookieId);
 
             subscription.UserId = user.UserId;
             subscription.StartDate = DateTime.Now;
@@ -94,9 +96,9 @@ namespace NewBackend2.Service.Concrete
             await subscriptionRepository.AddUserSubscriptionAsync(subscription);
         }
 
-        public async Task<DiagnosticDto> GetLastDiagnosticByUserEmailAsync(string email)
+        public async Task<DiagnosticDto> GetLastDiagnosticBySessionIdAsync(int cookieId)
         {
-            var userId = await userRepository.GetUserIdByEmailAsync(email);
+            var userId = await cookieRepository.GetUserIdByCookieIdAsync(cookieId);
             var diagnostic = await medicalRepository.GetLastDiagnosticByUserIdAsync(userId);
             return mapper.Map<DiagnosticEntity, DiagnosticDto>(diagnostic);
         }
@@ -109,31 +111,35 @@ namespace NewBackend2.Service.Concrete
 
         public async Task AddAppointmentReviewAsync(ReviewDto review)
         {
-            var reviewNumbers = await reviewRepository.GetDoctorReviewNumbersByFirstNameAndLastName(review.DoctorFirstName, review.DoctorLastName);
-            var userId = await userRepository.GetUserIdByEmailAsync(review.UserEmail);
-            var doctorId = await doctorRepository.GetDoctorIdByFirstNameAndLastNameAsync(review.DoctorFirstName, review.DoctorLastName);
+            var appointment = await appointmentRepository.GetAppointmentByIdAsync(review.AppointmentId);
+            var reviewNumbers = await reviewRepository.GetDoctorReviewNumbersByFirstNameAndLastName(appointment.Doctor.FirstName, appointment.Doctor.LastName);
             var reviewEntity = mapper.Map<ReviewDto, ReviewEntity>(review);
-            int evaluationSum = 0;
+            int evaluationSum = 0; float evaluationNumber;
             
-            reviewNumbers.ForEach(reviewNumber => evaluationSum += reviewNumber);
-            var evaluationAverage = (float) evaluationSum / reviewNumbers.Count();
-            var evaluationNumber = (float) Math.Round(evaluationAverage, 2);
+            if (reviewNumbers.Count > 0)
+            {
+                reviewNumbers.ForEach(reviewNumber => evaluationSum += reviewNumber);
+                var evaluationAverage = (float)evaluationSum / reviewNumbers.Count();
+                evaluationNumber = (float)Math.Round(evaluationAverage, 2);
+            } 
+            else
+            {
+                evaluationNumber = review.Number;
+            }
 
-            await doctorRepository.UpdateDoctorEvaluationNumberAsync(doctorId, evaluationNumber);
-
-            reviewEntity.DoctorId = doctorId;
-            reviewEntity.UserId = userId;
+            await doctorRepository.UpdateDoctorEvaluationNumberAsync(appointment.Doctor.DoctorId, evaluationNumber);
+            await appointmentRepository.UpdateAppointmentReviewStatusAsync(appointment.AppointmentId);
             await reviewRepository.AddAppointmentReviewAsync(reviewEntity);
         }
 
         public async Task ScheduleAppointment(AppointmentDto appointment)
         {
-            var user = await userRepository.GetUserByEmailAsync(appointment.UserEmail);
+            var userId = await cookieRepository.GetUserByCookieIdAsync(appointment.CookieId);
             var doctor = await doctorRepository.GetDoctorByFirstNameAndLastNameAsync(appointment.DoctorFirstName, appointment.DoctorLastName);
             
             var appointmentEntity = new AppointmentEntity
             {
-                UserId = user.UserId,
+                UserId = userId.UserId,
                 DoctorId = doctor.DoctorId,
                 Price = appointment.Price,
                 Location = appointment.Location,
@@ -142,22 +148,18 @@ namespace NewBackend2.Service.Concrete
             };
 
             await appointmentRepository.AddAppointmentAsync(appointmentEntity);
-            await emailService.SendAppointmentConfirmationEmailAsync(user, doctor, appointmentEntity);
+            await emailService.SendAppointmentConfirmationEmailAsync(userId, doctor, appointmentEntity);
         }
 
-        public async Task<bool> CheckUserSubscriptionAsync(string email)
+        public async Task<bool> CheckUserSubscriptionAsync(int cookieId)
         {
-            var subscription = await userRepository.GetUserSubscriptionAsync(email);
-            
-            if (subscription == null) 
-                return false;
-
-            return (DateTime.Now.CompareTo(subscription.StartDate) >= 0 && DateTime.Now.CompareTo(subscription.EndDate) <= 0);
+            var userId = await cookieRepository.GetUserIdByCookieIdAsync(cookieId);
+            return await subscriptionRepository.CheckUserSubscriptionAsync(userId);
         }
 
-        public async Task<FullUserDataDto> GetFullUserDataByEmailAsync(string email)
+        public async Task<FullUserDataDto> GetFullUserDataByCookieIdAsync(int cookieId)
         {
-            var user = await userRepository.GetUserByEmailAsync(email);
+            var user = await cookieRepository.GetUserByCookieIdAsync(cookieId);
             return mapper.Map<UserEntity, FullUserDataDto>(user);
         }
 
@@ -178,9 +180,14 @@ namespace NewBackend2.Service.Concrete
 
         public async Task<SubscriptionDto> GetUserSubscriptionAsync(string email)
         {
-            var subscription = await userRepository.GetUserSubscriptionAsync(email);
-
+            var subscription = await subscriptionRepository.GetUserSubscriptionAsync(email);
             return mapper.Map<SubscriptionEntity, SubscriptionDto>(subscription);
+        }
+
+        public async Task CancelUserSubscriptionAsync(int cookieId)
+        {
+            var userId = await cookieRepository.GetUserIdByCookieIdAsync(cookieId);
+            await subscriptionRepository.DeleteUserSubscriptionAsync(userId);
         }
     }
 }

@@ -30,10 +30,14 @@ namespace NewBackend2.Model
         [MaxLength(100)]
         public string Email { get; set; }
 
+        [MaxLength(100)]
+        public int ConfirmationCode { get; set; }
+
         [Required]
         [MaxLength(100)]
         public bool isEmailConfirmed { get; set; }
 
+        public virtual ICollection<CookiesEntity> Cookies { get; set; }
         public virtual ICollection<DiagnosticEntity> Diagnostics { get; set; }
         public virtual ICollection<AppointmentEntity> Appointments { get; set; }
         public virtual ICollection<ReviewEntity> Reviews { get; set; }

@@ -17,9 +17,9 @@ namespace NewBackend2.Controllers
         }
 
         [HttpPost("AddUserSymptoms")]
-        public async Task<IActionResult> AddUserSymptoms(string email, string symptoms)
+        public async Task<IActionResult> AddUserSymptoms(int cookieId, string symptoms)
         {
-            if (email == null || symptoms == null)
+            if (symptoms == null)
             {
                 return BadRequest("Invalid input");
             }
@@ -31,7 +31,7 @@ namespace NewBackend2.Controllers
                     return BadRequest("Invalid user object");
                 }
 
-                await userService.AddUserSymptomsAsync(email, symptoms);
+                await userService.AddUserSymptomsAsync(cookieId, symptoms);
                 return Ok();
 
             } catch (ValidationException ex)
@@ -53,15 +53,15 @@ namespace NewBackend2.Controllers
             return Ok(symptoms);
         }
 
-        [HttpGet("GetLastDiagnosticByUserEmail")]
-        public async Task<IActionResult> GetLastDiagnosticByUserEmail(string email)
+        [HttpGet("GetLastDiagnosticBySessionId")]
+        public async Task<IActionResult> GetLastDiagnosticBySessionId(int cookieId)
         {
-            if (email == null)
+            if (cookieId == 0)
             {
                 return BadRequest("Invalid input data");
             }
 
-            var diagnostic = await userService.GetLastDiagnosticByUserEmailAsync(email);
+            var diagnostic = await userService.GetLastDiagnosticBySessionIdAsync(cookieId);
 
             if (diagnostic == null)
             {
@@ -74,7 +74,7 @@ namespace NewBackend2.Controllers
         [HttpGet("GetAppointmentById")]
         public async Task<IActionResult> GetAppointmentById(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return BadRequest("Invalid input data");
             }
@@ -130,27 +130,40 @@ namespace NewBackend2.Controllers
         }
 
         [HttpGet("CheckUserSubscription")]
-        public async Task<IActionResult> CheckUserSubscription(string email)
+        public async Task<IActionResult> CheckUserSubscription(int cookieId)
         {
-            if (email == null)
+            if (cookieId == 0)
             {
                 return BadRequest("Invalid input");
             }
 
-            var result = await userService.CheckUserSubscriptionAsync(email);
+            var result = await userService.CheckUserSubscriptionAsync(cookieId);
 
             return Ok(result);
         }
 
-        [HttpGet("GetFullUserDataByEmail")]
-        public async Task<IActionResult> GetFullUserDataByEmail(string email)
+        [HttpDelete("CancelUserSubscription")]
+        public async Task<IActionResult> CancelUserSubscription(int cookieId)
         {
-            if (email == null)
+            if (cookieId == 0)
             {
                 return BadRequest("Invalid input");
             }
 
-            var result = await userService.GetFullUserDataByEmailAsync(email);
+            await userService.CancelUserSubscriptionAsync(cookieId);
+
+            return Ok();
+        }
+
+        [HttpGet("GetFullUserDataByCookieId")]
+        public async Task<IActionResult> GetFullUserDataByCookieId(int cookieId)
+        {
+            if (cookieId == 0)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            var result = await userService.GetFullUserDataByCookieIdAsync(cookieId);
 
             return Ok(result);
         }

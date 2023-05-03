@@ -19,16 +19,9 @@ namespace NewBackend2.Repository.Concrete
             await database.SaveChangesAsync();
         }
 
-        public Task<SubscriptionEntity> GetUserSubscriptionAsync(string email)
+        public async Task ConfirmEmailAsync(string email)
         {
-            return database.subscriptions
-                .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.User.Email == email);
-        }
-
-        public async Task ConfirmEmailAsync(int id)
-        {
-            var userToUpdate = database.users.FirstOrDefault(u => u.UserId == id);
+            var userToUpdate = database.users.FirstOrDefault(u => u.Email == email);
             if (userToUpdate != null)
             {
                 userToUpdate.isEmailConfirmed = true;
@@ -46,13 +39,13 @@ namespace NewBackend2.Repository.Concrete
         public Task<UserEntity> GetUserByEmailAsync(string email)
         {
             return database.users.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Email == email);
+                .FirstOrDefaultAsync(x => x.Email == email)!;
         }
 
         public Task<UserEntity> GetUserByFirstNameAndLastNameAsync(string firstName, string lastName)
         {
             return database.users.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName);
+                .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName)!;
         }
 
         public Task<int> GetUserIdByEmailAsync(string email)
@@ -85,7 +78,32 @@ namespace NewBackend2.Repository.Concrete
             return database.users.AsNoTracking()
                 .Where(x => x.UserId == id)
                 .Select(x => x.Password)
+                .FirstOrDefaultAsync()!;
+        }
+
+        public async Task UpdateConfirmationCode(string email, int code)
+        {
+            var user = database.users.FirstOrDefault(u => u.Email == email);
+
+            if (user != null)
+            {
+                user.ConfirmationCode = code;
+                database.SaveChanges();
+            }
+        }
+
+        public Task<int> GetConfirmationCodeByEmailAsync(string email)
+        {
+            return database.users.AsNoTracking()
+                .Where(x => x.Email == email)
+                .Select(x => x.ConfirmationCode)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> CheckUserInformationAsync(string email, string password)
+        {
+            return database.users
+                .Any(x => x.Email == email && x.Password == password);
         }
     }
 }

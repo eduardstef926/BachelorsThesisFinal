@@ -11,14 +11,9 @@ namespace NewBackend2.Model
         public int ReviewMappingId { get; set; }
 
         [Required]
-        [ForeignKey("Doctor")]
+        [ForeignKey("AppointmentEntity")]
         [MaxLength(10)]
-        public int DoctorId { get; set; }
-
-        [Required]
-        [ForeignKey("User")]
-        [MaxLength(10)]
-        public int UserId { get; set; }
+        public int AppointmentId { get; set; }
 
         [Required]
         public int Number { get; set; }
@@ -27,20 +22,17 @@ namespace NewBackend2.Model
         [MaxLength(200)]
         public string Message { get; set; }
 
-        public virtual UserEntity User { get; set; }
-
-        public virtual DoctorEntity Doctor { get; set; }
+        public virtual AppointmentEntity Appointment { get; set; }
 
         public override bool Equals(object? obj)
         {
             return obj is ReviewEntity entity &&
-                UserId == entity.UserId &&
-                DoctorId == entity.DoctorId;
+                AppointmentId == entity.AppointmentId;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(UserId, DoctorId);
+            return HashCode.Combine(AppointmentId);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace NewBackend2.Repository.Concrete
         {
             return database.diagnostics.AsNoTracking()
                 .OrderBy(x => x.DiagnosticId)
-                .LastOrDefaultAsync(x => x.UserId == id);
+                .LastOrDefaultAsync(x => x.UserId == id)!;
         }
     }
 }

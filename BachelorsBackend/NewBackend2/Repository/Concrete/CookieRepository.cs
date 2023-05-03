@@ -1,4 +1,5 @@
-﻿using NewBackend2.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using NewBackend2.Model;
 using NewBackend2.Repository.Abstract;
 
 namespace NewBackend2.Repository.Concrete
@@ -12,23 +13,43 @@ namespace NewBackend2.Repository.Concrete
             this.database = database;
         }
 
-        public async Task AddCookie(CookiesEntity cookie)
+        public async Task AddCookieAsync(CookiesEntity cookie)
         {
-            if (!database.cookies.Any(item => item.Identifier == cookie.Identifier))
-            {
-                database.cookies.Add(cookie);
-                await database.SaveChangesAsync();
-            }
+            database.cookies.Add(cookie);
+            await database.SaveChangesAsync();
         }
 
-        public async Task DeleteCookie(string identifier)
+        public async Task<bool> CheckCookieAsync(int id)
         {
-            var cookie = database.cookies.FirstOrDefault(item => item.Identifier == identifier);
+            return database.cookies.AsNoTracking()
+               .Any(x => x.CookieId == id && x.DateTime.CompareTo(DateTime.Now) >= 0);
+        }
+
+        public async Task DeleteCookieAsync(int id)
+        {
+            var cookie = database.cookies.FirstOrDefault(item => item.CookieId == id);
             if (cookie != null)
             {
                 database.cookies.Remove(cookie);
                 await database.SaveChangesAsync();
             }
+        }
+
+        public Task<UserEntity> GetUserByCookieIdAsync(int id)
+        {
+            return database.cookies.AsNoTracking()
+                .Include(x => x.User)
+                .Where(x => x.CookieId == id)
+                .Select(x => x.User)
+                .FirstOrDefaultAsync()!;
+        }
+
+        public Task<int> GetUserIdByCookieIdAsync(int id)
+        {
+            return database.cookies.AsNoTracking()
+               .Where(x => x.CookieId == id)
+               .Select(x => x.UserId)
+               .FirstOrDefaultAsync();
         }
     }
 }

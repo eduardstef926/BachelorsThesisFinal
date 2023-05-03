@@ -29,7 +29,7 @@ namespace NewBackend2.Repository.Concrete
         public Task<DoctorEntity> GetDoctorByFirstNameAndLastNameAsync(string firstName, string lastName)
         {
             return database.doctors.AsNoTracking()
-                .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName);
+                .FirstOrDefaultAsync(x => x.FirstName == firstName && x.LastName == lastName)!;
         }
 
         public Task<int> GetDoctorIdByFirstNameAndLastNameAsync(string firstName, string lastName)
@@ -50,12 +50,13 @@ namespace NewBackend2.Repository.Concrete
 
         public async Task UpdateDoctorEvaluationNumberAsync(int id, float newNumber)
         {
-            var doctorToUpdate = database.doctors.FirstOrDefault(d => d.DoctorId == id);
+            var doctorToUpdate = database.doctors.FirstOrDefault(u => u.DoctorId == id);
+
             if (doctorToUpdate != null)
             {
                 doctorToUpdate.Rating = newNumber;
-                database.SaveChanges();
+                await database.SaveChangesAsync();
             }
-        }
+        }   
     }
 }

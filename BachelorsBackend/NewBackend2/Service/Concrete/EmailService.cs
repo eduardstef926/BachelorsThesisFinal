@@ -66,9 +66,7 @@ namespace NewBackend2.Service.Concrete
             var subject = "Thank you for sigining in";
             var user = await userRepository.GetUserByFirstNameAndLastNameAsync(firstName, lastName);
             var body = EmailHelper.GetUserWelcomeEmailTemplate();
-            var userLink = "http://localhost:4200/main/" + user.UserId;
-            body = body.Replace("[Recipient Name]", user.LastName)
-                       .Replace("[Link]", userLink);
+            body = body.Replace("[Recipient Name]", user.LastName);
 
             var email = new EmailEntity
             {
@@ -178,6 +176,29 @@ namespace NewBackend2.Service.Concrete
             var body = EmailHelper.GetSubscriptionEmailPaymentTemplate();
             body = body.Replace("[Recipient Name]", user.FirstName)
                    .Replace("[End Date]", endDate.Year + "/" + endDate.Month + "/" + endDate.Day);
+
+            var email = new EmailEntity
+            {
+                To = user.Email,
+                Message = body,
+                Subject = subject,
+            };
+
+            await this.SendEmailAsync(email);
+            await emailRepository.AddEmailAsync(email);
+        }
+
+        public async Task SendEmailConfirmationAsync(string userEmail)
+        {
+            var random = new Random();
+            var confirmationCode = random.Next(1000, 10000);
+            await userRepository.UpdateConfirmationCode(userEmail, confirmationCode);
+
+            var user = await userRepository.GetUserByEmailAsync(userEmail);
+            var subject = "Email Confirmation";
+            var body = EmailHelper.GetConfirmationEmailTemplate();
+            body = body.Replace("[Recipient Name]", user.LastName)
+                       .Replace("[Confirmation Code]", confirmationCode.ToString());
 
             var email = new EmailEntity
             {

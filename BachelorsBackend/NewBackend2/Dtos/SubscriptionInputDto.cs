@@ -2,7 +2,7 @@
 {
     public class SubscriptionInputDto
     {
-        public string Email { get; set; }   
+        public int CookieId { get; set; }   
         public int Length { get; set; } 
     }
 }

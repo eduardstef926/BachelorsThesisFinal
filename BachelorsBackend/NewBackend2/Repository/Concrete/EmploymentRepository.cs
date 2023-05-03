@@ -49,7 +49,7 @@ namespace NewBackend2.Repository.Concrete
             return database.employments
                 .Where(x => x.DoctorId == doctorId)
                 .Include(x => x.Hospital)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync()!;
         }
 
         public Task<UserEntity> GetUserByAppointmentAsync(AppointmentEntity appointmentEntity)
@@ -57,7 +57,7 @@ namespace NewBackend2.Repository.Concrete
             return database.appointments
                 .Where(x => x.AppointmentId == appointmentEntity.AppointmentId)
                 .Select(x => x.User)
-                .FirstOrDefaultAsync();   
+                .FirstOrDefaultAsync()!;   
         }
     }
 }

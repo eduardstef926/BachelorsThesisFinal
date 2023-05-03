@@ -91,7 +91,8 @@ namespace NewBackend2.Service.Concrete
             return locations;
         }
 
-        public async Task<List<AppoimentSlotDto>> GetAppointmentDatesByDateSpecializationAndLocationAsync(string startInputDate, string endInputDate, string location, string specialization)
+        public async Task<List<AppoimentSlotDto>> GetAppointmentDatesByDateSpecializationAndLocationAsync(string startInputDate, string endInputDate,
+                                                                                                          string location, string specialization)
         {
             var startDate = DateTime.ParseExact(startInputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
             var endDate = DateTime.ParseExact(endInputDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);

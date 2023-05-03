@@ -41,7 +41,7 @@ namespace NewBackend2.Controllers
 
             var response = await authService.Login(user);
 
-            if (response == null)
+            if (response == -1)
             {
                 return BadRequest("Invalid username or password!");
             }
@@ -49,10 +49,28 @@ namespace NewBackend2.Controllers
             return Ok(response);
         }
 
-        [HttpPut("ModifyPassword")]
-        public async Task<IActionResult> ModifyPassword(string id, string newPassword)
+        [HttpGet("CheckLoginCookie")]
+        public async Task<IActionResult> CheckLoginCookie(int id)
         {
-            if (id == null || newPassword == null)
+            if (id == 0)
+            {
+                return BadRequest("Invalid object");
+            }
+
+            var response = await authService.CheckLoginCookie(id);
+
+            if (response == false)
+            {
+                return BadRequest("No cookies!");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPut("ModifyPassword")]
+        public async Task<IActionResult> ModifyPassword(int id, string newPassword)
+        {
+            if (id == 0 || newPassword == null)
             {
                 return BadRequest("Invalid object");
             }
@@ -65,6 +83,7 @@ namespace NewBackend2.Controllers
                 }
 
                 await authService.ModifyPassword(id, newPassword);
+
                 return Ok();
             }
             catch (ValidationException ex)
@@ -74,65 +93,32 @@ namespace NewBackend2.Controllers
         }
 
         [HttpPut("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string id)
-        {
-            if (id == null)
-            {
-                return BadRequest("Invalid object");
-            }
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid object sent from client!");
-                    return BadRequest("Invalid user object");
-                }
-
-                await authService.ConfirmEmail(id);
-
-                return Ok();
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
-        [HttpPost("SendForgotPasswordEmail")]
-        public async Task<IActionResult> SendForgotPasswordEmail(string email)
+        public async Task<IActionResult> ConfirmEmail(string email, int code)
         {
             if (email == null)
             {
                 return BadRequest("Invalid object");
             }
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid object sent from client!");
-                    return BadRequest("Invalid user object");
-                }
 
-                await authService.SendForgotPasswordEmail(email);
+            var response = await authService.ConfirmEmail(email, code);
 
-                return Ok();
-            }
-            catch (ValidationException ex)
+            if (response == false)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Invalid code");
             }
+
+            return Ok();
         }
 
         [HttpDelete("LogOut")]
-        public async Task<IActionResult> LogOut(string identifier)
+        public async Task<IActionResult> LogOut(int id)
         {
-            if (identifier == null)
+            if (id == 0)
             {
                 return BadRequest("Invalid input data");
             }
 
-            await authService.LogOut(identifier);
+            await authService.LogOut(id);
 
             return Ok();
         }

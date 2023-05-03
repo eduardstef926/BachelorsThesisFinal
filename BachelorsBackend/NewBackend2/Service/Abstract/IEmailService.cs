@@ -5,6 +5,7 @@ namespace NewBackend2.Service.Abstract
     public interface IEmailService
     {
         Task SendEmailAsync(EmailEntity email);
+        Task SendEmailConfirmationAsync(string userEmail);
         Task SendSubscriptionPaymentAsync(UserEntity user, DateTime endDate);
         Task SendAppointmentConfirmationEmailAsync(UserEntity user, DoctorEntity doctor, AppointmentEntity appointment);
         Task SendForgotPasswordEmailAsync(string userEmail);
