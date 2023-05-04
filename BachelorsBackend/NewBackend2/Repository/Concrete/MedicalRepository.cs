@@ -19,10 +19,13 @@ namespace NewBackend2.Repository.Concrete
             await database.SaveChangesAsync();
         }
 
-        public Task<List<SymptomEntity>> GetAllSymptomsAsync()
+        public Task<List<string>> GetAllSymptomsInRangeAsync(int pageStart)
         {
             return database.symptoms
                 .AsNoTracking()
+                .Skip(pageStart)
+                .Take(5)
+                .Select(x => x.Name)
                 .ToListAsync();
         }
 
@@ -49,6 +52,32 @@ namespace NewBackend2.Repository.Concrete
             return database.diagnostics.AsNoTracking()
                 .OrderBy(x => x.DiagnosticId)
                 .LastOrDefaultAsync(x => x.UserId == id)!;
+        }
+
+        public Task<List<string>> FilterSymptomsAsync(string symptom, int pageStart)
+        {
+            return database.symptoms.AsNoTracking()
+                .Where(x => x.Name.Contains(symptom))
+                .AsNoTracking()
+                .Skip(pageStart)
+                .Take(4)
+                .Select(x => x.Name)
+                .ToListAsync()!;
+        }
+
+        public Task<int> GetSymptomsNumberAsync(string? symptom)
+        {
+            return database.symptoms.AsNoTracking()
+                .Where(x => x.Name.Contains(symptom))
+                .AsNoTracking()
+                .CountAsync()!;
+        }
+
+        public Task<int> GetSymptomsNumberAsync()
+        {
+            return database.symptoms
+                .AsNoTracking()
+                .CountAsync()!;
         }
     }
 }

@@ -13,11 +13,11 @@ namespace NewBackend2.Service.Abstract
         Task UpdateUserDataAsync(FullUserDataDto user);
         Task CancelUserSubscriptionAsync(int cookieId);
         Task<bool> CheckUserSubscriptionAsync(int cookieId);
+        Task<PaginatedSymptomDto> FilterSymptomsAsync(string? symptom, int pageIndex);
         Task<SubscriptionDto> GetUserSubscriptionAsync(string email);
         Task<List<AppointmentDto>> GetUserAppointmentsByEmailAsync(string email);
         Task<FullUserDataDto> GetFullUserDataByCookieIdAsync(int cookieId);
         Task<AppointmentDto> GetAppointmentByIdAsync(int id);
         Task<DiagnosticDto> GetLastDiagnosticBySessionIdAsync(int cookieId);
-        Task<List<SymptomDto>> GetAllSymptomsAsync();
     }
 }

@@ -40,17 +40,17 @@ namespace NewBackend2.Controllers
             }
         }
 
-        [HttpGet("GetAllSymptoms")]
-        public async Task<IActionResult> LogOut()
+        [HttpGet("FilterSymptomsPaginated")]
+        public async Task<IActionResult> FilterSymptomsPaginated(string? symptom, int pageIndex)
         {
-            var symptoms = await userService.GetAllSymptomsAsync();
+            var result = await userService.FilterSymptomsAsync(symptom, pageIndex);
 
-            if (!symptoms.Any())
+            if (result == null)
             {
                 return NoContent();
             }
 
-            return Ok(symptoms);
+            return Ok(result);
         }
 
         [HttpGet("GetLastDiagnosticBySessionId")]

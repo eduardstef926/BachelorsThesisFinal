@@ -49,14 +49,6 @@ namespace NewBackend2.Service.Concrete
             }
         }
 
-        public async Task<List<SymptomDto>> GetAllSymptomsAsync()
-        {
-            var symptoms = await medicalRepository.GetAllSymptomsAsync();
-            return symptoms
-                .Select(mapper.Map<SymptomEntity, SymptomDto>)
-                .ToList();
-        }
-
         public async Task AddUserSymptomsAsync(int cookieId, string symptoms)
         {
             var client = new HttpClient();
@@ -188,6 +180,32 @@ namespace NewBackend2.Service.Concrete
         {
             var userId = await cookieRepository.GetUserIdByCookieIdAsync(cookieId);
             await subscriptionRepository.DeleteUserSubscriptionAsync(userId);
+        }
+
+        public async Task<PaginatedSymptomDto> FilterSymptomsAsync(string? symptom, int pageIndex)
+        {
+            var pageStart = 5 * pageIndex;
+            int number = 0;
+            var symptoms = new List<string>();
+
+            if (symptom == null)
+            {
+                symptoms = await medicalRepository.GetAllSymptomsInRangeAsync(pageStart);
+                number = await medicalRepository.GetSymptomsNumberAsync();
+            }
+            else
+            {
+                symptoms = await medicalRepository.FilterSymptomsAsync(symptom, pageStart);
+                number = await medicalRepository.GetSymptomsNumberAsync(symptom);
+            }
+
+            var paginatedSymptoms = new PaginatedSymptomDto
+            {
+                Symptoms = symptoms,
+                Number = number,
+            };
+
+            return paginatedSymptoms;
         }
     }
 }
