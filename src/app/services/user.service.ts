@@ -85,9 +85,10 @@ export class UserService{
     );
   }
 
-  getAllSymptoms(): Observable<SymptomDto[]> {
-    return this.httpClient.get<Array<SymptomDto>>(
-      this.baseUrl + "/User/GetAllSymptoms",
+  getFilterSymptomsPaginated(symptom: string, pageIndex: number): Observable<SymptomDto> {
+    return this.httpClient.get<SymptomDto>(
+      this.baseUrl + "/User/FilterSymptomsPaginated?symptom=" + symptom
+      + "&pageIndex=" + pageIndex,
       this.options
     );
   }

@@ -26,12 +26,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SymptomPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  listSize!: number;
+  isFiltered = false;
+  showEmptyMessage = false;
   symptomList!: any;
-  partialSymptomName!: string;
+  partialSymptomName = "";
   filteredTableCopy: string[] = [];
   tableCopy: string[] = [];
   pageSize = 5;
-  pageIndex = 0;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -39,37 +41,29 @@ export class SymptomPageComponent implements OnInit {
               private snackBar: MatSnackBar) {}
   
   ngOnInit(): void {
-    this.userService.getAllSymptoms().subscribe((symptoms: SymptomDto[]) => {
-      this.symptomList = symptoms.map((symptom) => [symptom.name, false]);
-      this.tableCopy =  this.symptomList;
-      this.filteredTableCopy = this.symptomList;
-      this.renderSymptoms();
-    })
+    this.onPageChange(0);
   }
 
-  onPageChange(event: any) {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.renderSymptoms();
-  }
-
-  renderSymptoms() {
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-    this.symptomList = this.filteredTableCopy.slice(start, end);
+  onPageChange(pageIndex: number) {
+    this.userService.getFilterSymptomsPaginated(this.partialSymptomName.toLowerCase(), pageIndex)
+      .subscribe((symptoms: SymptomDto) => {
+        this.symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
+        this.listSize = symptoms.number;
+      }
+    );
   }
 
   filterSymptoms() {
-    if (this.partialSymptomName.length != 0) {
-      this.filteredTableCopy = this.tableCopy.filter((symptom: any) => 
-        symptom[0].toLowerCase().includes(this.partialSymptomName.toLowerCase())
-      );
-      this.symptomList = this.filteredTableCopy;
-    } else {
-      this.symptomList = this.tableCopy;
-      this.filteredTableCopy = this.tableCopy;
-    }
-    this.renderSymptoms();
+    const pageIndex = 0;
+    this.userService.getFilterSymptomsPaginated(this.partialSymptomName.toLowerCase(), pageIndex)
+      .subscribe((symptoms: SymptomDto) => {
+        this.symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
+        this.listSize = symptoms.number;
+        symptoms.symptoms.length == 0 ? this.showEmptyMessage = true : this.showEmptyMessage = false;
+        this.partialSymptomName.length != 0 ? this.isFiltered = true : this.isFiltered = false;
+        this.paginator.pageIndex = 0;
+      }
+    );
   }
 
   submitSymptoms() {

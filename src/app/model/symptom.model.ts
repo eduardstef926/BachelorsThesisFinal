@@ -1,3 +1,4 @@
 export class SymptomDto {
-    name!: string;
+    symptoms!: Array<string>;
+    number!: number;
 }

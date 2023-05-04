@@ -100,7 +100,7 @@ const routes: Routes = [
     path: 'account',
     component: MyAccountPageComponent
   },
-];
+];  
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
