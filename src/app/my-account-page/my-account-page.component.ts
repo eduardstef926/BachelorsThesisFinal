@@ -23,6 +23,9 @@ import { EmailService } from '../services/email.service';
   ]
 })
 export class MyAccountPageComponent implements OnInit {
+  pageSize = 2;
+  pageIndex = 0;
+  paginatorLength = 5;
   user!: UserDto;
   firstName!: string;;
   lastName!: string;
@@ -31,9 +34,6 @@ export class MyAccountPageComponent implements OnInit {
   cookieId!: number;
   confirmationCode!: number;
   phoneNumber!: string;
-  pageSize = 2;
-  pageIndex = 0;
-  paginatorLength = 5;
   accountPages: {
     [key: string]: boolean;
   } = {
@@ -193,7 +193,15 @@ export class MyAccountPageComponent implements OnInit {
 
   cancelSubscription() {
     this.userService.cancelUserSubscription(this.cookieId)
-      .subscribe((data: any) => {});
+      .subscribe((data: any) => {
+        window.scrollTo(0, 0);
+        this.snackBar.open('Successful canceling!', 'X', {
+          duration: 5000,
+          panelClass: ['my-snackbar']
+        });
+        this.router.navigate(['/main']);
+      }
+    );
   }
 
 }

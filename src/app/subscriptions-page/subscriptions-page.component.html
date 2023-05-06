@@ -1,77 +1,80 @@
-<div @fade class="page-container">
-    <div class="page-div">
-        <img class="image-div" src="assets/treeImage.jpg">
-        <div class="page-contains">
-            <p class="subscription-title">Our Subscription</p>
-            <p class="subscription-description">
-                Your health and that of your loved ones has priority. 
-                Our medical subscription represent constant care and monitoring, 
-                through medical services that help you keep your health under control or detect 
-                any ailments in time.
-            </p>
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';">
+<div>
+    <div @fade class="page-container">
+        <div class="page-div">
+            <img class="image-div" src="assets/treeImage.jpg">
+            <div class="page-contains">
+                <p class="subscription-title">Our Subscription</p>
+                <p class="subscription-description">
+                    Your health and that of your loved ones has priority. 
+                    Our medical subscription represent constant care and monitoring, 
+                    through medical services that help you keep your health under control or detect 
+                    any ailments in time.
+                </p>
+            </div>
+        </div>
+        <div class="plan-div">
+            <p>Choose your plan!</p>
+            <div class="subscription-container">
+                <div class="plan-container">
+                    <div>
+                        <p class="container-price">
+                            <mat-icon size="100">attach_money</mat-icon>
+                            10
+                        </p>
+                        <p class="container-time">
+                            1 month
+                        </p>
+                    </div>
+                    <button 
+                        (click)="makePayment(10)"
+                        class="select-button"
+                        mat-button
+                    >
+                        Select
+                    </button>
+                </div>
+                <div class="plan-container">
+                    <div>
+                        <p class="container-price">
+                            <mat-icon size="100">attach_money</mat-icon>
+                            50
+                        </p>
+                        <p class="container-time">
+                            6 months
+                        </p>
+                    </div>
+                    <button 
+                        (click)="makePayment(50)"
+                        class="select-button"
+                        mat-button
+                    >
+                        Select
+                    </button>
+                </div>
+                <div class="plan-container">
+                    <div>
+                        <p class="container-price">
+                            <mat-icon size="100">attach_money</mat-icon>
+                            100
+                        </p>
+                        <p class="container-time">
+                            1 year
+                        </p>
+                    </div>
+                    <button 
+                        (click)="makePayment(100)"
+                        class="select-button"
+                        mat-button
+                    >
+                        Select
+                    </button>
+                </div>
+            </div>
+            <div class="message-div">
+                ! Note that after the subscription period ends the service will automatically charge a fee from 
+                your account each month for the subscription.
+            </div>
         </div>
     </div>
-    <div class="plan-div">
-        <p>Choose your plan!</p>
-        <div class="subscription-container">
-            <div class="plan-container">
-                <div>
-                    <p class="container-price">
-                        <mat-icon size="100">attach_money</mat-icon>
-                        10
-                    </p>
-                    <p class="container-time">
-                        1 month
-                    </p>
-                </div>
-                <button 
-                    (click)="makePayment(10)"
-                    class="select-button"
-                    mat-button
-                >
-                    Select
-                </button>
-            </div>
-            <div class="plan-container">
-                <div>
-                    <p class="container-price">
-                        <mat-icon size="100">attach_money</mat-icon>
-                        50
-                    </p>
-                    <p class="container-time">
-                        6 months
-                    </p>
-                </div>
-                <button 
-                    (click)="makePayment(50)"
-                    class="select-button"
-                    mat-button
-                >
-                    Select
-                </button>
-            </div>
-            <div class="plan-container">
-                <div>
-                    <p class="container-price">
-                        <mat-icon size="100">attach_money</mat-icon>
-                        100
-                    </p>
-                    <p class="container-time">
-                        1 year
-                    </p>
-                </div>
-                <button 
-                    (click)="makePayment(100)"
-                    class="select-button"
-                    mat-button
-                >
-                    Select
-                </button>
-            </div>
-        </div>
-        <div class="message-div">
-            ! Note that after subscribing to the service a fee will automatically be taken off from 
-            your account each month for the subscription.
-        </div>
-    </div>
-</div>
+  </div>

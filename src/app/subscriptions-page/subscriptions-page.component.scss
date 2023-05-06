@@ -75,3 +75,14 @@
     margin: 0 auto;
     color: grey;
 }
+
+::ng-deep .my-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: green;
+}
+
+::ng-deep .mat-simple-snackbar-action button {
+    color: green !important;
+}
