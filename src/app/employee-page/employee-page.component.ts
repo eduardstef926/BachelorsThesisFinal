@@ -38,6 +38,9 @@ export class EmployeePageComponent implements OnInit {
   selectedSpecialization!: string;
   selectSortingMethod = "Sort";
   paginatorLength = 10;
+  pageIndexes: number[] = [];
+  currentIndex = 0;
+  pageSize = 5;
 
   formControl = new FormGroup({
     doctorName: new FormControl('')
@@ -54,14 +57,36 @@ export class EmployeePageComponent implements OnInit {
     this.specializationIndex = 0;
     this.sortings = ['by name', 'by rating'];
     this.doctorService.getAllDoctors().subscribe((doctors) => {
-      this.doctorTable = new MatTableDataSource(doctors);
-      this.tableCopy = doctors; 
-      this.doctorTable.paginator = this.paginator;
-      this.fillTable();
+      this.renderData(doctors);
+      this.setFilters();
     });
   }
 
-  fillTable() {
+  renderData(doctors: any) {
+    const numberLength = doctors.length % this.pageSize == 0 ? doctors.length / this.pageSize : doctors.length / this.pageSize + 1;
+    for(let i=1; i<=numberLength; i++) {
+      this.pageIndexes.push(i);
+    }
+    this.doctorTable = new MatTableDataSource(doctors.slice(this.currentIndex, this.currentIndex + 5));
+    this.tableCopy = doctors; 
+  }
+
+  choosePage(index: any) {
+    this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*(index-1), 5*index));
+    this.currentIndex = index;
+  }
+
+  nextPage() {
+    this.currentIndex += 1;
+    this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*this.currentIndex, 5*(this.currentIndex + 1)));
+  }
+
+  prevPage() {
+    this.currentIndex -= 1;
+    this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*this.currentIndex, 5*(this.currentIndex + 1)));
+  }
+
+  setFilters() {
     this.tableCopy.forEach((doctor: DoctorDto) => {
       const isCityPresent = this.cities.some(x => x.viewValue == doctor.location);
       const isSpecializationPresent = this.specializations.some(x => x.viewValue == doctor.specialization);

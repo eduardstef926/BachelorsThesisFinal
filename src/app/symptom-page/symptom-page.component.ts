@@ -71,19 +71,12 @@ export class SymptomPageComponent implements OnInit {
       .filter((symptom: any) => symptom[1])
       .map((symptom: any) => symptom[0]);
       
-    if (selectedSymptoms.length < 5) {
-      this.snackBar.open('Not Enough Symptoms Selected!', 'X', {
-        duration: 5000,
-        panelClass: ['snackbar']
-      }); 
-    } else {
-      this.snackBar.dismiss();
-      const cookieId = this.localStorage.get('loggedUserId');
-      this.userService.addUserSymptoms(cookieId, selectedSymptoms)
-        .subscribe(() => {
-          this.router.navigate(['/severity']);
-        }
-      );
-    }
+    this.snackBar.dismiss();
+    const cookieId = this.localStorage.get('loggedUserId');
+    this.userService.addUserSymptoms(cookieId, selectedSymptoms)
+      .subscribe(() => {
+        this.router.navigate(['/severity']);
+      }
+    );
   }
 }

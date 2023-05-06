@@ -19,6 +19,25 @@
     color: white;
 }
 
+.paginator-class {
+    display: flex;
+    justify-content: right;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.page-button {
+    color:white;
+    background-color: #4CAF50;
+    font-size: 1.4rem;
+    width: 0.3rem !important;
+}
+
+.forward-button {
+    color:white !important;;
+    background-color: #4CAF50;
+}
+
 .parent-container {
     background-color: #4CAF50;
     border-bottom-left-radius: 10px;

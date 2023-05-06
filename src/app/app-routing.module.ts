@@ -17,7 +17,6 @@ import { AppointmentPriceComponent } from './appointment-price/appointment-price
 import { AppointmentReviewComponent } from './appointment-review/appointment-review.component';
 import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
 import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
-import { SubscriptionPaymentPageComponent } from './subscription-payment-page/subscription-payment-page.component';
 
 const routes: Routes = [
   {
@@ -91,10 +90,6 @@ const routes: Routes = [
   {
     path: 'subscription',
     component: SubscriptionsPageComponent
-  },
-  {
-    path: 'subscription/payment/:length',
-    component: SubscriptionPaymentPageComponent
   },
   {
     path: 'account',

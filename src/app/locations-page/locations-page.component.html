@@ -15,7 +15,7 @@
                     >
                         <option value="" disabled selected>Select City</option>
                         <option 
-                            *ngFor="let city of dictionaryCopy.keys()" 
+                            *ngFor="let city of this.dictionaryCopy.keys()" 
                             [ngValue]="city" 
                         >
                             {{city}}
@@ -47,13 +47,13 @@
             </div>
         </div>
         <div>
-            <div *ngFor="let key of locationDictionary.keys()">
+            <div *ngFor="let key of this.locationDictionary.keys()">
                 <div class="location-div">
                     <p class="location-title">
                         {{key}}
                     </p>
                     <div 
-                        *ngFor="let value of locationDictionary.get(key)" 
+                        *ngFor="let value of this.locationDictionary.get(key)" 
                         class="hospital-item"
                     >
                         <p class="hospital-title">
@@ -69,6 +69,35 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div 
+                *ngIf="!this.elementsFiltered" 
+                class="paginator-class"
+            >
+                <button 
+                    [disabled]="this.currentIndex == 1"
+                    (click)="movePage('backwards', -1)" 
+                    class="forward-button" 
+                    mat-button
+                >
+                    <mat-icon>arrow_backward</mat-icon>
+                </button>
+                <button 
+                    *ngFor="let index of this.pageIndexes" 
+                    class="page-button" 
+                    (click)="movePage('fixedPosition', index)"
+                    mat-button
+                >
+                    {{index}}
+                </button>
+                <button 
+                    [disabled]="3*this.currentIndex >= this.dictionaryCopy.size"
+                    (click)="movePage('forwards', -1)" 
+                    mat-button
+                    class="forward-button"
+                >
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
             </div>
         </div>
     </div>

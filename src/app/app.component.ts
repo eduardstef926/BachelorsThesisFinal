@@ -14,8 +14,7 @@ export class AppComponent {
 
   constructor(private localStorage: LocalStorageService,
               private router: Router,
-              private authService: AuthService,
-              private route: ActivatedRoute) {}
+              private authService: AuthService) {}
 
   ngOnInit() {
     var id = Number(this.localStorage.get("loggedUserId"));
@@ -27,35 +26,28 @@ export class AppComponent {
     }
   }
 
-  lookLocationsPage(event : Event) {
+  displayPage(event: Event, page: string) {
     event.preventDefault();
     window.scrollTo(0, 0);
-    this.router.navigate(['/locations']);
-  }
-
-  lookEmployeePage(event: Event) {
-    event.preventDefault();
-    window.scrollTo(0, 0);
-    this.router.navigate(['/employees']);
-  }
-  
-  lookSubscriptionsPage(event: Event) {
-    event.preventDefault();
-    window.scrollTo(0, 0);
-    this.router.navigate(['/subscription']);
-  }
-
-  goHome(event : Event) {
-    event.preventDefault();
-    this.router.navigate(['']);
-  }
-
-  lookAccountPage(event : Event) {
-    event.preventDefault();
-    this.router.navigate(['/account']);
-  }
-
-  login() {
-    this.router.navigate(['/login']);
+    switch (page) {
+      case "locations":
+        this.router.navigate(['/locations']);
+        break;
+      case "employees":
+        this.router.navigate(['/employees']);
+        break;
+      case "subscriptions":
+        this.router.navigate(['/subscription']);
+        break;
+      case "account":
+        this.router.navigate(['/account']);
+        break;
+      case "home":
+        this.router.navigate(['/main']);
+        break;
+      default:
+        this.router.navigate(['/main']);
+        break;
+    }
   }
 }

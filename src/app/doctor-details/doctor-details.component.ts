@@ -15,10 +15,16 @@ import { ReviewDto } from '../model/review.model';
 })
 export class DoctorDetailsComponent implements OnInit {
   pageSize = 5;
+  currentIndex = 0;
   pageIndex = 0;
+  pageIndexes: number[] = [];
   chart: any;
   firstName!: string;
   lastName!: string;
+  specialization!: string;
+  hospitalName!: string;
+  doctorPosition!: string;
+  location!: string;
   doctor!: DoctorDto;
   reviewsEvaluationNumber!: number;
   degreeList: DegreeDto[] = [];
@@ -40,34 +46,52 @@ export class DoctorDetailsComponent implements OnInit {
     });
   }
   
-  onPageChange(event: any) {
-    this.pageIndex = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.renderReviews();
+  choosePage(index: any) {
+    this.currentIndex = index - 1;
+    this.loadDoctorReviews();
   }
 
-  renderReviews() {
-    const start = this.pageIndex * this.pageSize;
-    const end = start + this.pageSize;
-    this.reviewList = this.tableCopy.slice(start, end);
+  nextPage() {
+    this.currentIndex += 1;
+    this.loadDoctorReviews();
+  }
+
+  prevPage() {
+    this.currentIndex -= 1;
+    this.loadDoctorReviews();
   }
 
   loadDoctorDetails() {
     this.doctorService.getDoctorWithEmploymentByFirstNameAndLastNameAsync(this.firstName, this.lastName).subscribe((doctor) => {
       this.doctor = doctor;
+      this.doctorPosition = doctor.currentPosition;
+      this.hospitalName = doctor.hospitalName;
+      this.specialization = doctor.specialization;
+      this.location = doctor.location;
       this.doctorService.getDoctorEducationByFirstNameAndLastName(this.firstName, this.lastName).subscribe((degrees) => {
         this.degreeList = degrees;
-        this.loadDoctorReviews();
+        this.renderData();
       });
     });
   }
 
+  renderData() {
+    this.doctorService.getDoctorReviewLengthByFirstNameAndLastName(this.firstName, this.lastName).subscribe((data: any) => {
+      this.reviewsEvaluationNumber = data;
+      const numberLength =  this.reviewsEvaluationNumber % this.pageSize == 0 
+                          ? this.reviewsEvaluationNumber / this.pageSize 
+                          : this.reviewsEvaluationNumber / this.pageSize + 1;
+      for(let i=1; i<=numberLength; i++) {
+        this.pageIndexes.push(i);
+      }
+      this.loadDoctorReviews();
+    });
+  }
+
   loadDoctorReviews() {
-    this.doctorService.getDoctorReviewsByFirstNameAndLastName(this.firstName, this.lastName).subscribe((reviews: any) => {
+    this.doctorService.getDoctorReviewsPaginatedByFirstNameAndLastName(this.firstName, this.lastName, this.currentIndex).subscribe((reviews: any) => {
       this.reviewList = reviews;
       this.tableCopy = reviews;
-      this.renderReviews();
-      this.reviewsEvaluationNumber = reviews.length;
       this.tableCopy.forEach((element: any) => {
         if (this.reviewDictionary.has(element.number)) {
           const appearences = Number(this.reviewDictionary.get(element.number));
@@ -118,5 +142,4 @@ export class DoctorDetailsComponent implements OnInit {
       }
     });
   }
-
 }

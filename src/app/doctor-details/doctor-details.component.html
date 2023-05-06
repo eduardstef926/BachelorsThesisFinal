@@ -3,10 +3,10 @@
     <div class="description-container">
         <div class="description-subcontainer">
             <p class="doctor-name">
-                Dr. {{this.doctor.firstName}} {{this.doctor.lastName}}
+                Dr. {{this.firstName}} {{this.lastName}}
             </p>
             <p class="doctor-position">
-                {{this.doctor.currentPosition}}
+                {{this.doctorPosition}}
             </p>
         </div>
     </div>
@@ -17,19 +17,19 @@
                     Specialty:
                 </p>
                 <p class="specialty-text">
-                    {{this.doctor.specialization}}
+                    {{this.specialization}}
                 </p>
                 <p class="hospital-title">
                     Hospital Name:
                 </p>
                 <p class="hospital-text">
-                    {{this.doctor.hospitalName}}
+                    {{this.hospitalName}}
                 </p>
                 <p class="location-title">
                     Location:
                 </p>
                 <p class="location-text">
-                    {{this.doctor.location}}
+                    {{this.location}}
                 </p>
             </div>
             <img class="profile-image" src="assets/empty-screen.jpg">
@@ -65,7 +65,7 @@
     </div>
 </div>
 <p class="review-list-title">
-    Review List
+    Evaluation List
 </p>
 <div class="profile-container">
     <div class="chart-container">
@@ -98,7 +98,7 @@
 <div class="review-container">
     <div class="review-description">
         <p class="review-title">
-            Reviews
+            Evaluations
         </p>
         <div 
             *ngFor="let review of this.reviewList" 
@@ -141,7 +141,32 @@
                 </p>
             </div>
         </div>
-        <mat-paginator [pageSize]="pageSize" [length]="this.tableCopy.length" (page)="onPageChange($event)"></mat-paginator>
+        <div class="paginator-class">
+            <button 
+                [disabled]="this.currentIndex == 0"
+                (click)="prevPage()" 
+                class="forward-button" 
+                mat-button
+            >
+                <mat-icon>arrow_backward</mat-icon>
+            </button>
+            <button 
+                *ngFor="let index of this.pageIndexes" 
+                class="page-button" 
+                (click)="choosePage(index)"
+                mat-button
+            >
+              {{index}}
+            </button>
+            <button 
+                [disabled]="5*this.currentIndex >= this.tableCopy.length"
+                (click)="nextPage()" 
+                mat-button
+                class="forward-button"
+            >
+                <mat-icon>arrow_forward</mat-icon>
+            </button>
+        </div>
     </div>
 </div>
   

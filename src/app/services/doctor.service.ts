@@ -64,9 +64,17 @@ export class DoctorService{
     );
   }
 
-  getDoctorReviewsByFirstNameAndLastName(firstName: string, lastName: string): Observable<Array<DegreeDto>> {
+  getDoctorReviewsPaginatedByFirstNameAndLastName(firstName: string, lastName: string, pageIndex: number): Observable<Array<DegreeDto>> {
     return this.httpClient.get<Array<DegreeDto>>(
-      this.baseUrl + "/Doctor/GetDoctorReviewsByFirstNameAndLastName?firstName=" + firstName + 
+      this.baseUrl + "/Doctor/GetDoctorReviewsPaginatedByFirstNameAndLastName?firstName=" + firstName + 
+      "&lastName=" + lastName + "&pageIndex=" + pageIndex,
+      this.options
+    );
+  }
+
+  getDoctorReviewLengthByFirstNameAndLastName(firstName: string, lastName: string): Observable<Array<DegreeDto>> {
+    return this.httpClient.get<Array<DegreeDto>>(
+      this.baseUrl + "/Doctor/GetDoctorReviewLengthByFirstNameAndLastName?firstName=" + firstName + 
       "&lastName=" + lastName,
       this.options
     );

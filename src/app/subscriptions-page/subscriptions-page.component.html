@@ -25,7 +25,7 @@
                     </p>
                 </div>
                 <button 
-                    (click)="selectSubscription(1)"
+                    (click)="makePayment(10)"
                     class="select-button"
                     mat-button
                 >
@@ -43,7 +43,7 @@
                     </p>
                 </div>
                 <button 
-                    (click)="selectSubscription(6)"
+                    (click)="makePayment(50)"
                     class="select-button"
                     mat-button
                 >
@@ -61,13 +61,17 @@
                     </p>
                 </div>
                 <button 
-                    (click)="selectSubscription(12)"
+                    (click)="makePayment(100)"
                     class="select-button"
                     mat-button
                 >
                     Select
                 </button>
             </div>
+        </div>
+        <div class="message-div">
+            ! Note that after subscribing to the service a fee will automatically be taken off from 
+            your account each month for the subscription.
         </div>
     </div>
 </div>

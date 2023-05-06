@@ -2,7 +2,6 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from '../services/localstorage.service';
 import { UserService } from '../services/user.service';
-import { SubscriptionInputDto } from '../model/subscriptionInput.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,6 +18,7 @@ import { Router } from '@angular/router';
   ]
 })
 export class SubscriptionsPageComponent implements OnInit {
+  handler:any = null;
 
   constructor(private userService: UserService,
               private router: Router,
@@ -27,13 +27,47 @@ export class SubscriptionsPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectSubscription(length: number) {
-    if (!this.localStorage.get("loggedIn")) {
-      window.scrollTo(0, 0);
-      this.router.navigate(['/login']);
-    } else {
-      window.scrollTo(0, 0);
-      this.router.navigate(['/subscription/payment', length]);
-    }
+  makePayment(amount: any) {
+    this.loadStripe();
+    const paymentHandler = (<any>window).StripeCheckout.configure({
+      key: 'pk_test_15RBEwp1zLWhcSqIk2qQRqMm',
+      locale: 'auto',
+      token: function (stripeToken: any) {
+        alert('Stripe token generated!');
+      }
+    });
+    
+    paymentHandler.open({
+      name: 'Techanical Adda',
+      description: '4 Products Added',
+      amount: amount * 100,
+    });
   }
+
+  loadStripe() {
+    if (!window.document.getElementById('stripe-script')) {
+      var s = window.document.createElement("script");
+      s.id = "stripe-script";
+      s.type = "text/javascript";
+      s.src = "https://checkout.stripe.com/checkout.js";
+      s.onload = () => {
+        this.handler = (<any>window).StripeCheckout.configure({
+          key: 'pk_test_15RBEwp1zLWhcSqIk2qQRqMm',
+          locale: 'auto',
+          token: function (token: any) {
+            alert('Payment Success!!');
+          }
+        });
+        if (this.handler) {
+          this.handler.open({
+            name: 'My Store',
+            description: 'My product',
+            amount: 1000
+          });
+        }
+      }
+      window.document.body.appendChild(s);
+    }
+  }  
+
 }

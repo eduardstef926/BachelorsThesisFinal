@@ -2,8 +2,17 @@
 .main-background {
     text-align: center;
     padding-top: 1.7%;
-    padding-bottom: 10%;    
+    margin-bottom: 15%;    
     height: 100%;
+}
+
+.paginator-class {
+    display: flex;
+    justify-content: right;
+}
+
+.page-button {
+    border: 1.5px solid black;
 }
 
 .page-title {

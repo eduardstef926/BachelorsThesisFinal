@@ -1,6 +1,6 @@
 <div class="body-container">
   <div class="body-div">
-    <a href="#" (click)="goHome($event)">
+    <a href="#" (click)="displayPage($event, 'home')">
       <img  
         src="assets\mainpage-logo2.jpg" 
         class="main-image"
@@ -8,26 +8,22 @@
     </a>
     <div class="banner-container">
       <div class="text-container">
-        <a href="#" (click)="lookEmployeePage($event)">
+        <a href="#" (click)="displayPage($event, 'employees')">
           Employees
         </a>
-        <a href="#" (click)="lookLocationsPage($event)">
+        <a href="#" (click)="displayPage($event, 'locations')">
           Locations
         </a>
-        <a href="#" (click)="lookSubscriptionsPage($event)">
+        <a href="#" (click)="displayPage($event, 'subscriptions')">
           Subscriptions
         </a>
-        <a 
-          *ngIf="this.loggedIn" 
-          (click)="lookAccountPage($event)"
-          href="#" 
-        >
+        <a href="#" *ngIf="this.loggedIn" (click)="displayPage($event, 'account')">
           My Account
         </a>
         <button
             *ngIf="!this.loggedIn"
             mat-button
-            (click)="login()"
+            [routerLink]="'/login'"
             class="login-button"
           >
           <mat-icon>login</mat-icon>
@@ -92,7 +88,7 @@
             <div class="footer-firstItem">
               <a 
                 href="#" 
-                (click)="lookEmployeePage($event)"
+                (click)="displayPage($event, 'employees')"
               >
               Employees
             </a>
@@ -100,7 +96,7 @@
             <div class="footer-item">
               <a 
                 href="#" 
-                (click)="lookLocationsPage($event)"
+                (click)="displayPage($event, 'locations')"
               >
                 Locations
               </a>
@@ -108,7 +104,7 @@
             <div class="footer-item">
               <a 
                 href="#" 
-                (click)="lookSubscriptionsPage($event)"
+                (click)="displayPage($event, 'subscriptions')"
               >
                 Subscriptions
               </a>

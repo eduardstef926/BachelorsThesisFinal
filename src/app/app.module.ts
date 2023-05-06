@@ -44,7 +44,6 @@ import { AppointmentReviewComponent } from './appointment-review/appointment-rev
 import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-page.component';
 import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
 import { HospitalService } from './services/hospital.service';
-import { SubscriptionPaymentPageComponent } from './subscription-payment-page/subscription-payment-page.component';
 import { EmailService } from './services/email.service';
 
 @NgModule({
@@ -67,7 +66,6 @@ import { EmailService } from './services/email.service';
     AppointmentReviewComponent, 
     SubscriptionsPageComponent, 
     MyAccountPageComponent,
-    SubscriptionPaymentPageComponent, 
   ],
   imports: [
     HttpClientModule,

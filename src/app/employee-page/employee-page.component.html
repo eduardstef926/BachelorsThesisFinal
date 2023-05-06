@@ -108,10 +108,32 @@
             <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'rating', 'details']"></tr>
             <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'rating', 'details']"></tr>
             </table>
-            <mat-paginator 
-                [pageSize]="this.paginatorLength"
-            >
-            </mat-paginator>
+            <div class="paginator-class">
+                <button 
+                    [disabled]="this.currentIndex == 0"
+                    (click)="prevPage()" 
+                    class="forward-button" 
+                    mat-button
+                >
+                    <mat-icon>arrow_backward</mat-icon>
+                </button>
+                <button 
+                    *ngFor="let index of pageIndexes" 
+                    class="page-button" 
+                    (click)="choosePage(index)"
+                    mat-button
+                >
+                  {{index}}
+                </button>
+                <button 
+                    [disabled]="5*(this.currentIndex + 1) >= this.tableCopy.length"
+                    (click)="nextPage()" 
+                    mat-button
+                    class="forward-button"
+                >
+                    <mat-icon>arrow_forward</mat-icon>
+                </button>
+            </div>
         </div>
     </div>
 </div>

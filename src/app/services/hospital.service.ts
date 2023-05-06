@@ -17,8 +17,9 @@ export class HospitalService{
 
   getAllHospitals(): Observable<Array<HospitalDto>> {
     return this.httpClient.get<Array<HospitalDto>>(
-      this.baseUrl + "/Hospital/GetAllHospitals",
+      this.baseUrl + "/Hospital/GetAllHospital",
       this.options
     );
   }
+
 }
