@@ -14,8 +14,8 @@ namespace NewBackend2.Controllers
             this.hospitalService = hospitalService;
         }
 
-        [HttpGet("GetAllHospitals")]
-        public async Task<IActionResult> GetAllHospitals()
+        [HttpGet("GetAllHospital")]
+        public async Task<IActionResult> GetAllHospitalsPaginated()
         {
 
             var hospitals = await hospitalService.GetAllHospitalsAsync();

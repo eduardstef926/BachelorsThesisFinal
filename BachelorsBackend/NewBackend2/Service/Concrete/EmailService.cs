@@ -120,7 +120,7 @@ namespace NewBackend2.Service.Concrete
                     var appointmentDate = appointment.AppointmentDate.Day.ToString() + "/" + appointment.AppointmentDate.Month.ToString() + "/" + appointment.AppointmentDate.Year.ToString();
                     var appointmentHour = appointment.AppointmentDate.Hour.ToString() + ":" + appointment.AppointmentDate.Minute.ToString() + "0";
 
-                    body = body.Replace("[Recipient Name]", appointment.User.FirstName)
+                    body = body.Replace("[Recipient Name]", appointment.User.LastName)
                                .Replace("[Doctor Name]", appointment.Doctor.FirstName + " " + appointment.Doctor.LastName)
                                .Replace("[Hospital]", appointment.HospitalName)
                                .Replace("[City]", appointment.Location)
@@ -173,9 +173,9 @@ namespace NewBackend2.Service.Concrete
         public async Task SendSubscriptionPaymentAsync(UserEntity user, DateTime endDate)
         {
             var subject = "Subscription Confirmed";
-            var body = EmailHelper.GetSubscriptionEmailPaymentTemplate();
-            body = body.Replace("[Recipient Name]", user.FirstName)
-                   .Replace("[End Date]", endDate.Year + "/" + endDate.Month + "/" + endDate.Day);
+            var body = EmailHelper.GetSubscriptionPaymentEmailTemplate();
+            body = body.Replace("[Recipient Name]", user.LastName)
+                       .Replace("[End Date]", endDate.Year + "/" + endDate.Month + "/" + endDate.Day);
 
             var email = new EmailEntity
             {
@@ -199,6 +199,23 @@ namespace NewBackend2.Service.Concrete
             var body = EmailHelper.GetConfirmationEmailTemplate();
             body = body.Replace("[Recipient Name]", user.LastName)
                        .Replace("[Confirmation Code]", confirmationCode.ToString());
+
+            var email = new EmailEntity
+            {
+                To = user.Email,
+                Message = body,
+                Subject = subject,
+            };
+
+            await this.SendEmailAsync(email);
+            await emailRepository.AddEmailAsync(email);
+        }
+
+        public async Task SendSubscriptionCancelAsync(UserEntity user)
+        {
+            var subject = "Subscription Canceled";
+            var body = EmailHelper.GetSubscriptionCancelEmailTemplate();
+            body = body.Replace("[Recipient Name]", user.LastName);
 
             var email = new EmailEntity
             {

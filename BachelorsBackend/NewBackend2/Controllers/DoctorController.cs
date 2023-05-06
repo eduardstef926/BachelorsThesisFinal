@@ -116,15 +116,15 @@ namespace NewBackend2.Controllers
             return Ok(collegeDegree);
         }
 
-        [HttpGet("GetDoctorReviewsByFirstNameAndLastName")]
-        public async Task<IActionResult> GetDoctorReviewsByFirstNameAndLastName(string firstName, string lastName)
+        [HttpGet("GetDoctorReviewsPaginatedByFirstNameAndLastName")]
+        public async Task<IActionResult> GetDoctorReviewsPaginatedByFirstNameAndLastNameAsync(string firstName, string lastName, int pageIndex)
         {
             if (firstName == null || lastName == null)
             {
                 return BadRequest("Invalid input");
             }
 
-            var reviews = await doctorService.GetDoctorReviewsByFirstNameAndLastNameAsync(firstName, lastName);
+            var reviews = await doctorService.GetDoctorReviewsPaginatedByFirstNameAndLastNameAsync(firstName, lastName, pageIndex);
 
             if (!reviews.Any())
             {
@@ -132,6 +132,24 @@ namespace NewBackend2.Controllers
             }
 
             return Ok(reviews);
+        }
+
+        [HttpGet("GetDoctorReviewLengthByFirstNameAndLastName")]
+        public async Task<IActionResult> GetDoctorReviewLengthByFirstNameAndLastName(string firstName, string lastName)
+        {
+            if (firstName == null || lastName == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            var result = await doctorService.GetDoctorReviewNumbersByFirstNameAndLastName(firstName, lastName);
+
+            if (result == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(result);
         }
 
         [HttpGet("GetDoctorsBySpecialization")]

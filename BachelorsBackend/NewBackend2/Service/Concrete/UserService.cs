@@ -179,14 +179,16 @@ namespace NewBackend2.Service.Concrete
         public async Task CancelUserSubscriptionAsync(int cookieId)
         {
             var userId = await cookieRepository.GetUserIdByCookieIdAsync(cookieId);
+            var user = await userRepository.GetUserByUserIdAsync(userId);
+
+            await emailService.SendSubscriptionCancelAsync(user);
             await subscriptionRepository.DeleteUserSubscriptionAsync(userId);
         }
 
         public async Task<PaginatedSymptomDto> FilterSymptomsAsync(string? symptom, int pageIndex)
         {
-            var pageStart = 5 * pageIndex;
-            int number = 0;
-            var symptoms = new List<string>();
+            int number, pageStart = 5 * pageIndex;
+            List<string> symptoms;
 
             if (symptom == null)
             {

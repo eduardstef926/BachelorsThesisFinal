@@ -20,6 +20,13 @@ namespace NewBackend2.Service.Concrete
             await database.SaveChangesAsync();
         }
 
+        public Task<int> GetDoctorReviewLengthByFirstNameAndLastName(string firstName, string lastName)
+        {
+            return database.reviews.AsNoTracking()
+                .Where(x => x.Appointment.Doctor.FirstName == firstName && x.Appointment.Doctor.LastName == lastName)
+                .CountAsync();
+        }
+
         public async Task<List<int>> GetDoctorReviewNumbersByFirstNameAndLastName(string firstName, string lastName)
         {
             return database.reviews
@@ -30,9 +37,11 @@ namespace NewBackend2.Service.Concrete
                 .ToList();
         } 
 
-        public async Task<List<ReviewEntity>> GetDoctorReviewsByFirstNameAndLastName(string firstName, string lastName)
+        public async Task<List<ReviewEntity>> GetDoctorReviewsPaginatedByFirstNameAndLastName(string firstName, string lastName, int pageIndex)
         {
-            return database.reviews
+            return database.reviews.AsNoTracking()
+                .Skip(5*pageIndex)
+                .Take(5)
                 .Include(x => x.Appointment)
                    .ThenInclude(x => x.Doctor)
                 .Include(x => x.Appointment)

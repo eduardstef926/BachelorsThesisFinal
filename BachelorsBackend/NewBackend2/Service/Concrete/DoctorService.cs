@@ -69,12 +69,17 @@ namespace NewBackend2.Service.Concrete
             return doctorDto;
         }
 
-        public async Task<List<ReviewDto>> GetDoctorReviewsByFirstNameAndLastNameAsync(string firstName, string lastName)
+        public async Task<List<ReviewDto>> GetDoctorReviewsPaginatedByFirstNameAndLastNameAsync(string firstName, string lastName, int pageIndex)
         {
-            var reviews = await reviewRepository.GetDoctorReviewsByFirstNameAndLastName(firstName, lastName);
+            var reviews = await reviewRepository.GetDoctorReviewsPaginatedByFirstNameAndLastName(firstName, lastName, pageIndex);
             return reviews
                 .Select(mapper.Map<ReviewEntity, ReviewDto>)
                 .ToList();
+        }
+
+        public async Task<int> GetDoctorReviewNumbersByFirstNameAndLastName(string firstName, string lastName)
+        {
+            return await reviewRepository.GetDoctorReviewLengthByFirstNameAndLastName(firstName, lastName);
         }
 
         public async Task<List<DoctorDto>> GetDoctorsBySpecialization(string specialization)
@@ -107,7 +112,6 @@ namespace NewBackend2.Service.Concrete
                 var appointmentSlotMappings = appointmentSlots
                     .Select(mapper.Map<EmploymentEntity, AppoimentSlotDto>)
                     .ToList();
-                
                 foreach (var appointment in appointmentSlotMappings)
                 {
                     var startHour = appointment.StartTime;
@@ -130,11 +134,17 @@ namespace NewBackend2.Service.Concrete
                         hourDifference = maximumEndHour - startHour;
                     }
                 }
-
-                startDate = startDate.AddDays(1);
-                index += 1;
+                if ((int) startDate.DayOfWeek == 5)
+                {
+                    startDate = startDate.AddDays(3);
+                    index += 3;
+                }
+                else
+                {
+                    startDate = startDate.AddDays(1);
+                    index += 1;
+                }
             }
-
             return appointmentSlotList;
         }
     }

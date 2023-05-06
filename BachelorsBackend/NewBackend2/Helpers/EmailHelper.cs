@@ -206,7 +206,7 @@ namespace NewBackend2.Helpers
                     </html>";
         }
 
-        public static string GetSubscriptionEmailPaymentTemplate()
+        public static string GetSubscriptionPaymentEmailTemplate()
         {
             return @"<html>
                         <head>
@@ -262,6 +262,68 @@ namespace NewBackend2.Helpers
                                 <p>Dear [Recipient Name],</p>
                                 <p>Your subscription will be valid until [End Date].</p>
                                 <p>During this time, you will have unlimited free acess to our services.</p>
+                                <p>The Virtual Clinic Team</p>
+                            </div>
+                        </body>
+                    </html>";
+        }
+
+        public static string GetSubscriptionCancelEmailTemplate()
+        {
+            return @"<html>
+                        <head>
+                            <style>
+                                body {
+                                  font-family: Arial, sans-serif;
+                                  font-size: 16px;
+                                  line-height: 1.5;
+                                  color: #333333;
+                                }
+                                
+                                .container {
+                                  max-width: 600px;
+                                  margin: 0 auto;
+                                  padding: 20px;
+                                  background-color: #f8f8f8;
+                                  border-radius: 10px;
+                                  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                                }
+
+                                .text-div {
+                                  width: 7rem;
+                                  height: 1.4rem;
+                                  border-radius: 2px;
+                                  background-color: green;
+                                }
+                                
+                                h1, h2, h3 {
+                                  margin-top: 0;
+                                  margin-bottom: 20px;
+                                  font-weight: normal;
+                                }
+                                
+                                p {
+                                  margin-top: 0;
+                                  margin-bottom: 20px;
+                                }
+                                
+                                a {
+                                  color: #007bff;
+                                  padding-left: 1rem;
+                                  text-decoration: none;
+                                }
+                                
+                                a:hover {
+                                  text-decoration: underline;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class='container'>
+                                <h1>Your subscription was successfully canceled!</h1>
+                                <p>Dear [Recipient Name],</p>
+                                <p>We are sorry to see you go.</p>
+                                <p>I hope you had an amazing experience.</p>
                                 <p>The Virtual Clinic Team</p>
                             </div>
                         </body>

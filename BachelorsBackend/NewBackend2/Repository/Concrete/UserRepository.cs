@@ -105,5 +105,11 @@ namespace NewBackend2.Repository.Concrete
             return database.users
                 .Any(x => x.Email == email && x.Password == password);
         }
+
+        public async Task<UserEntity> GetUserByUserIdAsync(int id)
+        {
+            return database.users.AsNoTracking()
+                .FirstOrDefault(x => x.UserId == id)!;
+        }
     }
 }

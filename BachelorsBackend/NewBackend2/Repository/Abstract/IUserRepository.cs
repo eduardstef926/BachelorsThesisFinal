@@ -13,6 +13,7 @@ namespace NewBackend2.Repository.Abstract
         Task<int> GetConfirmationCodeByEmailAsync(string email);
         Task<bool> CheckUserInformationAsync(string email, string password);
         Task<string> GetUserPasswordByIdAsync(int id);
+        Task<UserEntity> GetUserByUserIdAsync(int id);
         Task<UserEntity> GetUserByEmailAsync(string email);
         Task<UserEntity> GetUserByFirstNameAndLastNameAsync(string firstName, string lastName);
         Task<List<UserEntity>> GetAllUsersAsync();
