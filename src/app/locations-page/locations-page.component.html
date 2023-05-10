@@ -47,7 +47,10 @@
             </div>
         </div>
         <div>
-            <div *ngFor="let key of this.locationDictionary.keys()">
+            <div 
+                class="location-container" 
+                *ngFor="let key of this.locationDictionary.keys()"
+            >
                 <div class="location-div">
                     <p class="location-title">
                         {{key}}

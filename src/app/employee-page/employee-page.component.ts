@@ -63,6 +63,7 @@ export class EmployeePageComponent implements OnInit {
   }
 
   renderData(doctors: any) {
+    this.pageIndexes = [];
     const numberLength = doctors.length % this.pageSize == 0 ? doctors.length / this.pageSize : doctors.length / this.pageSize + 1;
     for(let i=1; i<=numberLength; i++) {
       this.pageIndexes.push(i);
@@ -76,14 +77,14 @@ export class EmployeePageComponent implements OnInit {
     this.currentIndex = index;
   }
 
-  nextPage() {
-    this.currentIndex += 1;
-    this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*this.currentIndex, 5*(this.currentIndex + 1)));
-  }
-
-  prevPage() {
-    this.currentIndex -= 1;
-    this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*this.currentIndex, 5*(this.currentIndex + 1)));
+  movePage(direction: string) {
+    if (direction == "forward") {
+      this.currentIndex += 1;
+      this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*this.currentIndex, 5*(this.currentIndex + 1)));
+    } else {
+      this.currentIndex -= 1;
+      this.doctorTable = new MatTableDataSource(this.tableCopy.slice(5*this.currentIndex, 5*(this.currentIndex + 1)));
+    }
   }
 
   setFilters() {
@@ -125,5 +126,6 @@ export class EmployeePageComponent implements OnInit {
         return b.rating - a.rating;
       });
     }
+    this.renderData(this.doctorTable.data);
   }
 }

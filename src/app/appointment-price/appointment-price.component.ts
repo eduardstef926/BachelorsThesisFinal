@@ -54,8 +54,7 @@ export class AppointmentPriceComponent implements OnInit {
       key: environment.testKey,
       locale: 'auto',
       token: function (stripeToken: any) {
-          console.log(stripeToken.card);
-          alert('Stripe token generated!');
+          alert('Payment success!');
       }
     });
     paymentHandler.open({
@@ -72,7 +71,6 @@ export class AppointmentPriceComponent implements OnInit {
       s.type = "text/javascript";
       s.src = "https://checkout.stripe.com/checkout.js";
       s.onload = () => {
-        const localStorageService = this.localStorage; // Store reference to localStorage
         this.handler = (<any>window).StripeCheckout.configure({
           key: environment.testKey,
           locale: 'auto',

@@ -9,6 +9,7 @@
 .paginator-class {
     display: flex;
     justify-content: right;
+    gap: 0.5rem;
 }
 
 .page-button {
@@ -68,6 +69,10 @@
 
 .call-div {
     margin-top: 10%;
+}
+
+.location-container {
+    width: 30rem;
 }
 
 .filter-div {

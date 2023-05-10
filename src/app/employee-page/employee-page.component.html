@@ -111,7 +111,7 @@
             <div class="paginator-class">
                 <button 
                     [disabled]="this.currentIndex == 0"
-                    (click)="prevPage()" 
+                    (click)="movePage('backward')" 
                     class="forward-button" 
                     mat-button
                 >
@@ -127,7 +127,7 @@
                 </button>
                 <button 
                     [disabled]="5*(this.currentIndex + 1) >= this.tableCopy.length"
-                    (click)="nextPage()" 
+                    (click)="movePage('forward')" 
                     mat-button
                     class="forward-button"
                 >

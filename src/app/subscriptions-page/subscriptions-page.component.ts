@@ -21,77 +21,71 @@ import { environment } from 'src/environments/environment';
   ]
 })
 export class SubscriptionsPageComponent implements OnInit {
-  handler:any = null;
-  amount!: number;
+  handler: any = null;
+  length!: number;
 
-  constructor(private userService: UserService,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private localStorage: LocalStorageService) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private localStorage: LocalStorageService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  makePayment(amount: any) {
-    this.amount = amount;
+  makePayment(length: any) {
+    this.length = length;
     this.loadStripe();
-    const paymentHandler = (<any>window).StripeCheckout.configure({
-      key: environment.testKey,
-      locale: 'auto',
-      token: function (stripeToken: any) {
-        alert('Stripe token generated!');
-      }
-    });
-    
-    paymentHandler.open({
-      name: 'Successful Subscriptio',
-      description: 'Subscription confirmed',
-      amount: amount,
-    });
   }
 
   loadStripe() {
     if (!window.document.getElementById('stripe-script')) {
-      const s = window.document.createElement("script");
-      s.id = "stripe-script";
-      s.type = "text/javascript";
-      s.src = "https://checkout.stripe.com/checkout.js";
+      const s = window.document.createElement('script');
+      s.id = 'stripe-script';
+      s.type = 'text/javascript';
+      s.src = 'https://checkout.stripe.com/checkout.js';
       s.onload = () => {
-        const localStorageService = this.localStorage; // Store reference to localStorage
-        this.handler = (<any>window).StripeCheckout.configure({
-          key: environment.testKey,
-          locale: 'auto',
-          token: (stripeToken: any) => {
-            this.planSubscription();
-          }
-        });
-        if (this.handler) {
-          this.handler.open({
-            name: 'Medical Subscription',
-            description: 'Subscription confirmed',
-            amount: 1000
-          });
-        }
+        this.configureStripeCheckout();
       };
       window.document.body.appendChild(s);
+    } else {
+      this.configureStripeCheckout();
     }
-  }  
+  }
+
+  configureStripeCheckout() {
+    this.handler = (<any>window).StripeCheckout.configure({
+      key: environment.testKey,
+      locale: 'auto',
+      token: (stripeToken: any) => {
+        this.planSubscription();
+      }
+    });
+
+    this.openStripeCheckout();
+  }
+
+  openStripeCheckout() {
+    if (this.handler) {
+      this.handler.open({
+        name: 'Medical Subscription',
+        description: 'Subscription confirmed',
+      });
+    }
+  }
 
   planSubscription() {
-    var sessionId = this.localStorage.get("loggedUserId");
-    var subscription = {
+    const sessionId = this.localStorage.get('loggedUserId');
+    const subscription = {
       cookieId: sessionId,
-      length: this.amount,
+      length: this.length,
     } as SubscriptionInputDto;
 
     this.userService.addUserSubscription(subscription).subscribe((data: any) => {
-      window.scrollTo(0, 0);
       this.snackBar.open('Successful subscription!', 'X', {
         duration: 5000,
         panelClass: ['my-snackbar']
       });
-      this.router.navigate(['/main']);
     });
   }
-
 }

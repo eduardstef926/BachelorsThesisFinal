@@ -179,6 +179,7 @@
 }
 
 .header-div {
+    text-align: center;
     font-weight: 500 !important;
     color: #4CAF50;
     padding-top: 5%;
@@ -290,3 +291,20 @@
 ::ng-deep .mat-simple-snackbar-action button {
     color: green !important;
 }
+
+::ng-deep .mat-paginator-page-size-label {
+    display: none;
+}
+
+::ng-deep .mat-paginator-range-label {
+    display: none;
+}
+
+::ng-deep div.mat-paginator-page-size-value.ng-star-inserted {
+    display: none;
+}
+
+::ng-deep .mat-paginator-outer-container {
+    background-color: rgb(45, 135, 75);
+}
+  

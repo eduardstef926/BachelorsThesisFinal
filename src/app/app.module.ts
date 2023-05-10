@@ -45,6 +45,7 @@ import { SubscriptionsPageComponent } from './subscriptions-page/subscriptions-p
 import { MyAccountPageComponent } from './my-account-page/my-account-page.component';
 import { HospitalService } from './services/hospital.service';
 import { EmailService } from './services/email.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { EmailService } from './services/email.service';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatProgressBarModule,
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -92,6 +94,7 @@ import { EmailService } from './services/email.service';
     ReactiveFormsModule,
     FormsModule,
     MatCardModule,
+    MatProgressBarModule,
     MatSnackBarModule,
     MatPaginatorModule,
     MatCheckboxModule,

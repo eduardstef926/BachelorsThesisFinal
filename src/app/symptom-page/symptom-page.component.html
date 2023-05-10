@@ -20,6 +20,7 @@
             placeholder="ex: Sore Throat"
           >
           <button 
+            mat-raised-button
             mat-button 
             type="submit" 
             class="filter-button"
@@ -31,7 +32,7 @@
         <div *ngIf="this.showEmptyMessage" class="empty-message">
           No Elements
         </div>
-        <div *ngFor="let symptom of symptomList" class="table-element">
+        <div *ngFor="let symptom of this.pageDictionary.get(this.currentIndex)" class="table-element">
           {{symptom[0]}}
           <mat-checkbox [(ngModel)]="symptom[1]"></mat-checkbox>
         </div>
@@ -41,5 +42,8 @@
           (page)="onPageChange($event.pageIndex)"
         >
         </mat-paginator>
+        <div *ngIf="isLoading" class="overlay">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
     </div>
 </div>

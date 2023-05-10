@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
@@ -26,14 +26,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SymptomPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  loadingComplete = new EventEmitter<void>(); 
   listSize!: number;
-  isFiltered = false;
   showEmptyMessage = false;
-  symptomList!: any;
+  selectedSymptoms = [];
   partialSymptomName = "";
-  filteredTableCopy: string[] = [];
-  tableCopy: string[] = [];
   pageSize = 5;
+  currentIndex = -1;
+  pageDictionary!: Map<number, any[]>;
+  isLoading: boolean = false;
 
   constructor(private router: Router,
               private userService: UserService,
@@ -41,42 +42,64 @@ export class SymptomPageComponent implements OnInit {
               private snackBar: MatSnackBar) {}
   
   ngOnInit(): void {
+    this.pageDictionary = new Map<number, any[]>();
     this.onPageChange(0);
   }
 
   onPageChange(pageIndex: number) {
-    this.userService.getFilterSymptomsPaginated(this.partialSymptomName.toLowerCase(), pageIndex)
-      .subscribe((symptoms: SymptomDto) => {
-        this.symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
-        this.listSize = symptoms.number;
-      }
-    );
-  }
+    if (pageIndex >= this.currentIndex) {
+      this.userService.getFilterSymptomsPaginated(this.partialSymptomName.toLowerCase(), pageIndex)
+        .subscribe((symptoms: SymptomDto) => {
+          var symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
+          this.currentIndex += 1;
+          if (!this.pageDictionary.has(this.currentIndex)) {
+            this.pageDictionary.set(this.currentIndex, symptomList);
+            this.listSize = symptoms.number;
+          }
+        }
+      );
+    } else {
+      this.currentIndex -= 1;
+    }
+  } 
 
   filterSymptoms() {
     const pageIndex = 0;
-    this.userService.getFilterSymptomsPaginated(this.partialSymptomName.toLowerCase(), pageIndex)
+    const partialSymptomName = this.partialSymptomName.toLowerCase();
+    this.userService.getFilterSymptomsPaginated(partialSymptomName, pageIndex)
       .subscribe((symptoms: SymptomDto) => {
-        this.symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
-        this.listSize = symptoms.number;
-        symptoms.symptoms.length == 0 ? this.showEmptyMessage = true : this.showEmptyMessage = false;
-        this.partialSymptomName.length != 0 ? this.isFiltered = true : this.isFiltered = false;
-        this.paginator.pageIndex = 0;
+        if (this.partialSymptomName.length != 0) {
+          const symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
+          this.pageDictionary.set(this.currentIndex, symptomList);
+          this.listSize = symptoms.number;
+          this.showEmptyMessage = (symptoms.symptoms.length === 0);
+          this.paginator.pageIndex = 0;
+        } else {
+          this.showEmptyMessage = false;
+          this.pageDictionary.clear();
+          this.onPageChange(0);
+        }
       }
     );
   }
 
   submitSymptoms() {
-    const selectedSymptoms = this.symptomList
-      .filter((symptom: any) => symptom[1])
-      .map((symptom: any) => symptom[0]);
-      
+    this.isLoading = true;
+    const filteredValues = [];
+    const symptomList = Array.from(this.pageDictionary.values())[0];
+    for (let i=0; i<symptomList.length; ++i) {
+      filteredValues.push(symptomList[i][0]);
+    }
     this.snackBar.dismiss();
+    this.checkSymptoms(filteredValues);
+  }
+
+  checkSymptoms(filteredValues: any) {
     const cookieId = this.localStorage.get('loggedUserId');
-    this.userService.addUserSymptoms(cookieId, selectedSymptoms)
-      .subscribe(() => {
+    this.userService.addUserSymptoms(cookieId, filteredValues).subscribe(() => {
+        this.isLoading = false;  
+        this.loadingComplete.emit();
         this.router.navigate(['/severity']);
-      }
-    );
+    });
   }
 }
