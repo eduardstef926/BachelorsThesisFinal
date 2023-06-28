@@ -27,10 +27,12 @@ export class AppointmentReviewComponent implements OnInit {
   evaluationNumber!: number;
   evaluationMessage!: string;
 
-  constructor(private userService: UserService,
-              private route: ActivatedRoute,
-              private snackBar: MatSnackBar,
-              private localStorage: LocalStorageService) {}
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private localStorage: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     const appointmentId = Number(this.route.snapshot.paramMap.get('id'));

@@ -5,7 +5,6 @@ import { DoctorService } from '../services/doctor.service';
 import { LocalStorageService } from '../services/localstorage.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-appointment-slotlist',
@@ -25,9 +24,11 @@ export class AppointmentSlotlistComponent implements OnInit {
   appointmentSlots!: MatTableDataSource<any>;
   paginatorLength = 5;
   
-  constructor(private doctorService: DoctorService,
-              private localStorage: LocalStorageService,
-              private router: Router) { }
+  constructor(
+    private doctorService: DoctorService,
+    private localStorage: LocalStorageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     var appointmentRange = this.localStorage.get("appointmentRange");

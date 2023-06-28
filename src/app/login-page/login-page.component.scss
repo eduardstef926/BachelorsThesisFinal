@@ -17,12 +17,26 @@
     padding-bottom: 15%;
 }
 
+.error-container {
+    display: flex;
+    justify-content: center;
+}
+
 .error-button {
+    padding-left: 1rem;
+    padding-right: 1rem; 
     margin-bottom: 1rem;
     height: 40px;
-    width: 340px;
+    width: auto;
     text-align: center;   
     background-color:rgb(221, 136, 136);
+}
+
+::ng-deep .my-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: green;
 }
 
 .login-form {

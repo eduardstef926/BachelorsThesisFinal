@@ -34,8 +34,10 @@ export class DoctorDetailsComponent implements OnInit {
   studyField = StudyField;
   reviewDictionary = new Map<number, number>();
 	
-  constructor(private route: ActivatedRoute,
-              private doctorService: DoctorService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private doctorService: DoctorService
+  ) {}
 
   ngOnInit(): void {
     Chart.register(...registerables);
@@ -91,16 +93,18 @@ export class DoctorDetailsComponent implements OnInit {
   loadDoctorReviews() {
     this.doctorService.getDoctorReviewsPaginatedByFirstNameAndLastName(this.firstName, this.lastName, this.currentIndex).subscribe((reviews: any) => {
       this.reviewList = reviews;
-      this.tableCopy = reviews;
-      this.tableCopy.forEach((element: any) => {
-        if (this.reviewDictionary.has(element.number)) {
-          const appearences = Number(this.reviewDictionary.get(element.number));
-          this.reviewDictionary.set(element.number, appearences + 1);
-        } else {
-          this.reviewDictionary.set(element.number, 1);
-        }
-      });
-      this.createChart();
+      if (reviews != null) {
+        this.tableCopy = reviews;
+        this.tableCopy.forEach((element: any) => {
+          if (this.reviewDictionary.has(element.number)) {
+            const appearences = Number(this.reviewDictionary.get(element.number));
+            this.reviewDictionary.set(element.number, appearences + 1);
+          } else {
+            this.reviewDictionary.set(element.number, 1);
+          }
+        });
+        this.createChart();
+      }
     });
   }
 

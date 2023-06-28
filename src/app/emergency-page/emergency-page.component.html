@@ -4,15 +4,20 @@
             Emergency Call
         </p>
         <p class="middle-message">
-            We suspect you have some form of {{this.diseaseName}}. 
-            Get immediate help from a trusted healthcare professional.
+            Get immediate help from a trusted healthcare professional. 
+        </p>
+        <p 
+            *ngIf="this.diseaseName.length != 0"
+            class="middle-message"
+        >
+            We suspect you have some form of {{this.diseaseName}}.
         </p>
         <button
             class="search-button" 
             (click)="callNumber()"
             mat-button
         >
-            <mat-icon>phone</mat-icon>
+        <mat-icon>phone</mat-icon>
             Call
         </button>
     </div>

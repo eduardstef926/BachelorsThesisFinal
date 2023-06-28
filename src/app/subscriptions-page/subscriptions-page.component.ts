@@ -23,6 +23,7 @@ import { environment } from 'src/environments/environment';
 export class SubscriptionsPageComponent implements OnInit {
   handler: any = null;
   length!: number;
+  isLoggedIn = false;
 
   constructor(
     private userService: UserService,
@@ -33,9 +34,25 @@ export class SubscriptionsPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  makePayment(length: any) {
-    this.length = length;
-    this.loadStripe();
+  confirmPayment(length: any) {
+    this.isLoggedIn = this.localStorage.get("loggedIn");
+    if (this.isLoggedIn == false) {
+      window.scrollTo(0, 0);
+      this.router.navigate(['/login']);
+    } else {
+      var cookieId = this.localStorage.get('loggedUserId');
+      this.userService.getUserSubscriptionByCookieId(cookieId).subscribe((data: any) => {
+        if(data == null) {
+          this.length = length;
+          this.loadStripe();
+        } else {
+          this.snackBar.open('An account subscription already exists!', 'X', {
+            duration: 5000,
+            panelClass: ['my-snackbar']
+          });
+        }
+      });
+    }
   }
 
   loadStripe() {
@@ -46,6 +63,12 @@ export class SubscriptionsPageComponent implements OnInit {
       s.src = 'https://checkout.stripe.com/checkout.js';
       s.onload = () => {
         this.configureStripeCheckout();
+      };
+      s.onerror = (error) => {
+        this.snackBar.open('Payment Error!', 'X', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       };
       window.document.body.appendChild(s);
     } else {
@@ -61,7 +84,6 @@ export class SubscriptionsPageComponent implements OnInit {
         this.planSubscription();
       }
     });
-
     this.openStripeCheckout();
   }
 
@@ -82,6 +104,8 @@ export class SubscriptionsPageComponent implements OnInit {
     } as SubscriptionInputDto;
 
     this.userService.addUserSubscription(subscription).subscribe((data: any) => {
+      window.scrollTo(0, 0);
+      this.router.navigate(['']);
       this.snackBar.open('Successful subscription!', 'X', {
         duration: 5000,
         panelClass: ['my-snackbar']

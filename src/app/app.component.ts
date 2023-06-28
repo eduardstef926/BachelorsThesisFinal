@@ -22,7 +22,12 @@ export class AppComponent {
       this.authService.checkLoginCookie(id).subscribe((response: boolean) => {
         this.localStorage.set("loggedIn", true);
         this.loggedIn = true;
-      });
+      },
+      (error: any) => {
+          this.localStorage.set("loggedIn", false);
+          this.loggedIn = false;
+        }
+      );
     }
   }
 
@@ -43,10 +48,10 @@ export class AppComponent {
         this.router.navigate(['/account']);
         break;
       case "home":
-        this.router.navigate(['/main']);
+        this.router.navigate(['']);
         break;
       default:
-        this.router.navigate(['/main']);
+        this.router.navigate(['']);
         break;
     }
   }

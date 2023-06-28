@@ -87,3 +87,10 @@
 ::ng-deep .mat-simple-snackbar-action button {
     color: green !important;
 }
+
+::ng-deep .error-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: red;
+}

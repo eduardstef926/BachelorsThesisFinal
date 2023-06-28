@@ -1,7 +1,7 @@
 export class AppointmentDto {
     appointmentId!: number;
-    doctorFirstName!: string;
-    doctorLastName!: string;
+    firstName!: string;
+    lastName!: string;
     cookieId!: number;
     hospitalName!: string;
     location!: string;

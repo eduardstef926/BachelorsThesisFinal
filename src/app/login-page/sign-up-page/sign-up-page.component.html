@@ -4,15 +4,44 @@
             class="register-form" 
             [formGroup]="formControl"
         >
-            <button 
-                *ngIf="inputErrorMessage" 
-                mat-button 
-                class="error-button" 
-                (click)="closeErrorMessage()"
-            >
-                <mat-icon>close</mat-icon>
-                Empty input fields
-            </button>
+            <div class="error-container">
+                <button 
+                    *ngIf="this.emptyFieldErrorMessage" 
+                    mat-button 
+                    class="error-button" 
+                    (click)="closeErrorMessage()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Empty input fields
+                </button>
+                <button 
+                    *ngIf="this.invalidPhoneNumber" 
+                    mat-button 
+                    class="error-button" 
+                    (click)="closeErrorMessage()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Invalid phone number
+                </button>
+                <button 
+                    *ngIf="this.invalidName" 
+                    mat-button 
+                    class="error-button" 
+                    (click)="closeErrorMessage()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Invalid firstname or lastname
+                </button>
+                <button 
+                    *ngIf="this.confirmationErrorMessage" 
+                    mat-button 
+                    class="error-button" 
+                    (click)="closeErrorMessage()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Passwords do not match
+                </button>
+            </div>
             <h1>
                 Sign Up
             </h1>

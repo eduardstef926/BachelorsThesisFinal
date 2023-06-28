@@ -21,18 +21,21 @@ import { LocalStorageService } from '../services/localstorage.service';
   ]
 })
 export class EmergencyPageComponent implements OnInit {
-  phoneNumber = '+40 0774487082';
-  diseaseName = "HelloWorld";
+  phoneNumber = '+40 0758922350';
+  diseaseName = "";
 
-  constructor(private userService: UserService,
-              private localStorage: LocalStorageService) {}
+  constructor(
+    private userService: UserService,
+    private localStorage: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     var cookieId = this.localStorage.get("loggedUserId");
     this.userService.getLastDiagnosticByUserEmail(cookieId)
-    .subscribe((diagnostic:any) => {
-      this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
-  });
+    .subscribe((diagnostic: any) => {
+        this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
+      }
+    );
   }
 
   callNumber() {

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '../services/localstorage.service';
-import { AuthService } from '../services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-main-page',
@@ -11,14 +9,12 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private localStorage: LocalStorageService,
-              private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private localStorage: LocalStorageService,
+  ) {}
 
-  ngOnInit(): void {
-  
-  }
+  ngOnInit(): void {}
 
   lookEmployers(event : Event) {
     event.preventDefault();
@@ -27,18 +23,6 @@ export class MainPageComponent implements OnInit {
   lookCareers(event : Event) {
     event.preventDefault();
     this.router.navigate(['/careers']);
-  }
-
-  lookNews(event : Event) {
-    event.preventDefault();
-  }
-
-  lookAppointments(event : Event) {
-    event.preventDefault();
-  }
-
-  lookSubscription(event : Event) {
-    event.preventDefault();
   }
 
   enterMainPage() {

@@ -49,13 +49,14 @@ export class MyAccountPageComponent implements OnInit {
   tableCopy: AppointmentDto[] = [];
   appointments: AppointmentDto[] = [];
 
-  constructor(private snackBar: MatSnackBar,
-              private router: Router,
-              private userService: UserService,
-              private authService: AuthService,
-              private emailService: EmailService,
-              private localStorage: LocalStorageService) {}
-
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService,
+    private emailService: EmailService,
+    private localStorage: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
     this.cookieId = this.localStorage.get("loggedUserId");
@@ -113,21 +114,29 @@ export class MyAccountPageComponent implements OnInit {
       }
     } 
   }
-
+  
   displayAppointmentPage() { 
-    this.userService.getUserAppointmentsByEmail(this.email).subscribe((data: any) => {
-      this.appointments = data;
-      this.tableCopy = data;
-      this.showAppointments = true;
-      this.renderReviews();
-    });
+    this.userService.getUserAppointmentsByEmail(this.email)
+      .subscribe((data: any) => {
+        if(data != null) {
+          this.appointments = data;
+          this.tableCopy = data;
+          this.showAppointments = true;
+          this.nextAppointmentPage();
+        }
+      }, (error: any) => {});
   }
 
   displaySubscriptionPage() {
-    this.userService.getUserSubscriptionByEmail(this.email).subscribe((data: any) => {
-      this.endDate = data.endDate.split('T')[0];
-      this.showSubscription = true;
-    });
+    this.userService.getUserSubscriptionByCookieId(this.cookieId)
+      .subscribe((data: any) => {
+          if (data != null) {
+            const [year, month, day] = data.endDate.split('T')[0].split("-");
+            this.endDate = `${day}-${month}-${year}`;
+            this.showSubscription = true;
+          }
+      }
+    );
   }
 
   displayEmailConfirmationPage() {
@@ -138,10 +147,10 @@ export class MyAccountPageComponent implements OnInit {
   onPageChange(event: any) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.renderReviews();
+    this.nextAppointmentPage();
   }
 
-  renderReviews() {
+  nextAppointmentPage() {
     const start = this.pageIndex * this.pageSize;
     const end = start + this.pageSize;
     this.appointments = this.tableCopy.slice(start, end);
@@ -181,13 +190,13 @@ export class MyAccountPageComponent implements OnInit {
   }
 
   handleLogOutSuccess() {
+    window.scrollTo(0, 0);
     this.localStorage.set("loggedUserId", 0);
     this.localStorage.set("loggedIn", false);
     this.router.navigate(['']).then(() => {
       setTimeout(() => {
-        window.scrollTo(0, 0);
         window.location.reload();
-      }, 50);
+      }, 5);
     });
   }
 

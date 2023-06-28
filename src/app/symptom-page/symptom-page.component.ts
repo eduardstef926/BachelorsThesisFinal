@@ -36,10 +36,12 @@ export class SymptomPageComponent implements OnInit {
   pageDictionary!: Map<number, any[]>;
   isLoading: boolean = false;
 
-  constructor(private router: Router,
-              private userService: UserService,
-              private localStorage: LocalStorageService,
-              private snackBar: MatSnackBar) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private localStorage: LocalStorageService,
+    private snackBar: MatSnackBar
+  ) {}
   
   ngOnInit(): void {
     this.pageDictionary = new Map<number, any[]>();
@@ -86,9 +88,14 @@ export class SymptomPageComponent implements OnInit {
   submitSymptoms() {
     this.isLoading = true;
     const filteredValues = [];
-    const symptomList = Array.from(this.pageDictionary.values())[0];
-    for (let i=0; i<symptomList.length; ++i) {
-      filteredValues.push(symptomList[i][0]);
+    const values = Array.from(this.pageDictionary.entries());
+    for (let i=0; i<values.length; ++i) {
+      var key = values[i][1];
+      for (let j=0; j<key.length; ++j) {
+        if (key[j][1] == true) {
+          filteredValues.push(key[j][0]);
+        }
+      }
     }
     this.snackBar.dismiss();
     this.checkSymptoms(filteredValues);

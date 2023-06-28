@@ -46,9 +46,9 @@ export class UserService{
     );
   }
 
-  getUserSubscriptionByEmail(email: string): Observable<SubscriptionDto> {
+  getUserSubscriptionByCookieId(cookieId: number): Observable<SubscriptionDto> {
     return this.httpClient.get<SubscriptionDto>(
-      this.baseUrl + "/User/GetUserSubscription?email=" + email,
+      this.baseUrl + "/User/GetUserSubscription?cookieId=" + cookieId,
       this.options
     );
   }

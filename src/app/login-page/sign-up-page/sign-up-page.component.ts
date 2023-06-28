@@ -12,7 +12,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SignUpPageComponent implements OnInit {
   confirmationErrorMessage = false;
-  inputErrorMessage = false;
+  invalidPhoneNumber = false;
+  invalidName = false;
+  emptyFieldErrorMessage = false;
 
   formControl = new FormGroup({
     firstName: new FormControl(''),
@@ -47,30 +49,39 @@ export class SignUpPageComponent implements OnInit {
     return this.formControl.get('email')?.value;
   }
 
-  constructor(private authService: AuthService,
-              private snackBar: MatSnackBar,
-              private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {}
 
   register() {
+    const firstName = this.getFirstName();
+    const lastName = this.getLastName();
+    const phoneNumber = this.getPhoneNumber();
+    const password = this.getPassword();
+    const confirmedPassword = this.getConfirmedPassword();
+    const email = this.getEmail();
     if (
-      this.getFirstName().length == 0 ||
-      this.getLastName().length == 0 ||
-      this.getPhoneNumber().length == 0 ||
-      this.getPassword().length == 0 ||
-      this.getConfirmedPassword().length == 0 ||
-      this.getEmail().length == 0
+      firstName.length === 0 || 
+      lastName.length === 0 || 
+      phoneNumber.length === 0 || 
+      password.length === 0 || 
+      confirmedPassword.length === 0 || 
+      email.length === 0
     ) {
-      this.inputErrorMessage = true;
-    } else if (
-      this.getConfirmedPassword() != this.getPassword()
-    ) {
+      this.emptyFieldErrorMessage = true;
+    } else if (password !== confirmedPassword) {
       this.confirmationErrorMessage = true;
+    } else if (/[a-zA-Z]/.test(phoneNumber)) {
+      this.invalidPhoneNumber = true;
+    } else if (/[^a-zA-Z]/.test(firstName) || /[^a-zA-Z]/.test(lastName)) {
+      this.invalidName = true;
     } else {
       this.addUser();
     }
-  }
-
-  ngOnInit(): void {
   }
 
   addUser() {
@@ -88,15 +99,20 @@ export class SignUpPageComponent implements OnInit {
           panelClass: ['my-snackbar']
         });
         window.scrollTo(0, 0);
-        this.router.navigate(['/main']);
-    });
+        this.router.navigate(['']);
+      }
+    );
   }
 
   closeErrorMessage() {
     if (this.confirmationErrorMessage) {
       this.confirmationErrorMessage = false;
-    } else if (this.inputErrorMessage) { 
-      this.inputErrorMessage = false;
+    } else if (this.emptyFieldErrorMessage) { 
+      this.emptyFieldErrorMessage = false;
+    } else if (this.invalidPhoneNumber) {
+      this.invalidPhoneNumber = false;
+    } else if (this.invalidName) {
+      this.invalidName = false;
     }
   }
 }

@@ -52,9 +52,23 @@
                         <p class="rating-number">
                             {{this.doctor.rating}}
                         </p>
-                        <p class="rating-length">
-                            {{this.reviewsEvaluationNumber}} ratings
-                        </p>
+                        <div class="div-review">
+                            <p class="rating-length">
+                                {{this.reviewsEvaluationNumber}} 
+                            </p>
+                            <p 
+                                *ngIf="this.reviewsEvaluationNumber == 1"
+                                style="color: white;" 
+                            >
+                                rating
+                            </p>
+                            <p 
+                                *ngIf="this.reviewsEvaluationNumber > 1"
+                                style="color: white;"
+                            >
+                                ratings
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="this.reviewsEvaluationNumber == undefined" class="container">
@@ -159,7 +173,7 @@
               {{index}}
             </button>
             <button 
-                [disabled]="5*this.currentIndex >= this.tableCopy.length"
+                [disabled]="5*this.currentIndex >= tableCopy.length"
                 (click)="nextPage()" 
                 mat-button
                 class="forward-button"

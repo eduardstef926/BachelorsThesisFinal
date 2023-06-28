@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -26,8 +25,10 @@ export class SeverityPageComponent implements OnInit {
   selectedSeverity = '';
   selected = false;
   
-  constructor(private router: Router,
-              private snackBar: MatSnackBar) {}
+  constructor(
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
   }

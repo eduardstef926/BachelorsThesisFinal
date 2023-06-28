@@ -4,7 +4,7 @@
         <table class="content-table" mat-table [dataSource]="appointmentSlots" matSort>
         <ng-container matColumnDef="name">
             <th class="column-spacer" mat-header-cell *matHeaderCellDef>Doctor Name</th>
-            <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.firstName + " " + element.lastName}}</td>
+            <td mat-cell class="column-spacer" *matCellDef="let element">{{"Dr. " + element.doctorFirstName + " " + element.doctorLastName}}</td>
         </ng-container>
         <ng-container matColumnDef="date">
             <th class="column-spacer" mat-header-cell *matHeaderCellDef>Date</th>

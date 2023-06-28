@@ -1,11 +1,25 @@
 <div class="main-container" @fade>
     <div class="diagnostic-messsage">
-        <p class="higher-message">
-            We suspect you have some form of {{this.diseaseName}}
-        </p>
-        <p class="lower-message">
-            Don't worry, make an appointment with one of our trusted {{this.doctorTitle}}s to get an accurate diagnostic.
-        </p>
+        <div 
+            class="primary-div" 
+            *ngIf="showDiagnostic"
+        >
+            <p class="higher-message">
+                We suspect you have some form of {{this.diseaseName}}
+            </p>
+            <p class="lower-message">
+                Don't worry, schedule an appointment with one of our trusted {{this.doctorTitle}}s.
+            </p>
+        </div>
+        <div 
+            class="secondary-div" 
+            *ngIf="!showDiagnostic"
+        >
+            <p class="middle-message">
+                Schedule a consultation with one of our trusted and experienced general practitioners
+            </p>
+            <img class="vitamin-image" src="assets/vitamins.png">
+        </div>
     </div>
     <div class="main-background">
         <div class="form-container">
@@ -37,7 +51,7 @@
                         <mat-date-range-picker #picker></mat-date-range-picker>
                         <mat-error *ngIf="dateRange.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
                         <mat-error *ngIf="dateRange.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-                      </mat-form-field>
+                    </mat-form-field>
                     <button (click)="listAppointmentDates()" class="list-button" mat-button>
                         See Available Dates
                     </button>

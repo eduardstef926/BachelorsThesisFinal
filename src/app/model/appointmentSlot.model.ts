@@ -1,6 +1,6 @@
 export class AppointmentSlotDto {
-    firstName!: string;
-    lastName!: string;
+    doctorFirstName!: string;
+    doctorLastName!: string;
     location!: string;
     startTime!: number;
     date!: number;

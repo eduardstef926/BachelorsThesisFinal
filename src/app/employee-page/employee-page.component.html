@@ -126,7 +126,7 @@
                   {{index}}
                 </button>
                 <button 
-                    [disabled]="5*(this.currentIndex + 1) >= this.tableCopy.length"
+                    [disabled]="5*(this.currentIndex + 1) >= tableCopy.length"
                     (click)="movePage('forward')" 
                     mat-button
                     class="forward-button"

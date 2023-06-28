@@ -21,7 +21,7 @@ import { HospitalDto } from '../model/hospital.model';
   ]
 })
 export class LocationPageComponent implements OnInit {
-  phoneNumber = '+400774487082';
+  phoneNumber = '+40 0743886803';
   selectedCity!: string;
   currentIndex = 1;
   pageSize = 3;

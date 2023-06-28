@@ -27,6 +27,7 @@ export class DiagnosticPageComponent implements OnInit {
   doctorTitle!: string;
   diagnostic!: DiagnosticDto;
   locations: string[] = [];
+  showDiagnostic = true;
   
   dateRange = new FormGroup({
     start: new FormControl(),
@@ -41,19 +42,25 @@ export class DiagnosticPageComponent implements OnInit {
     return this.dateRange.get('end')?.value;
   }
 
-  constructor(private doctorService: DoctorService,
-              private userService: UserService,
-              private localStorage: LocalStorageService,
-              private router: Router) {}
+  constructor(
+    private doctorService: DoctorService, 
+    private userService: UserService, 
+    private localStorage: LocalStorageService, 
+    private router: Router
+  ) {}
               
-
   ngOnInit(): void {
     var cookieId = this.localStorage.get('loggedUserId');
     this.userService.getLastDiagnosticByUserEmail(cookieId)
       .subscribe((diagnostic:any) => {
+        if (diagnostic.doctorSpecialization == "general medicine") {
+          this.showDiagnostic = false;
+        }
         this.diagnostic = diagnostic;
         this.doctorTitle = diagnostic.doctorTitle.toLowerCase();
-        this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
+        if (this.diagnostic.diseaseName != null) {
+          this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
+        }
         this.loadAppointmentLocations();
     });
   }
@@ -61,8 +68,9 @@ export class DiagnosticPageComponent implements OnInit {
   loadAppointmentLocations() {
     this.doctorService.getDoctorLocationsBySpecialization(this.diagnostic.doctorSpecialization)
       .subscribe((locations:any) => {
-        this.locations = locations;
-    })
+          this.locations = locations;
+      }
+    );
   }
 
   convertDate(date: Date) {
@@ -70,6 +78,10 @@ export class DiagnosticPageComponent implements OnInit {
     var month = (date.getMonth() + 1).toString().padStart(2, '0');
     var day = date.toString().split(' ')[2];
     return `${year}-${month}-${day}`;
+  }
+  
+  dateFilter(): boolean {
+    return this.getStart() < Date.now;
   }
 
   listAppointmentDates() {

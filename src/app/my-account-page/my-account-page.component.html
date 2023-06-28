@@ -44,49 +44,53 @@
         *ngIf="this.accountPages.showProfilePage" 
         class="profile-tab"
     >
-        <p class="profile-title">
-            Public Profile 
-        </p>
-        <p class="name-section">
-            First Name
-        </p>
-        <input 
-            class="name-input"
-            [(ngModel)]="firstName"
-            type="text"
-        >
-        <p class="name-section">
-            Last Name
-        </p>
-        <input 
-            class="name-input"
-            [(ngModel)]="lastName"
-            type="text"
-        >
-        <p class="name-section">
-            Email
-        </p>
-        <input 
-            class="name-input"
-            [(ngModel)]="email"
-            type="text"
-        >
-        <p class="name-section">
-            Phone Number
-        </p>
-        <input 
-            class="name-input"
-            [(ngModel)]="phoneNumber"
-            type="text"
-        >
-        <div class="button-container">
-            <button 
-                mat-button 
-                (click)="updateProfile()" 
-                class="update-button"
-            >
-                Update Profile
-            </button>
+        <div class="profle-container">
+            <p class="profile-title">
+                Public Profile 
+            </p>
+            <div>
+                <p class="name-section">
+                    First Name
+                </p>
+                <input 
+                    class="name-input"
+                    [(ngModel)]="firstName"
+                    type="text"
+                >
+                <p class="name-section">
+                    Last Name
+                </p>
+                <input 
+                    class="name-input"
+                    [(ngModel)]="lastName"
+                    type="text"
+                >
+                <p class="name-section">
+                    Email
+                </p>
+                <input 
+                    class="name-input"
+                    [(ngModel)]="email"
+                    type="text"
+                >
+                <p class="name-section">
+                    Phone Number
+                </p>
+                <input 
+                    class="name-input"
+                    [(ngModel)]="phoneNumber"
+                    type="text"
+                >
+                <div class="button-container">
+                    <button 
+                        mat-button 
+                        (click)="updateProfile()" 
+                        class="update-button"
+                    >
+                        Update Profile
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <div 
@@ -106,7 +110,7 @@
                             Doctor Name
                         </th>
                         <td class="header-info">
-                            Dr. {{appointment.doctorFirstName}} {{appointment.doctorLastName}}
+                            Dr. {{appointment.firstName}} {{appointment.lastName}}
                         </td>
                     </tr>
                     <tr>
@@ -139,9 +143,9 @@
             </div>
         </div>
         <mat-paginator 
-            *ngIf="this.tableCopy.length > pageSize" 
+            *ngIf="tableCopy.length > pageSize" 
             [pageSize]="pageSize" 
-            [length]="this.tableCopy.length" 
+            [length]="tableCopy.length" 
             (page)="onPageChange($event)">
         </mat-paginator>
     </div>
@@ -150,18 +154,18 @@
         class="profile-tab"
     >
         <div class="subscription-container">
-            <p class="container-body">
+            <div class="container-body">
                 No Past Appointments
-            </p>
+            </div>
         </div>
     </div>
     <div 
         *ngIf="this.accountPages.showSubscriptionPage && this.showSubscription" 
         class="profile-tab"
     >
-        <p class="subscription-title">
-            Subscription is valid until
-        </p>
+        <div class="subscription-title">
+            Subscription date
+        </div>
         <div class="subscription-container">
            {{this.endDate}}
         </div>
@@ -185,13 +189,10 @@
     </div>
     <div 
         *ngIf="this.accountPages.showConfirmEmailPage" 
-        class="profile-tab"
+        class="confirmation-tab"
     >
         <p class="subbody-title">
-            Confirmation email has been sent.
-        </p>
-        <p class="code-title">
-            Enter the code
+            Email confirmation code is being sent
         </p>
         <div class="code-container">
             <input 

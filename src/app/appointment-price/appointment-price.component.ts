@@ -26,10 +26,12 @@ export class AppointmentPriceComponent implements OnInit {
   totalPrice!: number;
   handler: any = null;
   
-  constructor(private router: Router,
-              private userService: UserService,
-              private localStorage: LocalStorageService,
-              private snackBar: MatSnackBar) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private localStorage: LocalStorageService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     const cookieId = this.localStorage.get("loggedUserId");
@@ -42,51 +44,44 @@ export class AppointmentPriceComponent implements OnInit {
 
   confirmAppointment() {
     if (this.totalPrice != 0) {
-      this.makePayment(this.totalPrice);
+      this.loadStripe();
     } else {
       this.submitAppointment();
     }
   }
 
-  makePayment(amount: any) {
-    this.loadStripe();
-    const paymentHandler = (<any>window).StripeCheckout.configure({
-      key: environment.testKey,
-      locale: 'auto',
-      token: function (stripeToken: any) {
-          alert('Payment success!');
-      }
-    });
-    paymentHandler.open({
-      name: 'Medical Subscription',
-      description: 'Subscription confirmed',
-      amount: amount,
-    });
-  }
-
   loadStripe() {
     if (!window.document.getElementById('stripe-script')) {
-      const s = window.document.createElement("script");
-      s.id = "stripe-script";
-      s.type = "text/javascript";
-      s.src = "https://checkout.stripe.com/checkout.js";
+      const s = window.document.createElement('script');
+      s.id = 'stripe-script';
+      s.type = 'text/javascript';
+      s.src = 'https://checkout.stripe.com/checkout.js';
       s.onload = () => {
-        this.handler = (<any>window).StripeCheckout.configure({
-          key: environment.testKey,
-          locale: 'auto',
-          token: (stripeToken: any) => {
-            this.submitAppointment();
-          }
-        });
-        if (this.handler) {
-          this.handler.open({
-            name: 'Medical Subscription',
-            description: 'Subscription confirmed',
-            amount: 1000
-          });
-        }
+        this.configureStripeCheckout();
       };
       window.document.body.appendChild(s);
+    } else {
+      this.configureStripeCheckout();
+    }
+  }
+  
+  configureStripeCheckout() {
+    this.handler = (<any>window).StripeCheckout.configure({
+      key: environment.testKey,
+      locale: 'auto',
+      token: (stripeToken: any) => {
+        this.submitAppointment();
+      }
+    });
+    this.openStripeCheckout();
+  }
+
+  openStripeCheckout() {
+    if (this.handler) {
+      this.handler.open({
+        name: 'Medical Subscription',
+        description: 'Subscription confirmed',
+      });
     }
   }
 
@@ -96,15 +91,15 @@ export class AppointmentPriceComponent implements OnInit {
     const newAppointment = {
       appointmentDate: appointmentDate,
       location: appointment.location,
-      doctorFirstName: appointment.firstName,
-      doctorLastName: appointment.lastName,
+      firstName: appointment.doctorFirstName,
+      lastName: appointment.doctorLastName,
       hospitalName: appointment.hospitalName,
       price: this.totalPrice,
       cookieId: this.localStorage.get("loggedUserId")
     } as AppointmentDto;
 
     this.userService.scheduleAppointment(newAppointment).subscribe((data: any) => {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
       this.snackBar.open('Successful confirmation!', 'X', {
         duration: 5000,
         panelClass: ['my-snackbar']

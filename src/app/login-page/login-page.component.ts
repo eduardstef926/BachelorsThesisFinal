@@ -28,41 +28,43 @@ export class LoginPageComponent implements OnInit {
     return this.formControl.get('email')?.value;
   }
 
-  constructor(private router: Router,
-              private userService: AuthService,
-              private snackBar: MatSnackBar,
-              private localStorage: LocalStorageService,
-              private ngZone: NgZone) {}
+  constructor(
+    private router: Router,
+    private userService: AuthService,
+    private snackBar: MatSnackBar,
+    private localStorage: LocalStorageService,
+  ) {}
   
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   logIn() {
-    if (
-        this.getPassword().length == 0 || 
-        this.getEmail().length == 0
-    ) {
-        this.inputErrorMessage = true;
+    const password = this.getPassword();
+    const email = this.getEmail();
+  
+    if (password.length === 0 || email.length === 0) {
+      this.inputErrorMessage = true;
     } else {
-        const loggedUser = {
-          password: this.getPassword(), 
-          email: this.getEmail(),
-        } as LoggedUserDto;
-
-        this.userService.login(loggedUser).subscribe((data: any) => {
+      const loggedUser: LoggedUserDto = {
+        password,
+        email
+      };
+  
+      this.userService.login(loggedUser).subscribe(
+        (data: any) => {
           window.scrollTo(0, 0);
           this.localStorage.set("loggedUserId", data);
           this.router.navigate(['']).then(() => {
             setTimeout(() => {
               window.location.reload();
-            }, 50);
+            }, 5);
           });
         },
         (errors) => {
-          if (errors.status == 400) {
+          if (errors.status === 400) {
             this.loginErrorMessage = true;
           }
-        });
+        }
+      );
     }
   }
 

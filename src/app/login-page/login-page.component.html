@@ -4,24 +4,26 @@
             class="login-form" 
             [formGroup]="formControl"
         >
-            <button 
-                *ngIf="loginErrorMessage" 
-                mat-button 
-                class="error-button" 
-                (click)="closeErrorMessage()"
-            >
-                <mat-icon>close</mat-icon>
-                Please enter a correct email and password
-            </button>
-            <button 
-                *ngIf="inputErrorMessage" 
-                mat-button 
-                class="error-button" 
-                (click)="closeErrorMessage()"
-            >
-                <mat-icon>close</mat-icon>
-                Empty input fields
-            </button>
+            <div class="error-container">
+                <button 
+                    *ngIf="loginErrorMessage" 
+                    mat-button 
+                    class="error-button" 
+                    (click)="closeErrorMessage()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Please enter a valid email and password
+                </button>
+                <button 
+                    *ngIf="inputErrorMessage" 
+                    mat-button 
+                    class="error-button" 
+                    (click)="closeErrorMessage()"
+                >
+                    <mat-icon>close</mat-icon>
+                    Empty input fields
+                </button>
+            </div>
             <h1>
                 Login Here
             </h1>

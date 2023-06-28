@@ -12,7 +12,7 @@
 }
 
 .profile-tab {
-    width: 18rem;
+    width: 15rem;
     padding: 3% 5%;
     height: 100%;
     border-radius: 5px;
@@ -21,6 +21,15 @@
     background-color: #4CAF50;
 }
 
+.confirmation-tab {
+    width: 18rem;
+    padding: 3% 3%;
+    height: 100%;
+    border-radius: 5px;
+    text-align: left;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    background-color: #4CAF50;
+}
 
 .navigation-tab {
     overflow: auto;
@@ -75,14 +84,16 @@
     overflow: auto;
     font-style: verdana;
     font-size: 18px;
-    margin-top: 4%;
+    margin-top: 2%;
     margin-bottom: 10%;
+    width: 70%;
 }
 
 .update-button {
     margin-top: 12%;
-    width: 70%;
+    width: 78%;
     height: 20%;
+    font-size: 15px;
     background-color: white;
     color: green;
 }
@@ -91,7 +102,7 @@
     display: flex; 
     justify-content: center; 
     width: 100%; 
-    margin-top: 1rem;
+    margin-top: 10%;
 }
 
 .enter-button {
@@ -166,7 +177,7 @@
 }
 
 .content-table th {
-    background-color: #4CAF50;;
+    background-color: #4CAF50;
     color: white;
     font-weight: 300;
     font-size: 15px;
@@ -218,17 +229,14 @@
 }
 
 ::ng-deep .error-snackbar {
-    background-color: rgb(156, 86, 86);
+    background-color: white;
     text-align: center;
     vertical-align: middle;
-    color: white;
+    color: rgb(138, 40, 40);
 }
 
 .subscription-container {
-    margin-top: 15%;
-    padding: 10%;
-    width: auto;
-    height: auto;
+    padding: 6%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -240,7 +248,8 @@
 
 .subscription-title {
     color: white;
-    font-size:  1.6rem; 
+    font-size:  1.8rem; 
+    margin-bottom: 10%;
     text-align: center;
 }
 
@@ -248,14 +257,13 @@
     color: white;
     font-size: 35px; 
     text-align: center;
-    margin-top: 8%;
+    margin-top: 15%;
 }
 
 .subbody-title {
-    color: green;
-    background-color: white;
+    color: white;
     margin-top: 5%;
-    font-size: 18px; 
+    font-size: 32px; 
     text-align: center;
     padding: 7px;
     border-radius: 3px;
@@ -267,6 +275,7 @@
     text-align: center;
     width: 100%;
     margin-top: 15%;
+    font-size: 15px;
     height: 2.5rem;
 }
 
