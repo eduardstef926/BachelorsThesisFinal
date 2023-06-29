@@ -106,7 +106,7 @@ export class SubscriptionsPageComponent implements OnInit {
     this.userService.addUserSubscription(subscription).subscribe((data: any) => {
       window.scrollTo(0, 0);
       this.router.navigate(['']);
-      this.snackBar.open('Successful subscription!', 'X', {
+      this.snackBar.open('Successful purchase!', 'X', {
         duration: 5000,
         panelClass: ['my-snackbar']
       });

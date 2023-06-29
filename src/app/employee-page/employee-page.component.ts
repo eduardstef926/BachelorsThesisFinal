@@ -55,7 +55,7 @@ export class EmployeePageComponent implements OnInit {
   ngOnInit(): void {
     this.cityIndex = 0;
     this.specializationIndex = 0;
-    this.sortings = ['by name', 'by rating'];
+    this.sortings = ['by name', 'by evaluation'];
     this.doctorService.getAllDoctors().subscribe((doctors) => {
       this.renderData(doctors);
       this.setFilters();

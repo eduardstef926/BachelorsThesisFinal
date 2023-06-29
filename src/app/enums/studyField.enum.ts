@@ -1,4 +1,4 @@
 export enum StudyField {
-    GeneralMedicine = 0,
+    'General Medicine' = 0,
     AdvancedSurgery = 1,
 }

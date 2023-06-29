@@ -153,8 +153,7 @@
 .hospital-div {
     display: flex; 
     justify-content: space-between; 
-    margin-left: 1rem; 
-    margin-right: 1rem;
+    margin: 0 1rem;
 }
 
 
@@ -184,7 +183,7 @@
 }
 
 .appontment-title {
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: white;
     text-align: center;
 }
@@ -208,6 +207,7 @@
     background-color: white; 
     margin-top: 10%; 
     border-radius: 5px;
+    width: auto;
 }
 
 ::ng-deep .mat-paginator-outer-container {

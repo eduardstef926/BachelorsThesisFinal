@@ -21,7 +21,7 @@
         <ng-container matColumnDef="details">
             <th class="column-spacer" mat-header-cell *matHeaderCellDef>Doctor Profile</th>
             <td mat-cell *matCellDef="let element" class="table-list">
-                <button class="table-button" mat-button [routerLink]="['/doctor-details', element.firstName, element.lastName]">
+                <button class="table-button" mat-button [routerLink]="['/doctor-details', element.doctorFirstName, element.doctorLastName]">
                     <mat-icon>arrow_forward</mat-icon>
                 </button>
             </td>

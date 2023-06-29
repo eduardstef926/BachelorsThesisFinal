@@ -34,8 +34,10 @@ export class AppointmentSlotlistComponent implements OnInit {
     var appointmentRange = this.localStorage.get("appointmentRange");
     this.doctorService.getAppointmentDatesByDateSpecializationAndLocation(appointmentRange)
       .subscribe((appointmentSlots) => {
-        this.appointmentSlots = new MatTableDataSource(appointmentSlots);
-        this.appointmentSlots.paginator = this.paginator;
+        if (appointmentSlots != null) {
+          this.appointmentSlots = new MatTableDataSource(appointmentSlots);
+          this.appointmentSlots.paginator = this.paginator;
+        }
     });
   }
 

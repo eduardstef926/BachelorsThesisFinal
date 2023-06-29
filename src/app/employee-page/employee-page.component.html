@@ -93,8 +93,8 @@
                 <th class="column-spacer" mat-header-cell *matHeaderCellDef>Location</th>
                 <td mat-cell class="column-spacer" *matCellDef="let element">{{element.location}}</td>
             </ng-container>
-            <ng-container matColumnDef="rating">
-                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Rating</th>
+            <ng-container matColumnDef="evaluation">
+                <th class="column-spacer" mat-header-cell *matHeaderCellDef>Evaluation</th>
                 <td mat-cell class="column-spacer" *matCellDef="let element">{{element.rating}}</td>
             </ng-container>
             <ng-container matColumnDef="details">
@@ -105,8 +105,8 @@
                     </button>
                 </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'rating', 'details']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'rating', 'details']"></tr>
+            <tr mat-header-row *matHeaderRowDef="['name', 'specialization', 'location', 'evaluation', 'details']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['name', 'specialization', 'location', 'evaluation', 'details']"></tr>
             </table>
             <div class="paginator-class">
                 <button 

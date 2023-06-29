@@ -79,8 +79,8 @@ export class AppointmentPriceComponent implements OnInit {
   openStripeCheckout() {
     if (this.handler) {
       this.handler.open({
-        name: 'Medical Subscription',
-        description: 'Subscription confirmed',
+        name: 'Medical Appointment',
+        description: 'Appointment confirmed',
       });
     }
   }

@@ -79,4 +79,12 @@ export class DoctorService{
       this.options
     );
   }
+
+  getDoctorReviewNumbersByFirstNameAndLastName(firstName: string, lastName: string): Observable<Array<DegreeDto>> {
+    return this.httpClient.get<Array<DegreeDto>>(
+      this.baseUrl + "/Doctor/GetDoctorReviewNumbersByFirstNameAndLastName?firstName=" + firstName + 
+      "&lastName=" + lastName,
+      this.options
+    );
+  }
 }

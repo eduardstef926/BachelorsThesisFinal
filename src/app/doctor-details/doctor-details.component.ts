@@ -44,7 +44,23 @@ export class DoctorDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.firstName = params['firstName'];
       this.lastName = params['lastName'];
+      this.loadReviewNumbers();
       this.loadDoctorDetails();
+    });
+  }
+
+  loadReviewNumbers() {
+    this.doctorService.getDoctorReviewNumbersByFirstNameAndLastName(this.firstName, this.lastName)
+      .subscribe((evaluationsList: any) => {
+        evaluationsList.forEach((element: any) => {
+          if (this.reviewDictionary.has(element)) {
+            const appearences = Number(this.reviewDictionary.get(element));
+            this.reviewDictionary.set(element, appearences + 1);
+          } else {
+            this.reviewDictionary.set(element, 1);
+          }
+        }
+      );
     });
   }
   
@@ -95,14 +111,6 @@ export class DoctorDetailsComponent implements OnInit {
       this.reviewList = reviews;
       if (reviews != null) {
         this.tableCopy = reviews;
-        this.tableCopy.forEach((element: any) => {
-          if (this.reviewDictionary.has(element.number)) {
-            const appearences = Number(this.reviewDictionary.get(element.number));
-            this.reviewDictionary.set(element.number, appearences + 1);
-          } else {
-            this.reviewDictionary.set(element.number, 1);
-          }
-        });
         this.createChart();
       }
     });

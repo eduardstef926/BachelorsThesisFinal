@@ -1,5 +1,5 @@
 export enum StudyProgram {
-    BachelorDegree = 0,
-    MasterDegree = 1,
+    BachelorsDegree = 0,
+    MastersDegree = 1,
     DoctorateDegree = 2,
 }

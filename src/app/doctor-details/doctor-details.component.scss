@@ -239,11 +239,6 @@ canvas {
     gap: 3rem;
 }
 
-.education-college {
-    width: 15rem;
-    align-items: left;
-}
-
 .reviewer-name {
     font-size: 25px;
 }
@@ -312,4 +307,8 @@ canvas {
     display: flex; 
     justify-content: center; 
     gap: 0.2rem;
+}
+
+.rating-paragraph{ 
+    color: white;
 }

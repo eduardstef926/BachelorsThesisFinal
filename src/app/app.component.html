@@ -2,8 +2,8 @@
   <div class="body-div">
     <a href="#" (click)="displayPage($event, 'home')">
       <img  
-        src="assets\mainpage-logo2.jpg" 
         class="main-image"
+        src="assets\mainpage-logo2.jpg" 
       >
     </a>
     <div class="banner-container">
@@ -115,7 +115,10 @@
               Contact
             </p>
             <div class="support-title">
-              <a>
+              <a
+                href="#" 
+                (click)="contactSupport($event)"
+              >
                 Contact Support
               </a>
             </div>
@@ -125,5 +128,3 @@
     </div>
   </div>
 </footer>
-
-

@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { SymptomDto } from "../model/symptom.model";
-import { DiagnosticDto } from "../model/diagnostic.model";
+import { DiagnosisDto } from "../model/diagnostic.model";
 import { AppointmentDto } from "../model/appointment.model";
 import { ReviewDto } from "../model/review.model";
 import { SubscriptionInputDto } from "../model/subscriptionInput.model";
@@ -93,8 +93,8 @@ export class UserService{
     );
   }
 
-  getLastDiagnosticByUserEmail(cookieId: number): Observable<DiagnosticDto> {
-    return this.httpClient.get<DiagnosticDto>(
+  getLastDiagnosticByUserEmail(cookieId: number): Observable<DiagnosisDto> {
+    return this.httpClient.get<DiagnosisDto>(
       this.baseUrl + "/User/GetLastDiagnosticBySessionId?cookieId=" + cookieId,
       this.options
     );

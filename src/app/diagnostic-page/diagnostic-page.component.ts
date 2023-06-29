@@ -3,7 +3,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { DoctorService } from '../services/doctor.service';
 import { LocalStorageService } from '../services/localstorage.service';
 import { UserService } from '../services/user.service';
-import { DiagnosticDto } from '../model/diagnostic.model';
+import { DiagnosisDto } from '../model/diagnostic.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppointmentRangeDto } from '../model/appointmentRange.model';
@@ -25,9 +25,10 @@ export class DiagnosticPageComponent implements OnInit {
   selectedLocation!: string;
   diseaseName!: string;
   doctorTitle!: string;
-  diagnostic!: DiagnosticDto;
+  diagnosis!: DiagnosisDto;
   locations: string[] = [];
-  showDiagnostic = true;
+  showDiagnosis = true;
+  minDate = new Date();
   
   dateRange = new FormGroup({
     start: new FormControl(),
@@ -46,7 +47,7 @@ export class DiagnosticPageComponent implements OnInit {
     private doctorService: DoctorService, 
     private userService: UserService, 
     private localStorage: LocalStorageService, 
-    private router: Router
+    private router: Router,
   ) {}
               
   ngOnInit(): void {
@@ -54,11 +55,11 @@ export class DiagnosticPageComponent implements OnInit {
     this.userService.getLastDiagnosticByUserEmail(cookieId)
       .subscribe((diagnostic:any) => {
         if (diagnostic.doctorSpecialization == "general medicine") {
-          this.showDiagnostic = false;
+          this.showDiagnosis = false;
         }
-        this.diagnostic = diagnostic;
+        this.diagnosis = diagnostic;
         this.doctorTitle = diagnostic.doctorTitle.toLowerCase();
-        if (this.diagnostic.diseaseName != null) {
+        if (this.diagnosis.diseaseName != null) {
           this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
         }
         this.loadAppointmentLocations();
@@ -66,7 +67,7 @@ export class DiagnosticPageComponent implements OnInit {
   }
 
   loadAppointmentLocations() {
-    this.doctorService.getDoctorLocationsBySpecialization(this.diagnostic.doctorSpecialization)
+    this.doctorService.getDoctorLocationsBySpecialization(this.diagnosis.doctorSpecialization.toLowerCase())
       .subscribe((locations:any) => {
           this.locations = locations;
       }
@@ -88,7 +89,7 @@ export class DiagnosticPageComponent implements OnInit {
     var appointmentRange = {
       startDate: this.convertDate(this.getStart()),
       endDate: this.convertDate(this.getEnd()),
-      specialization: this.diagnostic.doctorSpecialization,
+      specialization: this.diagnosis.doctorSpecialization,
       location:  this.selectedLocation
     } as AppointmentRangeDto;
 

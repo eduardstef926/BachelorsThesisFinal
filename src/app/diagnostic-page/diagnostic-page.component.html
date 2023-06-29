@@ -2,7 +2,7 @@
     <div class="diagnostic-messsage">
         <div 
             class="primary-div" 
-            *ngIf="showDiagnostic"
+            *ngIf="showDiagnosis"
         >
             <p class="higher-message">
                 We suspect you have some form of {{this.diseaseName}}
@@ -13,7 +13,7 @@
         </div>
         <div 
             class="secondary-div" 
-            *ngIf="!showDiagnostic"
+            *ngIf="!showDiagnosis"
         >
             <p class="middle-message">
                 Schedule a consultation with one of our trusted and experienced general practitioners
@@ -38,12 +38,17 @@
                         <mat-label>Locations</mat-label>
                         <select [(ngModel)]="selectedLocation" matNativeControl required>
                             <option value=""></option>
-                            <option value="{{location}}" *ngFor="let location of this.locations" >{{location}}</option>
+                            <option 
+                                *ngFor="let location of this.locations" 
+                                value="{{location}}"
+                            >
+                                {{location}}
+                            </option>
                         </select>
                     </mat-form-field>
                     <mat-form-field class="form-subcontainer" appearance="fill">
                         <mat-label>Enter a date range</mat-label>
-                        <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+                        <mat-date-range-input [min]="minDate" [formGroup]="dateRange" [rangePicker]="picker">
                           <input matStartDate formControlName="start" placeholder="Start date">
                           <input matEndDate formControlName="end" placeholder="End date">
                         </mat-date-range-input>
@@ -52,7 +57,11 @@
                         <mat-error *ngIf="dateRange.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
                         <mat-error *ngIf="dateRange.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
                     </mat-form-field>
-                    <button (click)="listAppointmentDates()" class="list-button" mat-button>
+                    <button 
+                        class="list-button" 
+                        (click)="listAppointmentDates()" 
+                        mat-button
+                    >
                         See Available Dates
                     </button>
                 </div>

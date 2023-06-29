@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalStorageService } from './services/localstorage.service';
 import { AuthService } from './services/auth.service';
 
@@ -22,13 +22,19 @@ export class AppComponent {
       this.authService.checkLoginCookie(id).subscribe((response: boolean) => {
         this.localStorage.set("loggedIn", true);
         this.loggedIn = true;
-      },
-      (error: any) => {
+      }, (error: any) => {
           this.localStorage.set("loggedIn", false);
           this.loggedIn = false;
         }
       );
     }
+  }
+
+  contactSupport(event: Event) {
+    const emailAddress = 'virtualClinicSupport@gmail.com';
+    const subject = 'Information Support';
+    const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}`;
+    window.location.href = mailtoUrl;
   }
 
   displayPage(event: Event, page: string) {

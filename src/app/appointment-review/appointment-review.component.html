@@ -1,12 +1,13 @@
-<div @fade class="main-background">
+<div *ngIf="this.loggedIn" 
+    class="main-background" @fade>
     <div 
-        *ngIf="this.appointment.isReviewed"
+        *ngIf="this.isReviewed"
         class="error-message"
     >
-       <p>Appointment has already been reviewed.</p>
+       <p>The Appointment has already been evaluated</p>
     </div>
     <div 
-        *ngIf="!this.appointment.isReviewed" 
+        *ngIf="!this.isReviewed" 
         class="form-container"
     >
         <div class="review-form">
@@ -44,6 +45,15 @@
             </div>
         </div>
         <div class="review-form">
+            <button 
+                *ngIf="loginErrorMessage" 
+                mat-button 
+                class="error-button" 
+                (click)="closeErrorMessage()"
+            >
+                <mat-icon>close</mat-icon>
+                Please enter a valid evaluation number
+            </button>
             <h1>
                 Evaluate Appointment
             </h1>
