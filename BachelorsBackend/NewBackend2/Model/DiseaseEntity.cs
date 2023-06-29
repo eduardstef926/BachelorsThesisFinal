@@ -9,7 +9,7 @@ namespace NewBackend2.Model
         [Key]
         public string Name { get; set; }
 
-        public virtual ICollection<DiagnosticEntity> Diagnosis { get; set; }
+        public virtual ICollection<DiagnosisEntity> Diagnosis { get; set; }
 
         public override bool Equals(object? obj)
         {

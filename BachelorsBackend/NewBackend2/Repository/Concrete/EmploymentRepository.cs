@@ -34,14 +34,14 @@ namespace NewBackend2.Repository.Concrete
                 .ToListAsync();
         }
 
-        public Task<List<string>> GetDoctorLocationsByDoctorId(int doctorId)
+        public Task<string> GetFirstDoctorLocationsByDoctorId(int doctorId)
         {
             return database.employments
                 .Where(x => x.DoctorId == doctorId)
                 .Select(x => x.Hospital.Location)
                 .Distinct()
                 .AsNoTracking()
-                .ToListAsync();
+                .FirstOrDefaultAsync();
         }
 
         public Task<EmploymentEntity> GetEmploymentByDoctorIdAsync(int doctorId)

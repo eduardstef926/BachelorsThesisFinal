@@ -1,0 +1,1 @@
+\par \hspace{1cm} On the front-end, the possible appointment slot list, which was calculated in the previous step is shown as a table. The doctor profile link works similarly to the one from the employee page and redirects the user to the details page of the doctor. The appoint button will redirect the user to the final page to confirm the doctor appointment.

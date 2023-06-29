@@ -9,8 +9,6 @@ namespace NewBackend2.Model
         [Key]
         public string Name { get; set; }
 
-        public virtual ICollection<DiagnosticEntity> Diagnostics { get; set; }
-
         public override bool Equals(object? obj)
         {
             return obj is SymptomEntity entity &&

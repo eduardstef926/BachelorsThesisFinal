@@ -8,7 +8,7 @@ namespace NewBackend2.Service.Abstract
         Task LogOut(int id);
         Task<int> Login(LoggedUserDto user);
         Task Register(UserDto user);
-        Task ModifyPassword(int id, string newPassword);
+        Task<bool> ModifyPassword(int id, string newPassword);
         Task<bool> CheckLoginCookie(int id);
         Task<bool> ConfirmEmail(string email, int confirmationCode);
     }

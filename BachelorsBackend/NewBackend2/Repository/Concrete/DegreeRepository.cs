@@ -13,7 +13,7 @@ namespace NewBackend2.Repository.Concrete
             this.database = database;
         }
 
-        public Task<List<DegreeEntity>> GetDegreeByFirstNameAndLastNameAsync(string firstName, string lastName)
+        public Task<List<DegreeEntity>> GetDegreesByFirstNameAndLastNameAsync(string firstName, string lastName)
         {
             return database.degrees
                 .Where(x => x.Doctor.FirstName == firstName && x.Doctor.LastName == lastName)

@@ -38,7 +38,7 @@ namespace NewBackend2.Model
         public bool isEmailConfirmed { get; set; }
 
         public virtual ICollection<CookiesEntity> Cookies { get; set; }
-        public virtual ICollection<DiagnosticEntity> Diagnostics { get; set; }
+        public virtual ICollection<DiagnosisEntity> Diagnostics { get; set; }
         public virtual ICollection<AppointmentEntity> Appointments { get; set; }
         public virtual ICollection<ReviewEntity> Reviews { get; set; }
 

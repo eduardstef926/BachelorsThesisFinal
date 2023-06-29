@@ -81,7 +81,7 @@ namespace NewBackend2.Helpers
                                 <p>Please click on the link below to reset your password:</p>
                                 <div class='text-div'>
                                     <p><a href='[Link]' style='color: white'>Reset password</a></p>
-                                </div><br><br>
+                                </div><br>
                                 <p>The Virtual Clinic Team</p>
                             </div>
                         </body>
@@ -197,9 +197,9 @@ namespace NewBackend2.Helpers
                         </head>
                         <body>
                             <div class='container'>
-                                <h1>Thank you for signing in</h1>
+                                <h1>Thank you for signing in.</h1>
                                 <p>Dear [Recipient Name],</p>
-                                <p>Welcome to the team, we are glad to have you here.</p>
+                                <p>Welcome to the team. We are glad to have you here.</p>
                                 <p>The Virtual Clinic Team</p>
                             </div>
                         </body>
@@ -258,10 +258,11 @@ namespace NewBackend2.Helpers
                         </head>
                         <body>
                             <div class='container'>
-                                <h1>Thank you for purchasing our Subscription!</h1>
+                                <h1>Successful Purchase!</h1>
                                 <p>Dear [Recipient Name],</p>
-                                <p>Your subscription will be valid until [End Date].</p>
-                                <p>During this time, you will have unlimited free acess to our services.</p>
+                                <p>Thank you for purchasing our service. Your subscription will be valid until [End Date].</p>
+                                <p>During this time, you will have unlimited free access to our services.</p>
+                                <p>Feel free to cancel the subscription any time, a refund will be made for the remaining months.</p>
                                 <p>The Virtual Clinic Team</p>
                             </div>
                         </body>
@@ -320,9 +321,9 @@ namespace NewBackend2.Helpers
                         </head>
                         <body>
                             <div class='container'>
-                                <h1>Your subscription was successfully canceled!</h1>
+                                <h1>Successfully canceled!</h1>
                                 <p>Dear [Recipient Name],</p>
-                                <p>We are sorry to see you go.</p>
+                                <p>Your subscription was successfully canceled. We are sorry to see you go.</p>
                                 <p>I hope you had an amazing experience.</p>
                                 <p>The Virtual Clinic Team</p>
                             </div>

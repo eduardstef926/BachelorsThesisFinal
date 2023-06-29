@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "MkxMEuaadZhlUe8eCMx8u3IE53bZYk5czylQzpmLZ08=",
-  "Source": "NewBackend2",
-  "BasePath": "_content/NewBackend2",
+  "Hash": "n5xgAQ6zUIaWw0GRiBAnxS+iKccCeaRf+F00sBYdNq4=",
+  "Source": "Backend",
+  "BasePath": "_content/Backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

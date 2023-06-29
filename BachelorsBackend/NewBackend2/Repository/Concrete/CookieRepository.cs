@@ -19,12 +19,6 @@ namespace NewBackend2.Repository.Concrete
             await database.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckCookieAsync(int id)
-        {
-            return database.cookies.AsNoTracking()
-               .Any(x => x.CookieId == id && x.DateTime.CompareTo(DateTime.Now) >= 0);
-        }
-
         public async Task DeleteCookieAsync(int id)
         {
             var cookie = database.cookies.FirstOrDefault(item => item.CookieId == id);
@@ -33,6 +27,13 @@ namespace NewBackend2.Repository.Concrete
                 database.cookies.Remove(cookie);
                 await database.SaveChangesAsync();
             }
+        }
+
+        public Task<CookiesEntity> GetCookieByIdAsync(int id)
+        {
+            return database.cookies.AsNoTracking()
+               .Where(x => x.CookieId == id)
+               .FirstOrDefaultAsync();
         }
 
         public Task<UserEntity> GetUserByCookieIdAsync(int id)

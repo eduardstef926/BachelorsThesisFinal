@@ -54,11 +54,17 @@ namespace NewBackend2.Service.Concrete
             await emailService.SendWelcomeEmailAsync(user.FirstName, user.LastName);
         }
 
-        public async Task ModifyPassword(int id, string newPassword)
+        public async Task<bool> ModifyPassword(int id, string newPassword)
         {
-            var hashedPassword = PasswordService.HashPassword(newPassword);
-
-            await userRepository.UpdateUserPasswordAsync(id, hashedPassword);
+            var cookie = await cookieRepository.GetCookieByIdAsync(id);
+            if (cookie != null)
+            {
+                var hashedPassword = PasswordService.HashPassword(newPassword);
+                await userRepository.UpdateUserPasswordAsync(cookie.UserId, hashedPassword);
+                await cookieRepository.DeleteCookieAsync(cookie.CookieId);
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> ConfirmEmail(string email, int confirmationCode)
@@ -82,7 +88,17 @@ namespace NewBackend2.Service.Concrete
 
         public async Task<bool> CheckLoginCookie(int id)
         {
-            return await cookieRepository.CheckCookieAsync(id);
+            var response =  await cookieRepository.GetCookieByIdAsync(id);
+            if (response == null)
+            {
+                return false;
+            } 
+            else if (response.DateTime.CompareTo(DateTime.Now) < 0)
+            {
+                await cookieRepository.DeleteCookieAsync(id);
+                return false;
+            }
+            return true;
         }
     }
 }

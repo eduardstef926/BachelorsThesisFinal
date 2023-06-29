@@ -13,7 +13,7 @@ namespace NewBackend2.Repository.Concrete
             this.database = database;
         }
 
-        public async Task AddDiagnosticAsync(DiagnosticEntity diagnostic)
+        public async Task AddDiagnosticAsync(DiagnosisEntity diagnostic)
         {
             database.diagnostics.Add(diagnostic);
             await database.SaveChangesAsync();
@@ -47,7 +47,7 @@ namespace NewBackend2.Repository.Concrete
             }
         }
 
-        public Task<DiagnosticEntity> GetLastDiagnosticByUserIdAsync(int id)
+        public Task<DiagnosisEntity> GetLastDiagnosticByUserIdAsync(int id)
         {
             return database.diagnostics.AsNoTracking()
                 .OrderBy(x => x.DiagnosticId)
@@ -60,7 +60,7 @@ namespace NewBackend2.Repository.Concrete
                 .Where(x => x.Name.Contains(symptom))
                 .AsNoTracking()
                 .Skip(pageStart)
-                .Take(4)
+                .Take(5)
                 .Select(x => x.Name)
                 .ToListAsync()!;
         }

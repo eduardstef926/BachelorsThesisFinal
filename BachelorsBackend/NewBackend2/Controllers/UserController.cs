@@ -30,7 +30,7 @@ namespace NewBackend2.Controllers
                     ModelState.AddModelError(string.Empty, "Invalid object sent from client!");
                     return BadRequest("Invalid user object");
                 }
-
+                
                 await userService.AddUserSymptomsAsync(cookieId, symptoms);
                 return Ok();
 
@@ -169,18 +169,18 @@ namespace NewBackend2.Controllers
         }
 
         [HttpGet("GetUserSubscription")]
-        public async Task<IActionResult> GetUserSubscription(string email)
+        public async Task<IActionResult> GetUserSubscription(int cookieId)
         {
-            if (email == null)
+            if (cookieId == 0)
             {
                 return BadRequest("Invalid input!");
             }
 
-            var subscription = await userService.GetUserSubscriptionAsync(email);
+            var subscription = await userService.GetUserSubscriptionByCookieIdAsync(cookieId);
 
             if (subscription == null)
             {
-                return BadRequest("No subscription");
+                return NoContent();
             }
 
             return Ok(subscription);
@@ -211,7 +211,7 @@ namespace NewBackend2.Controllers
 
             if (appointments.Count == 0)
             {
-                return BadRequest("No Appointments");
+                return Ok("No Appointments");
             }
 
             return Ok(appointments);

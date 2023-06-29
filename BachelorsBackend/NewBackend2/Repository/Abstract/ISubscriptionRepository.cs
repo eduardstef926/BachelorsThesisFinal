@@ -6,7 +6,7 @@ namespace NewBackend2.Repository.Abstract
     {
         Task AddUserSubscriptionAsync(SubscriptionEntity subscription);
         Task DeleteUserSubscriptionAsync(int userId);
-        Task<SubscriptionEntity> GetUserSubscriptionAsync(string email);
+        Task<SubscriptionEntity> GetUserSubscriptionAsync(int userId);
         Task<bool> CheckUserSubscriptionAsync(int id);
     }
 }

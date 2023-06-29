@@ -106,7 +106,7 @@ namespace NewBackend2.Controllers
                 return BadRequest("Invalid input");
             }
 
-            var collegeDegree = await doctorService.GetDoctorDegreeByFirstNameAndLastNameAsync(firstName, lastName);
+            var collegeDegree = await doctorService.GetDoctorDegreesByFirstNameAndLastNameAsync(firstName, lastName);
             
             if (collegeDegree == null)
             {
@@ -132,6 +132,19 @@ namespace NewBackend2.Controllers
             }
 
             return Ok(reviews);
+        }
+
+        [HttpGet("GetDoctorReviewNumbersByFirstNameAndLastName")]
+        public async Task<IActionResult> GetDoctorReviewNumbersByFirstNameAndLastName(string firstName, string lastName)
+        {
+            if (firstName == null || lastName == null)
+            {
+                return BadRequest("Invalid input");
+            }
+
+            var number = await doctorService.GetDoctorReviewNumberByFirstNameAndLastNameAsync(firstName, lastName);
+
+            return Ok(number);
         }
 
         [HttpGet("GetDoctorReviewLengthByFirstNameAndLastName")]

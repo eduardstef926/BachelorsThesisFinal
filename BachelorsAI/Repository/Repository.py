@@ -5,10 +5,11 @@ import csv
 
 class Repository:
     def __init__(self):
-        self.trainingFilePath = "Dataset/Training.csv"
-        self.treatmentFilePath = "Dataset/Treatment.csv"
+        self.trainingFilePath = "../Dataset/oldTraining.csv"
+        self.treatmentFilePath = "../Dataset/Treatment.csv"
         self.trainingData = {}
         self.readSymptomDiseaseMapping()
+        self.plotData()
 
     def readSymptomDiseaseMapping(self):
         self.trainingData = pd.read_csv(self.trainingFilePath).dropna(axis=1)

@@ -69,7 +69,6 @@ class HashTable:
         elif function == 3:
             return self.elfHash(key) % len(self.hashTable[0])
 
-    #   Complexity of lookup is ~O(1) on worst case as well
     def getKey(self, key):
         hashes = []
         for i in range(self.maximumKicking):

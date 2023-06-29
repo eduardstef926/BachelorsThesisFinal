@@ -22,21 +22,6 @@ namespace NewBackend2.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DiagnosticEntitySymptomEntity", b =>
-                {
-                    b.Property<int>("DiagnosticsDiagnosticId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SymptomName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DiagnosticsDiagnosticId", "SymptomName");
-
-                    b.HasIndex("SymptomName");
-
-                    b.ToTable("DiagnosticEntitySymptomEntity");
-                });
-
             modelBuilder.Entity("NewBackend2.Model.AppointmentEntity", b =>
                 {
                     b.Property<int>("AppointmentId")
@@ -163,7 +148,7 @@ namespace NewBackend2.Migrations
                     b.ToTable("Degree");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.DiagnosticEntity", b =>
+            modelBuilder.Entity("NewBackend2.Model.DiagnosisEntity", b =>
                 {
                     b.Property<int>("DiagnosticId")
                         .ValueGeneratedOnAdd()
@@ -172,7 +157,6 @@ namespace NewBackend2.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiagnosticId"), 1L, 1);
 
                     b.Property<string>("DiseaseName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DoctorSpecialization")
@@ -199,7 +183,7 @@ namespace NewBackend2.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Diagnostic");
+                    b.ToTable("Diagnosis");
                 });
 
             modelBuilder.Entity("NewBackend2.Model.DiseaseEntity", b =>
@@ -462,21 +446,6 @@ namespace NewBackend2.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("DiagnosticEntitySymptomEntity", b =>
-                {
-                    b.HasOne("NewBackend2.Model.DiagnosticEntity", null)
-                        .WithMany()
-                        .HasForeignKey("DiagnosticsDiagnosticId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NewBackend2.Model.SymptomEntity", null)
-                        .WithMany()
-                        .HasForeignKey("SymptomName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("NewBackend2.Model.AppointmentEntity", b =>
                 {
                     b.HasOne("NewBackend2.Model.DoctorEntity", "Doctor")
@@ -526,13 +495,11 @@ namespace NewBackend2.Migrations
                     b.Navigation("Doctor");
                 });
 
-            modelBuilder.Entity("NewBackend2.Model.DiagnosticEntity", b =>
+            modelBuilder.Entity("NewBackend2.Model.DiagnosisEntity", b =>
                 {
                     b.HasOne("NewBackend2.Model.DiseaseEntity", "Disease")
                         .WithMany("Diagnosis")
-                        .HasForeignKey("DiseaseName")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DiseaseName");
 
                     b.HasOne("NewBackend2.Model.UserEntity", "User")
                         .WithMany("Diagnostics")

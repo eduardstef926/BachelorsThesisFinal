@@ -7,8 +7,8 @@ namespace NewBackend2.Repository.Abstract
     {
         Task AddCookieAsync(CookiesEntity cookie);
         Task DeleteCookieAsync(int id);
-        Task<bool> CheckCookieAsync(int id);
         Task<int> GetUserIdByCookieIdAsync(int id);
         Task<UserEntity> GetUserByCookieIdAsync(int id);
+        Task<CookiesEntity> GetCookieByIdAsync(int id);
     }
 }

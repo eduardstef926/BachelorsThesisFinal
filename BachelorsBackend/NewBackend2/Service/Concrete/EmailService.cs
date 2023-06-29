@@ -11,10 +11,12 @@ namespace NewBackend2.Service.Concrete
     {
         private readonly IEmailRepository emailRepository;
         private readonly IUserRepository userRepository;
+        private readonly ICookieRepository cookieRepository;
         private readonly IAppointmentRepository appointmentRepository;
 
-        public EmailService(IUserRepository userRepository, IEmailRepository emailRepository, IAppointmentRepository appointmentRepository)
+        public EmailService(ICookieRepository cookieRepository, IUserRepository userRepository, IEmailRepository emailRepository, IAppointmentRepository appointmentRepository)
         {
+            this.cookieRepository = cookieRepository;
             this.emailRepository = emailRepository; 
             this.userRepository = userRepository;
             this.appointmentRepository = appointmentRepository;
@@ -31,14 +33,15 @@ namespace NewBackend2.Service.Concrete
             message.To.Add(new MailAddress(email.To));
             message.Body = email.Message;
             message.IsBodyHtml = true;
-            var smtpClient = new SmtpClient("smtp.gmail.com")
-            {
-                Port = 587,
-                Credentials = new NetworkCredential(fromEmail, fromPassword),
-                EnableSsl = true,
-            };
 
-            smtpClient.Send(message);
+            using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+            {
+                smtpClient.Port = 587;
+                smtpClient.Credentials = new NetworkCredential(fromEmail, fromPassword);
+                smtpClient.EnableSsl = true;
+
+                await smtpClient.SendMailAsync(message);
+            }
         }
 
         public async Task SendForgotPasswordEmailAsync(string userEmail)
@@ -46,19 +49,27 @@ namespace NewBackend2.Service.Concrete
             var subject = "Password recovery";
             var user = await userRepository.GetUserByEmailAsync(userEmail);
             var body = EmailHelper.GetPasswordResetEmailTemplate();
-            var userLink = "http://localhost:4200/modify-password/" + user.UserId;
-            body = body.Replace("[Recipient Name]", user.LastName)
-                       .Replace("[Link]", userLink);
-
-            var email = new EmailEntity
+            if (user != null)
             {
-                To = userEmail,
-                Message = body,
-                Subject = subject,
-            };
+                var cookieEntity = new CookiesEntity
+                {
+                    UserId = user.UserId,
+                    DateTime = DateTime.Now.AddMinutes(30),
+                };
+                await cookieRepository.AddCookieAsync(cookieEntity);
 
-            await this.SendEmailAsync(email);
-            await emailRepository.AddEmailAsync(email);
+                var userLink = "http://localhost:4200/modify-password/" + cookieEntity.CookieId;
+                body = body.Replace("[Recipient Name]", user.LastName)
+                           .Replace("[Link]", userLink);
+                var email = new EmailEntity
+                {
+                    To = userEmail,
+                    Message = body,
+                    Subject = subject,
+                };
+                await this.SendEmailAsync(email);
+                await emailRepository.AddEmailAsync(email);
+            }
         }
 
         public async Task SendWelcomeEmailAsync(string firstName, string lastName)
@@ -112,8 +123,8 @@ namespace NewBackend2.Service.Concrete
 
             foreach(var appointment in appointments)
             {
-                var difference = appointment.AppointmentDate - currentDate;
-                if (difference.Days <= 1)
+                var difference = currentDate - appointment.AppointmentDate;
+                if (difference.Days >= -1 &&  difference.Days < 0)
                 {
                     var subject = "Appointment Reminder";
                     var body = EmailHelper.GetAppointmentReminderEmailTemplate();
@@ -149,7 +160,7 @@ namespace NewBackend2.Service.Concrete
             foreach (var appointment in appointments)
             {
                 var difference = appointment.AppointmentDate - currentDate;
-                if (difference.Days >=-1 && difference.Days <= 0)
+                if (difference.Days >= 0 && difference.Days <= 1)
                 {
                     var subject = "Appointment Feedback";
                     var body = EmailHelper.GetReviewEmailTemplate();

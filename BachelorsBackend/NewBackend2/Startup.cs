@@ -1,8 +1,6 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using NewBackend2.Dtos;
+using NewBackend2.Jobs;
 using NewBackend2.Model;
 using NewBackend2.Repository;
 using NewBackend2.Repository.Abstract;
@@ -10,7 +8,6 @@ using NewBackend2.Repository.Concrete;
 using NewBackend2.Service.Abstract;
 using NewBackend2.Service.Concrete;
 using Quartz;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -48,19 +45,21 @@ builder.Services.AddQuartz(q =>
        // .WithCronSchedule("0/5 * * * * ?"));   // runs every 5 seconds
         .WithCronSchedule("0 0 * * * ?"));       // runs every day at midnight
 
-    /*jobKey = new JobKey("AppointmentReminderJob");
+    jobKey = new JobKey("AppointmentReminderJob");
     q.AddJob<AppointmentReminderJob>(opts => opts.WithIdentity(jobKey));
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("AppointmentReminderJob-Trigger")
-        .WithCronSchedule("0/5 * * * * ?"));*/
+       // .WithCronSchedule("0/5 * * * * ?"));
+        .WithCronSchedule("0 0 * * * ?"));     
 
- /*   jobKey = new JobKey("AppointmentFeedbackJob");
+    jobKey = new JobKey("AppointmentFeedbackJob");
     q.AddJob<AppointmentFeedbackJob>(opts => opts.WithIdentity(jobKey));
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("AppointmentFeedbackJob-Trigger")
-        .WithCronSchedule("0/5 * * * * ?"));*/
+      //  .WithCronSchedule("0/5 * * * * ?"));
+        .WithCronSchedule("0 0 * * * ?"));      
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
@@ -75,7 +74,7 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.CreateMap<UserDto, UserEntity>();
     mc.CreateMap<ReviewEntity, ReviewDto>();
     mc.CreateMap<DiseaseEntity, DiseaseDto>();
-    mc.CreateMap<DiagnosticEntity, DiagnosticDto>();
+    mc.CreateMap<DiagnosisEntity, DiagnosisDto>();
     mc.CreateMap<HospitalEntity, HospitalDto>();
     mc.CreateMap<SubscriptionInputDto, SubscriptionEntity>();
     mc.CreateMap<SubscriptionEntity, SubscriptionDto>();
@@ -90,8 +89,8 @@ var mapperConfig = new MapperConfiguration(mc =>
         .ForMember(dto => dto.EndYear, opt => opt.MapFrom(src => src.EndYear))
         .ForMember(dto => dto.StudyProgram, opt => opt.MapFrom(src => src.StudyProgram));
     mc.CreateMap<EmploymentEntity, AppoimentSlotDto>()
-        .ForMember(dto => dto.FirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
-        .ForMember(dto => dto.LastName, opt => opt.MapFrom(src => src.Doctor.LastName))
+        .ForMember(dto => dto.DoctorFirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
+        .ForMember(dto => dto.DoctorLastName, opt => opt.MapFrom(src => src.Doctor.LastName))
         .ForMember(dto => dto.Location, opt => opt.MapFrom(src => src.Hospital.Location))
         .ForMember(dto => dto.HospitalName, opt => opt.MapFrom(src => src.HospitalName))
         .ForMember(dto => dto.StartTime, opt => opt.MapFrom(src => src.StartTime))
@@ -99,8 +98,8 @@ var mapperConfig = new MapperConfiguration(mc =>
         .ForMember(dto => dto.Rating, opt => opt.MapFrom(src => src.Doctor.Rating))
         .ForMember(dto => dto.Price, opt => opt.MapFrom(src => src.ConsultPrice));
     mc.CreateMap<AppointmentEntity, AppointmentDto>()
-        .ForMember(dto => dto.DoctorFirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
-        .ForMember(dto => dto.DoctorLastName, opt => opt.MapFrom(src => src.Doctor.LastName))
+        .ForMember(dto => dto.FirstName, opt => opt.MapFrom(src => src.Doctor.FirstName))
+        .ForMember(dto => dto.LastName, opt => opt.MapFrom(src => src.Doctor.LastName))
         .ForMember(dto => dto.AppointmentDate, opt => opt.MapFrom(src => src.AppointmentDate));
 });
 

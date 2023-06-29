@@ -82,9 +82,9 @@ namespace NewBackend2.Controllers
                     return BadRequest("Invalid user object");
                 }
 
-                await authService.ModifyPassword(id, newPassword);
+                var result = await authService.ModifyPassword(id, newPassword);
 
-                return Ok();
+                return Ok(result);
             }
             catch (ValidationException ex)
             {

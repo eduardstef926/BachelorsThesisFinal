@@ -40,17 +40,16 @@ namespace NewBackend2.Service.Concrete
             for (int i=0; i< doctors.Count; i++)
             {
                 var doctorDto = mapper.Map<DoctorEntity, DoctorDto>(doctors[i]);
-                var locations = await employmentRepository.GetDoctorLocationsByDoctorId(doctors[i].DoctorId);
-                doctorDto.Location = locations[0];
+                doctorDto.Location = await employmentRepository.GetFirstDoctorLocationsByDoctorId(doctors[i].DoctorId);
                 doctorDtos.Add(doctorDto);
             }
 
             return doctorDtos;
         }
 
-        public async Task<List<DegreeDto>> GetDoctorDegreeByFirstNameAndLastNameAsync(string firstName, string lastName)
+        public async Task<List<DegreeDto>> GetDoctorDegreesByFirstNameAndLastNameAsync(string firstName, string lastName)
         {
-            var degrees = await degreeRepository.GetDegreeByFirstNameAndLastNameAsync(firstName, lastName);
+            var degrees = await degreeRepository.GetDegreesByFirstNameAndLastNameAsync(firstName, lastName);
             return degrees
                 .Select(mapper.Map<DegreeEntity, DegreeDto>)
                 .ToList();
@@ -92,8 +91,7 @@ namespace NewBackend2.Service.Concrete
 
         public async Task<List<string>> GetDoctorLocationsBySpecializationAsync(string specialization)
         {
-            var locations = await employmentRepository.GetDoctorLocationsBySpecializationAsync(specialization);
-            return locations;
+            return await employmentRepository.GetDoctorLocationsBySpecializationAsync(specialization);
         }
 
         public async Task<List<AppoimentSlotDto>> GetAppointmentDatesByDateSpecializationAndLocationAsync(string startInputDate, string endInputDate,
@@ -146,6 +144,11 @@ namespace NewBackend2.Service.Concrete
                 }
             }
             return appointmentSlotList;
+        }
+
+        public async Task<List<int>> GetDoctorReviewNumberByFirstNameAndLastNameAsync(string firstName, string lastName)
+        {
+            return await reviewRepository.GetDoctorReviewNumbersByFirstNameAndLastName(firstName, lastName);
         }
     }
 }
