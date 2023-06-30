@@ -15,6 +15,10 @@ export class SignUpPageComponent implements OnInit {
   invalidPhoneNumber = false;
   invalidName = false;
   emptyFieldErrorMessage = false;
+  showPassword: boolean = false;
+  showConfirmedPassword: boolean = false;
+  isPasswordNotEmpty: boolean = false;
+  isConfirmedPasswordNotEmpty: boolean = false;
 
   formControl = new FormGroup({
     firstName: new FormControl(''),
@@ -56,6 +60,22 @@ export class SignUpPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  onPasswordInputChange(target: any): void {
+    this.isPasswordNotEmpty = target.value.length > 0;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  onConfirmPasswordInputChange(target: any): void {
+    this.isConfirmedPasswordNotEmpty = target.value.length > 0;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmedPassword = !this.showConfirmedPassword;
+  }
 
   register() {
     const firstName = this.getFirstName();

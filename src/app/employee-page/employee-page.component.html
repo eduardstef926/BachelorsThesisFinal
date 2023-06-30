@@ -13,7 +13,8 @@
                     <select 
                         class="select-sort"
                         [(ngModel)]="selectSortingMethod"
-                    >
+                    >   
+                        <option value=""></option>
                         <option value="" disabled selected>Select Sorting</option>
                         <option 
                             *ngFor="let sorting of sortings" 
@@ -43,6 +44,7 @@
                         required
                         [(ngModel)]="selectedSpecialization" 
                     >   
+                        <option value=""></option>
                         <option value="" disabled selected>Select a specialization</option>
                         <option 
                             *ngFor="let specialization of specializations" 
@@ -58,7 +60,8 @@
                         class="select-class"
                         [(ngModel)]="selectedCity" 
                     >
-                        <option value="" disabled selected>Select a city</option>
+                        <option value=""></option>
+                        <option value="" disabled selected>Select a location</option>
                         <option 
                             *ngFor="let city of cities" 
                             [ngValue]="city.value" 
@@ -72,7 +75,7 @@
                     <button
                         mat-button
                         class="filter-button"
-                        (click)="applyChanges()"
+                        (click)="applyFiltering()"
                     >
                         Apply
                     </button>
@@ -126,7 +129,7 @@
                   {{index}}
                 </button>
                 <button 
-                    [disabled]="5*(this.currentIndex + 1) >= tableCopy.length"
+                    [disabled]="5*this.currentIndex >= this.tableCopy.length || this.tableCopy.length <= 5"
                     (click)="movePage('forward')" 
                     mat-button
                     class="forward-button"

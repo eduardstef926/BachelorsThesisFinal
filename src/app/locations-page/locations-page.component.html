@@ -13,6 +13,7 @@
                         class="select-city"
                         [(ngModel)]="selectedCity"
                     >
+                        <option></option>
                         <option value="" disabled selected>Select City</option>
                         <option 
                             *ngFor="let city of this.dictionaryCopy.keys()" 

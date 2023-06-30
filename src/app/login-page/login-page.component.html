@@ -34,12 +34,19 @@
                     placeholder="Email" 
                     formControlName="email"
                 >
-                <input 
-                    class="data-input"
-                    type="password" 
-                    placeholder="Password" 
-                    formControlName="password"
-                >
+                <div class="input-container">
+                    <input 
+                      class="data-input"
+                      [type]="showPassword ? 'text' : 'password'"
+                      placeholder="Password" 
+                      formControlName="password"
+                      id="passwordInput"
+                      (input)="onInputChange($event.target)"
+                    >
+                    <mat-icon class="icon-container" matSuffix *ngIf="isInputNotEmpty" (click)="togglePasswordVisibility()">
+                      {{showPassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </div>
                 <button 
                     class="logIn-button" 
                     mat-button 

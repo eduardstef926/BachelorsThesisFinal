@@ -70,18 +70,42 @@
                     placeholder="Email" 
                     formControlName="email"
                 >
-                <input 
-                    class="data-input"
-                    type="password" 
-                    placeholder="Password" 
-                    formControlName="password"
-                >
-                <input 
-                    class="data-input"
-                    type="password" 
-                    placeholder="Confirm Password" 
-                    formControlName="confirmedPassword"
-                >
+                <div class="input-container">
+                    <input 
+                        class="data-input"
+                        [type]="showPassword ? 'text' : 'password'"
+                        placeholder="Password" 
+                        formControlName="password"
+                        id="passwordInput"
+                        (input)="onPasswordInputChange($event.target)"
+                    >
+                    <mat-icon 
+                        matSuffix 
+                        class="icon-container" 
+                        *ngIf="isPasswordNotEmpty" 
+                        (click)="togglePasswordVisibility()"
+                    >
+                        {{showPassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </div>
+                <div class="input-container">
+                    <input 
+                        class="data-input"
+                        [type]="showConfirmedPassword ? 'text' : 'password'"
+                        placeholder="Confirm Password" 
+                        formControlName="password"
+                        id="passwordInput"
+                        (input)="onConfirmPasswordInputChange($event.target)"
+                    >
+                    <mat-icon 
+                        matSuffix 
+                        class="icon-container" 
+                        *ngIf="isConfirmedPasswordNotEmpty" 
+                        (click)="toggleConfirmPasswordVisibility()"
+                    >
+                        {{showConfirmedPassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </div>
                 <button 
                     class="register-button" 
                     mat-button 

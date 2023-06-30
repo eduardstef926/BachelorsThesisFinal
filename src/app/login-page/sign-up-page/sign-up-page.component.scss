@@ -26,6 +26,15 @@
     background-color:rgb(221, 136, 136);
 }
 
+.input-container {
+    display: flex;
+    justify-content: center;
+}
+
+.icon-container {
+    padding-top: 10%;
+}  
+
 .error-container {
     display: flex;
     justify-content: center;

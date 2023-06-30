@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -14,6 +14,8 @@ import { LocalStorageService } from '../services/localstorage.service';
 export class LoginPageComponent implements OnInit {  
   loginErrorMessage = false;
   inputErrorMessage = false;
+  showPassword: boolean = false;
+  isInputNotEmpty: boolean = false;
 
   formControl = new FormGroup({
     email: new FormControl(''),
@@ -37,10 +39,17 @@ export class LoginPageComponent implements OnInit {
   
   ngOnInit(): void {}
 
+  onInputChange(target: any): void {
+    this.isInputNotEmpty = target.value.length > 0;
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   logIn() {
     const password = this.getPassword();
     const email = this.getEmail();
-  
     if (password.length === 0 || email.length === 0) {
       this.inputErrorMessage = true;
     } else {
@@ -48,7 +57,6 @@ export class LoginPageComponent implements OnInit {
         password,
         email
       };
-  
       this.userService.login(loggedUser).subscribe(
         (data: any) => {
           window.scrollTo(0, 0);

@@ -63,14 +63,19 @@ export class LocationPageComponent implements OnInit {
   }
 
   filterLocations() {
-    var filteredList =  new Map<string, Array<HospitalDto>>();
-    this.dictionaryCopy.forEach((value, key) => {
-      if (key == this.selectedCity) {
-        filteredList.set(key, value);
-      }
-    });
-    this.elementsFiltered = true;
-    this.locationDictionary = filteredList;
+    if (this.selectedCity.length != 0) {
+      var filteredList =  new Map<string, Array<HospitalDto>>();
+      this.dictionaryCopy.forEach((value, key) => {
+        if (key == this.selectedCity) {
+          filteredList.set(key, value);
+        }
+      });
+      this.elementsFiltered = true;
+      this.locationDictionary = filteredList;
+    } else {
+      this.locationDictionary = this.dictionaryCopy;
+      this.elementsFiltered = false;
+    }
   }
 
   callNumber() {
