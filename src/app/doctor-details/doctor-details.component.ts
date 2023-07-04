@@ -40,7 +40,7 @@ export class DoctorDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    Chart.register(...registerables);
+    Chart.register(...registerables); // display the chart
     this.route.params.subscribe(params => {
       this.firstName = params['firstName'];
       this.lastName = params['lastName'];
