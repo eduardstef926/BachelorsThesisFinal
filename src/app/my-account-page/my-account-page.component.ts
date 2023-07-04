@@ -181,9 +181,9 @@ export class MyAccountPageComponent implements OnInit {
   }
 
   logOut() {
-    var id = this.localStorage.get("loggedUserId");
-    if (id != 0) {
-      this.authService.logOut(id).subscribe((data: any) => {
+    var cookieId= this.localStorage.get("loggedUserId");
+    if (cookieId != -1) {
+      this.authService.logOut(cookieId).subscribe((data: any) => {
         this.handleLogOutSuccess();
       });
     }

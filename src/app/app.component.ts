@@ -14,26 +14,24 @@ export class AppComponent {
   emailAddress = 'virtualClinicSupport@gmail.com';
   subject = 'Information Support';
 
-  constructor(private localStorage: LocalStorageService,
-              private router: Router,
-              private authService: AuthService) {}
+  constructor(
+    private localStorage: LocalStorageService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    var id = Number(this.localStorage.get("loggedUserId"));
-    if (id != 0) {
-      this.authService.checkLoginCookie(id).subscribe((response: boolean) => {
+    var cookieId = Number(this.localStorage.get("loggedUserId"));
+    if (cookieId != -1) {
+      this.authService.checkLoginCookie(cookieId).subscribe((response: boolean) => {
         this.localStorage.set("loggedIn", true);
         this.loggedIn = true;
       }, (error: any) => {
         this.localStorage.set("loggedIn", false);
+        this.localStorage.set("loggedUserId", -1);
         this.loggedIn = false;
       });
     }
-  }
-
-  contactSupport() {
-    const mailtoUrl = `mailto:${this.emailAddress}?subject=${encodeURIComponent(this.subject)}`;
-    window.location.href = mailtoUrl;
   }
 
   displayPage(event: Event, page: string) {

@@ -97,9 +97,9 @@ export class SubscriptionsPageComponent implements OnInit {
   }
 
   planSubscription() {
-    const sessionId = this.localStorage.get('loggedUserId');
+    const cookieId = this.localStorage.get('loggedUserId');
     const subscription = {
-      cookieId: sessionId,
+      cookieId: cookieId,
       length: this.length,
     } as SubscriptionInputDto;
 

@@ -3,7 +3,9 @@
     margin-bottom: 15%;
     display: flex;
     justify-content: center;
-    gap: 4rem;
+    gap: 1.5rem;
+    padding-left: 20%;
+    padding-right: 20%;
 }
 
 .vitamin-image {
@@ -29,7 +31,7 @@
 .diagnostic-messsage {
     font-family: Arial;
     color: #36aa3a;
-    width: 34%;
+    width: auto;
 }
 
 .higher-message {
