@@ -85,12 +85,12 @@ export class SignUpPageComponent implements OnInit {
     const confirmedPassword = this.getConfirmedPassword();
     const email = this.getEmail();
     if (
-      firstName.length === 0 || 
-      lastName.length === 0 || 
-      phoneNumber.length === 0 || 
-      password.length === 0 || 
-      confirmedPassword.length === 0 || 
-      email.length === 0
+      firstName.length == 0 || 
+      lastName.length == 0 || 
+      phoneNumber.length == 0 || 
+      password.length == 0 || 
+      confirmedPassword.length == 0 || 
+      email.length == 0
     ) {
       this.emptyFieldErrorMessage = true;
     } else if (password !== confirmedPassword) {
@@ -113,13 +113,20 @@ export class SignUpPageComponent implements OnInit {
       email: this.getEmail()
     } as UserDto;
 
-    this.authService.register(newUser).subscribe(() => {
+    this.authService.register(newUser).subscribe(
+      () => {
         this.snackBar.open('Successful registration!', 'X', {
           duration: 5000,
           panelClass: ['my-snackbar']
         });
         window.scrollTo(0, 0);
         this.router.navigate(['']);
+      },
+      (error) => {
+        this.snackBar.open('Email already exists', 'X', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
       }
     );
   }

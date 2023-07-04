@@ -6,7 +6,7 @@ import { DoctorService } from '../services/doctor.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { City } from '../model/city.model';
 import { MatPaginator } from '@angular/material/paginator';
-import { Specialization } from '../model/specialization.model';
+import { Specialty } from '../model/specialization.model';
 
 @Component({
   selector: 'app-employee-page',
@@ -29,12 +29,12 @@ export class EmployeePageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   doctorTable!: MatTableDataSource<any>;
   cities: City[] = [];
-  specializations: Specialization[] = [];
+  specializations: Specialty[] = [];
   initialTable: DoctorDto[] = [];
   tableCopy: DoctorDto[] = [];
   sortings: string[] = [];
   cityIndex!: number;
-  specializationIndex!: number;
+  specialtyIndex!: number;
   selectedCity = "";
   selectedSpecialization = "";
   selectSortingMethod = "Sort";
@@ -56,7 +56,7 @@ export class EmployeePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.cityIndex = 0;
-    this.specializationIndex = 0;
+    this.specialtyIndex = 0;
     this.sortings = ['by name', 'by evaluation'];
     this.doctorService.getAllDoctors().subscribe((doctors) => {
       this.tableCopy = doctors;
@@ -68,14 +68,14 @@ export class EmployeePageComponent implements OnInit {
   setFilterParameters() {
     this.initialTable.forEach((doctor: DoctorDto) => {
       const isCityPresent = this.cities.some(x => x.viewValue == doctor.location);
-      const isSpecializationPresent = this.specializations.some(x => x.viewValue == doctor.specialization);
+      const isSpecialtyPresent = this.specializations.some(x => x.viewValue == doctor.specialization);
       if (!isCityPresent) {
         this.cities.push({"value": String(this.cityIndex), "viewValue": doctor.location})
         this.cityIndex ++;
       }
-      if (!isSpecializationPresent) {
-        this.specializations.push({"value":  String(this.specializationIndex), "viewValue": doctor.specialization})
-        this.specializationIndex ++;
+      if (!isSpecialtyPresent) {
+        this.specializations.push({"value":  String(this.specialtyIndex), "viewValue": doctor.specialization})
+        this.specialtyIndex ++;
       }
     });
   }
@@ -95,12 +95,12 @@ export class EmployeePageComponent implements OnInit {
   applyFiltering() {
     var name = this.getDoctorName();
     var city = this.selectedCity.length != 0 ? this.cities[Number(this.selectedCity)].viewValue : null;
-    var specialization = this.selectedSpecialization.length != 0 ? this.specializations[Number(this.selectedSpecialization)].viewValue: null;
+    var specialty = this.selectedSpecialization.length != 0 ? this.specializations[Number(this.selectedSpecialization)].viewValue: null;
     this.isFiltered = true;
     this.doctorTable.data = this.initialTable.filter((doctor) => {
       return (
         (doctor.location === city || city == null) &&
-        (doctor.specialization === specialization || specialization == null) &&
+        (doctor.specialization === specialty || specialty == null) &&
         (doctor.firstName.includes(name) || doctor.lastName.includes(name) || name == null)
       );
     });

@@ -41,8 +41,8 @@ export class AppointmentSlotlistComponent implements OnInit {
     });
   }
 
-  moveToFinalPage(element: any) {
-    this.localStorage.set("appointment", element);
+  moveToFinalPage(appointment: any) {
+    this.localStorage.set("appointment", appointment);
     this.router.navigate(['/appointment/confirmation']);
   }
 }

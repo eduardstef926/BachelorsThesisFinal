@@ -56,10 +56,10 @@ export class ModifyPasswordComponent implements OnInit {
             duration: 5000,
             panelClass: ['my-snackbar']
           });
-  
           window.scrollTo(0, 0);
           this.router.navigate(['']);
-        });
+        }
+      );
     }
   }
   

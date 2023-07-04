@@ -21,7 +21,7 @@ export class DoctorDetailsComponent implements OnInit {
   chart: any;
   firstName!: string;
   lastName!: string;
-  specialization!: string;
+  specialty!: string;
   hospitalName!: string;
   doctorPosition!: string;
   location!: string;
@@ -80,17 +80,21 @@ export class DoctorDetailsComponent implements OnInit {
   }
 
   loadDoctorDetails() {
-    this.doctorService.getDoctorWithEmploymentByFirstNameAndLastNameAsync(this.firstName, this.lastName).subscribe((doctor) => {
-      this.doctor = doctor;
-      this.doctorPosition = doctor.currentPosition;
-      this.hospitalName = doctor.hospitalName;
-      this.specialization = doctor.specialization;
-      this.location = doctor.location;
-      this.doctorService.getDoctorEducationByFirstNameAndLastName(this.firstName, this.lastName).subscribe((degrees) => {
-        this.degreeList = degrees;
-        this.renderData();
-      });
-    });
+    this.doctorService.getDoctorWithEmploymentByFirstNameAndLastNameAsync(this.firstName, this.lastName)
+      .subscribe((doctor: DoctorDto) => {
+        this.doctor = doctor;
+        this.doctorPosition = doctor.currentPosition;
+        this.hospitalName = doctor.hospitalName;
+        this.specialty = doctor.specialization;
+        this.location = doctor.location;
+        this.doctorService.getDoctorEducationByFirstNameAndLastName(this.firstName, this.lastName)
+          .subscribe((degrees) => {
+            this.degreeList = degrees;
+            this.renderData();
+          }
+        );
+      }
+    );
   }
 
   renderData() {

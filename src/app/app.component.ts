@@ -11,6 +11,8 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   loggedIn = false;
   userId!: number;
+  emailAddress = 'virtualClinicSupport@gmail.com';
+  subject = 'Information Support';
 
   constructor(private localStorage: LocalStorageService,
               private router: Router,
@@ -23,17 +25,14 @@ export class AppComponent {
         this.localStorage.set("loggedIn", true);
         this.loggedIn = true;
       }, (error: any) => {
-          this.localStorage.set("loggedIn", false);
-          this.loggedIn = false;
-        }
-      );
+        this.localStorage.set("loggedIn", false);
+        this.loggedIn = false;
+      });
     }
   }
 
-  contactSupport(event: Event) {
-    const emailAddress = 'virtualClinicSupport@gmail.com';
-    const subject = 'Information Support';
-    const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}`;
+  contactSupport() {
+    const mailtoUrl = `mailto:${this.emailAddress}?subject=${encodeURIComponent(this.subject)}`;
     window.location.href = mailtoUrl;
   }
 

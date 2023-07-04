@@ -59,6 +59,12 @@ export class AppointmentPriceComponent implements OnInit {
       s.onload = () => {
         this.configureStripeCheckout();
       };
+      s.onerror = (error) => {
+        this.snackBar.open('Payment Error!', 'X', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
+      };
       window.document.body.appendChild(s);
     } else {
       this.configureStripeCheckout();

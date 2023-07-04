@@ -1,5 +1,16 @@
 <div class="main-container" @fade>   
     <div class="sub-container">
+        <div class="button-error-message">
+          <button 
+            *ngIf="this.showEmptyInputMessage" 
+            (click)="this.showEmptyInputMessage = false;" 
+            mat-button 
+            class="error-button"
+          >
+            <mat-icon>close</mat-icon>
+            No elements selected
+          </button>
+        </div>
         <div class="button-container">
           <p class="button-container-text">
             First of all we need to know more about your symptoms. 
@@ -29,7 +40,10 @@
           <mat-icon>search</mat-icon>
           </button>
         </div>
-        <div *ngIf="this.showEmptyMessage" class="empty-message">
+        <div 
+            *ngIf="this.showNoResultMessage" 
+            class="empty-message"
+        >
           No Elements
         </div>
         <div *ngFor="let symptom of this.pageDictionary.get(this.currentIndex)" 

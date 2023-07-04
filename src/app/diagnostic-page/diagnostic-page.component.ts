@@ -53,14 +53,14 @@ export class DiagnosticPageComponent implements OnInit {
   ngOnInit(): void {
     var cookieId = this.localStorage.get('loggedUserId');
     this.userService.getLastDiagnosticByUserEmail(cookieId)
-      .subscribe((diagnostic:any) => {
-        if (diagnostic.doctorSpecialization == "general medicine") {
+      .subscribe((diagnosis: any) => {
+        if (diagnosis.doctorSpecialization == "general medicine") {
           this.showDiagnosis = false;
         }
-        this.diagnosis = diagnostic;
-        this.doctorTitle = diagnostic.doctorTitle.toLowerCase();
+        this.diagnosis = diagnosis;
+        this.doctorTitle = diagnosis.doctorTitle.toLowerCase();
         if (this.diagnosis.diseaseName != null) {
-          this.diseaseName = diagnostic.diseaseName.replace(/_/g, ' ').toLowerCase();
+          this.diseaseName = diagnosis.diseaseName.replace(/_/g, ' ').toLowerCase();
         }
         this.loadAppointmentLocations();
     });
@@ -89,7 +89,7 @@ export class DiagnosticPageComponent implements OnInit {
     var appointmentRange = {
       startDate: this.convertDate(this.getStart()),
       endDate: this.convertDate(this.getEnd()),
-      specialization: this.diagnosis.doctorSpecialization,
+      specialty: this.diagnosis.doctorSpecialization,
       location:  this.selectedLocation
     } as AppointmentRangeDto;
 

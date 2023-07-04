@@ -29,7 +29,7 @@ export class DoctorService{
   getAppointmentDatesByDateSpecializationAndLocation(appointmentRange: AppointmentRangeDto): Observable<Array<AppointmentSlotDto>> {
     return this.httpClient.get<Array<AppointmentSlotDto>>(
       this.baseUrl + "/Doctor/GetAppointmentDatesByDateSpecializationAndLocation?startDate=" + appointmentRange.startDate + 
-      "&endDate=" + appointmentRange.endDate + "&location=" + appointmentRange.location + "&specialization=" + appointmentRange.specialization,
+      "&endDate=" + appointmentRange.endDate + "&location=" + appointmentRange.location + "&specialization=" + appointmentRange.specialty,
       this.options
     );
   }

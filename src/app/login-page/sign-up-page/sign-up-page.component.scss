@@ -26,6 +26,13 @@
     background-color:rgb(221, 136, 136);
 }
 
+::ng-deep .error-snackbar {
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    color: rgb(138, 40, 40);
+}
+
 .input-container {
     display: flex;
     justify-content: center;

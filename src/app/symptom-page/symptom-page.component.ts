@@ -28,11 +28,12 @@ export class SymptomPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   loadingComplete = new EventEmitter<void>(); 
   listSize!: number;
-  showEmptyMessage = false;
-  selectedSymptoms = [];
-  partialSymptomName = "";
   pageSize = 5;
   currentIndex = -1;
+  selectedSymptoms = [];
+  partialSymptomName = "";
+  showNoResultMessage = false;
+  showEmptyInputMessage = false;
   pageDictionary!: Map<number, any[]>;
   isLoading: boolean = false;
 
@@ -67,26 +68,43 @@ export class SymptomPageComponent implements OnInit {
 
   filterSymptoms() {
     const pageIndex = 0;
-    const partialSymptomName = this.partialSymptomName.toLowerCase();
-    this.userService.getFilterSymptomsPaginated(partialSymptomName, pageIndex)
+    if (this.partialSymptomName.length != 0) {
+      const partialSymptomName = this.partialSymptomName.toLowerCase();
+      this.userService.getFilterSymptomsPaginated(partialSymptomName, pageIndex)
+        .subscribe((symptoms: SymptomDto) => {
+          if (this.partialSymptomName.length != 0) {
+            const symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
+            this.pageDictionary.set(this.currentIndex, symptomList);
+            this.listSize = symptoms.number;
+            this.showNoResultMessage = (symptoms.symptoms.length === 0);
+            this.paginator.pageIndex = 0;
+          } else {
+            this.showNoResultMessage = false;
+            this.pageDictionary.clear();
+            this.onPageChange(0);
+          }
+        }
+      );
+    } else {
+      this.userService.getFilterSymptomsPaginated("", 0)
       .subscribe((symptoms: SymptomDto) => {
         if (this.partialSymptomName.length != 0) {
           const symptomList = symptoms.symptoms.map((symptom) => [symptom, false]);
           this.pageDictionary.set(this.currentIndex, symptomList);
           this.listSize = symptoms.number;
-          this.showEmptyMessage = (symptoms.symptoms.length === 0);
+          this.showNoResultMessage = (symptoms.symptoms.length === 0);
           this.paginator.pageIndex = 0;
         } else {
-          this.showEmptyMessage = false;
+          this.showNoResultMessage = false;
           this.pageDictionary.clear();
           this.onPageChange(0);
         }
       }
     );
+    }
   }
 
   submitSymptoms() {
-    this.isLoading = true;
     const filteredValues = [];
     const values = Array.from(this.pageDictionary.entries());
     for (let i=0; i<values.length; ++i) {
@@ -97,8 +115,13 @@ export class SymptomPageComponent implements OnInit {
         }
       }
     }
-    this.snackBar.dismiss();
-    this.checkSymptoms(filteredValues);
+    if (filteredValues.length == 0) {
+      this.showEmptyInputMessage = true;
+    } else {
+      this.isLoading = true;
+      this.snackBar.dismiss();
+      this.checkSymptoms(filteredValues);
+    }
   }
 
   checkSymptoms(filteredValues: any) {
