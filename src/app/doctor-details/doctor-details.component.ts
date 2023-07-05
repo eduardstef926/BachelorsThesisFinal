@@ -97,20 +97,22 @@ export class DoctorDetailsComponent implements OnInit {
     );
   }
 
-  renderData() {
-    this.doctorService.getDoctorReviewLengthByFirstNameAndLastName(this.firstName, this.lastName).subscribe((data: any) => {
-      this.reviewsEvaluationNumber = data;
-      const numberLength =  this.reviewsEvaluationNumber % this.pageSize == 0 
-                          ? this.reviewsEvaluationNumber / this.pageSize 
-                          : this.reviewsEvaluationNumber / this.pageSize + 1;
-      for(let i=1; i<=numberLength; i++) {
-        this.pageIndexes.push(i);
+  renderData() { // index computation function
+    this.doctorService.getDoctorReviewLengthByFirstNameAndLastName(this.firstName, this.lastName)
+      .subscribe((data: any) => {
+        this.reviewsEvaluationNumber = data;
+        const numberLength =  this.reviewsEvaluationNumber % this.pageSize == 0 
+                            ? this.reviewsEvaluationNumber / this.pageSize 
+                            : this.reviewsEvaluationNumber / this.pageSize + 1;
+        for(let i=1; i<=numberLength; i++) { // total number of pages
+          this.pageIndexes.push(i);
+        }
+        this.loadDoctorReviews();
       }
-      this.loadDoctorReviews();
-    });
+    );
   }
 
-  loadDoctorReviews() {
+  loadDoctorReviews() { 
     this.doctorService.getDoctorReviewsPaginatedByFirstNameAndLastName(this.firstName, this.lastName, this.currentIndex).subscribe((reviews: any) => {
       this.reviewList = reviews;
       if (reviews != null) {
